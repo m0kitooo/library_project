@@ -1,7 +1,12 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.BookDto;
+import com.app.libraryproject.dto.CreateBookRequest;
+import com.app.libraryproject.dto.BookResponse;
+
+import java.util.List;
 
 public interface BookService {
-    BookDto registerBook(BookDto book);
+    List<BookResponse> findAll();
+    List<BookResponse> findBooksByTitle(String title);
+    BookResponse registerBook(CreateBookRequest book);
 }

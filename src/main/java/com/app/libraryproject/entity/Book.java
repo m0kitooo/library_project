@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.BookDto;
+import com.app.libraryproject.dto.BookResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +24,7 @@ public class Book {
 
     private String description;
 
-    public BookDto toBookDto() {
-        return new BookDto(title, description);
+    public BookResponse toBookResponse() {
+        return new BookResponse(id, title, description);
     }
 }

@@ -2,7 +2,7 @@ package com.app.libraryproject.dto;
 
 import com.app.libraryproject.entity.Book;
 
-public record BookDto(
+public record CreateBookRequest(
         String title,
         String description
 ) {

@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "members")
+public class Member {
     @Id
     @GeneratedValue
     private Long id;
