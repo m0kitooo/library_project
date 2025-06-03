@@ -1,9 +1,6 @@
 package com.app.libraryproject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
@@ -18,5 +15,12 @@ public class Book {
     @GeneratedValue
     private long id;
 
+    @Column(nullable = false)
     private String title;
+
+    
+//    private Author author;
+
+    private String description;
+
 }
