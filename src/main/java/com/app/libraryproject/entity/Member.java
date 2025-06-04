@@ -7,8 +7,8 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "members")
+public class Member {
     @Id
     @GeneratedValue
     private Long id;
