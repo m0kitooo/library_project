@@ -9,8 +9,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "library_cards")
 public class LibraryCard {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
@@ -19,6 +20,9 @@ public class LibraryCard {
 
     @Column(name = "created_at", nullable = false)
     private LocalDate creationDate;
+
+    @Column(name = "expire_date", nullable = false)
+    private LocalDate expireDate;
 
     @Column(nullable = false)
     private boolean active;

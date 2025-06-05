@@ -9,4 +9,4 @@ public record CreateLibraryCardResponse(
         LocalDate creationDate,
         LocalDate expireDate,
         boolean active
-) { }
+) {}
