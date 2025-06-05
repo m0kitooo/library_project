@@ -1,5 +1,6 @@
 package com.app.libraryproject.entity;
 
+import com.app.libraryproject.dto.BookLoanResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,4 +28,8 @@ public class BookLoan {
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate loanDate;
+
+    public BookLoanResponse toBookLoanResponse() {
+        return new BookLoanResponse(id, member.toMemberResponse(), book.toBookResponse(), loanDate);
+    }
 }
