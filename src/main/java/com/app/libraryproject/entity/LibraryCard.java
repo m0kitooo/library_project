@@ -25,8 +25,14 @@ public class LibraryCard {
     @Column(name = "created_at", nullable = false)
     private LocalDate creationDate;
 
-    @Column(nullable = false)
-    private boolean active;
+    @Column(name = "expiry_date", nullable = false)
+    private LocalDate expiryDate;
+
+    @Column(name = "deactivated_at")
+    private LocalDate deactivationDate;
+
+    @Column(name = "deactivation_reason")
+    private String deactivationReason;
 
     public LibraryCardResponse toDto() {
         return new LibraryCardResponse();

@@ -1,5 +1,6 @@
 package com.app.libraryproject.entity;
 
+import com.app.libraryproject.dto.MemberResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,13 @@ public class Member {
     @Column(nullable = false)
     private String surname;
 
+    @Column(name = "national_id", nullable = false, unique = true, length = 11)
+    private String nationalId;
+
     @Column(nullable = false)
     private LocalDate birthday;
+
+    public MemberResponse toMemberResponse() {
+        return new MemberResponse(name, surname, nationalId, birthday);
+    }
 }

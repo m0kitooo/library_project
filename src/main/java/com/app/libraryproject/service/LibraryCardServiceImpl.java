@@ -13,7 +13,6 @@ public class LibraryCardServiceImpl implements LibraryCardService {
 
     @Override
     public LibraryCardResponse register(CreateMemberRequest createMemberRequest) {
-//        return libraryCardRepository.save(new LibraryCard())
         return null;
     }
 }
