@@ -30,6 +30,6 @@ public class Member {
     private LocalDate birthday;
 
     public MemberResponse toMemberResponse() {
-        return new MemberResponse(name, surname, nationalId, birthday);
+        return new MemberResponse(id, name, surname, nationalId, birthday);
     }
 }

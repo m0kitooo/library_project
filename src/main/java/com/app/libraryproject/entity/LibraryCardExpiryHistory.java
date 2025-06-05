@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "library_card_expiry_update_history")
-public class LibraryCardExpiryUpdateHistory {
+@Table(name = "library_card_expiry_history")
+public class LibraryCardExpiryHistory {
     @Id
     @GeneratedValue
     private Long id;

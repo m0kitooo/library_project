@@ -5,10 +5,12 @@ import com.app.libraryproject.dto.BookResponse;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.repository.BookRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -34,6 +36,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponse registerBook(CreateBookRequest book) {
-        return bookRepository.save(book.toBook()).toBookResponse();
+        Book b = bookRepository.save(book.toBook());
+        log.info("Book registered: {}", b);
+        return b.toBookResponse();
     }
 }

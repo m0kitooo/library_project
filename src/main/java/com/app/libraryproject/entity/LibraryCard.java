@@ -22,7 +22,7 @@ public class LibraryCard {
     @JoinColumn(name = "user_id", nullable = false)
     private Member member;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate creationDate;
 
     @Column(name = "expiry_date", nullable = false)
