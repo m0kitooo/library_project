@@ -1,6 +1,7 @@
 package com.app.libraryproject.entity;
 
 import com.app.libraryproject.dto.BookResponse;
+import com.app.libraryproject.dto.UpdateBookRequest;
 import com.app.libraryproject.model.Author;
 import jakarta.persistence.*;
 import lombok.*;

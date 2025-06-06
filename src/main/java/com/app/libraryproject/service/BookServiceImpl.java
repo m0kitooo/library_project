@@ -2,11 +2,14 @@ package com.app.libraryproject.service;
 
 import com.app.libraryproject.dto.CreateBookRequest;
 import com.app.libraryproject.dto.BookResponse;
+import com.app.libraryproject.dto.UpdateBookRequest;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.repository.BookRepository;
+import com.app.libraryproject.validate.CreateBookRequestValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,8 +39,36 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponse registerBook(CreateBookRequest book) {
+        if (!CreateBookRequestValidator.isValid(book))
+            throw new RuntimeException("Invalid request");
         Book b = bookRepository.save(book.toBook());
         log.info("Book registered: {}", b);
         return b.toBookResponse();
+    }
+
+    @Override
+    @Transactional
+    public BookResponse deleteBook(Long id) {
+        if (bookRepository.archiveAndDecrementQuantity(id) == 0) {
+            throw new RuntimeException("Couldn't set the book as deleted");
+        }
+
+        return bookRepository
+                .findById(id)
+                .orElseThrow()
+                .toBookResponse();
+    }
+
+    @Override
+    public BookResponse updateBook(UpdateBookRequest updateBookRequest) {
+        Book book = bookRepository
+                .findById(updateBookRequest.id())
+                .orElseThrow(() -> new RuntimeException("Book not found with id: " + updateBookRequest.id()));
+
+        book.setTitle(updateBookRequest.title());
+        book.setDescription(updateBookRequest.description());
+        book.setQuantity(updateBookRequest.quantity());
+
+        return bookRepository.save(book).toBookResponse();
     }
 }
