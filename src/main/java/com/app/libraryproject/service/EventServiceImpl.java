@@ -15,14 +15,13 @@ public class EventServiceImpl implements EventService {
     private final StatusRepository statusRepository;
     private final UserRepository userRepository;
 
-    public ResponseEntity<SendProposalResponse> addProposal(SendProposalRequest request) {
-        return ResponseEntity.ok(
-                proposalRepository.save(
+    public SendProposalResponse addProposal(SendProposalRequest request) {
+        return proposalRepository.save(
                         Proposal.builder()
                             .title(request.title())
                             .description(request.description())
                             .build()
-        ).toDto());
+        ).toDto();
     }
 
     public ResponseEntity<DecideProposalResponse> decideProposal(DecideProposalRequest request) {

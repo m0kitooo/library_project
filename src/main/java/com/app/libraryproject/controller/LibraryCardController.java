@@ -3,6 +3,7 @@ package com.app.libraryproject.controller;
 import com.app.libraryproject.dto.*;
 import com.app.libraryproject.service.LibraryCardServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +17,6 @@ public class LibraryCardController {
 
     @PostMapping("/create")
     public ResponseEntity<LibraryCardResponse> createLibraryCard(@RequestBody CreateLibraryCardRequest request) {
-
-        LibraryCardResponse response = libraryCardService.register(request);
-        //CreateLibraryCardResponse response = libraryCardMapper.toResponse(libraryCard);
-
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(libraryCardService.register(request), HttpStatus.CREATED);
     }
 }

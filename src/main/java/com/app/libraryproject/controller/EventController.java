@@ -5,6 +5,7 @@ import com.app.libraryproject.entity.Proposal;
 import com.app.libraryproject.service.EventServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class EventController {
 
     @PostMapping("/proposal/send")
     public ResponseEntity<SendProposalResponse> sendProposal(@RequestBody SendProposalRequest request) {
-        return eventService.addProposal(request);
+        return new ResponseEntity<>(eventService.addProposal(request), HttpStatus.CREATED);
     }
 
     @PostMapping("/proposal/decide")
