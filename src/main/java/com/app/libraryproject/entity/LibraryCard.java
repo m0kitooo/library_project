@@ -39,6 +39,9 @@ public class LibraryCard {
     private String deactivationReason;
 
     public LibraryCardResponse toDto() {
-        return new LibraryCardResponse();
+        return LibraryCardResponse.builder()
+                .id(id)
+                .expiryDate(expiryDate)
+                .build();
     }
 }
