@@ -16,7 +16,8 @@ public class BookController {
 
     @PostMapping("/add")
     public ResponseEntity<BookResponse> addBook(@RequestBody CreateBookRequest createBookRequest) {
-        return new ResponseEntity<>(bookService.registerBook(createBookRequest), HttpStatus.CREATED);
+        throw new ArithmeticException();
+//        return new ResponseEntity<>(bookService.registerBook(createBookRequest), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete")

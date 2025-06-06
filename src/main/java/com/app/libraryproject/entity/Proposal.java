@@ -1,24 +1,28 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.DecideProposalResponse;
 import com.app.libraryproject.dto.SendProposalResponse;
+import com.app.libraryproject.model.ProposalStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "proposals")
 public class Proposal {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
     private String title;
+
+    @Column(name = "proposal_status")
+    @Enumerated(EnumType.STRING)
+    private ProposalStatus proposalStatus;
 
     @Column(nullable = false)
     private String description;

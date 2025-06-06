@@ -22,6 +22,7 @@ public class BookLoanServiceImpl implements BookLoanService {
         if (libraryCardRepository.findActiveCardByMemberId(memberId).isEmpty()) {
             //TODO change to more rebust exception
             throw new RuntimeException();
+//            throw new
         }
 
         return bookLoanRepository.save(

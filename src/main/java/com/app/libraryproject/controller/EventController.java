@@ -22,6 +22,7 @@ public class EventController {
 
     @PostMapping("/proposal/decide")
     public ResponseEntity<DecideProposalResponse> acceptProposal(@RequestBody DecideProposalRequest request) {
-        return eventService.decideProposal(request);
+//        return eventService.decideProposal(request);
+        return null;
     }
 }

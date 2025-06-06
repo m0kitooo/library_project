@@ -1,14 +1,20 @@
 package com.app.libraryproject.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
 @Entity
-@Table(name = "sponsor")
+@Table(name = "sponsors")
 public class Sponsor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
