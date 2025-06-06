@@ -2,9 +2,12 @@ package com.app.libraryproject.validate;
 
 import com.app.libraryproject.dto.CreateLibraryCardRequest;
 import com.app.libraryproject.dto.CreateMemberRequest;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateLibraryCardRequestValidator {
     private final static String nationalIdRegex = "^[0-9]{11}$";
 

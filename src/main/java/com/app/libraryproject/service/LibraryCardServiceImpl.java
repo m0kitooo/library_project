@@ -4,6 +4,7 @@ import com.app.libraryproject.dto.CreateLibraryCardRequest;
 import com.app.libraryproject.dto.LibraryCardResponse;
 import com.app.libraryproject.entity.LibraryCard;
 import com.app.libraryproject.repository.LibraryCardRepository;
+import com.app.libraryproject.validate.CreateLibraryCardRequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,10 @@ public class LibraryCardServiceImpl implements LibraryCardService {
 
     @Override
     public LibraryCardResponse register(CreateLibraryCardRequest createLibraryCardRequest) {
+        if (CreateLibraryCardRequestValidator.isValid(createLibraryCardRequest)) {
+            //TODO change exception to sth more concrete later so u can catch it
+            throw new RuntimeException();
+        }
         return libraryCardRepository.save(
                 LibraryCard
                         .builder()
