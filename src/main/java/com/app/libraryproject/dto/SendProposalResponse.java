@@ -1,7 +1,13 @@
 package com.app.libraryproject.dto;
 
-public record SendProposalResponse (
-    Long id,
-    String title,
-    String description
-) {}
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
+public class SendProposalResponse {
+    private Long id;
+    private String title;
+    private String description;
+}
