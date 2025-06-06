@@ -1,7 +1,6 @@
 package com.app.libraryproject.controller;
 
-import com.app.libraryproject.dto.SendProposalRequest;
-import com.app.libraryproject.dto.SendProposalResponse;
+import com.app.libraryproject.dto.*;
 import com.app.libraryproject.entity.Proposal;
 import com.app.libraryproject.service.EventServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,8 @@ public class EventController {
         return eventService.addProposal(request);
     }
 
-    //@PostMapping("/proposal/decide")
-    //public ResponseEntity<AcceptProposalResponse> acceptProposal(@RequestBody DecideProposalRequest request) {}
+    @PostMapping("/proposal/decide")
+    public ResponseEntity<DecideProposalResponse> acceptProposal(@RequestBody DecideProposalRequest request) {
+        return eventService.decideProposal(request);
+    }
 }

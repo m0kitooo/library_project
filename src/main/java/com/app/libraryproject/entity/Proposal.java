@@ -1,5 +1,6 @@
 package com.app.libraryproject.entity;
 
+import com.app.libraryproject.dto.DecideProposalResponse;
 import com.app.libraryproject.dto.SendProposalResponse;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,11 +23,15 @@ public class Proposal {
     @Column(nullable = false)
     private String description;
 
+    @Column(name = "proposed_by")
+    private String proposedBy;
+
     public SendProposalResponse toDto() {
         return SendProposalResponse.builder()
                 .id(id)
                 .title(title)
                 .description(description)
+                .proposedBy(proposedBy)
                 .build();
     }
 }

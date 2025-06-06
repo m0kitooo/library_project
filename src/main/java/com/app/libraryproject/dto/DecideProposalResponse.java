@@ -6,9 +6,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Data
-public class SendProposalResponse {
+public class DecideProposalResponse {
     private Long id;
-    private String title;
-    private String description;
-    private String proposedBy;
 }
