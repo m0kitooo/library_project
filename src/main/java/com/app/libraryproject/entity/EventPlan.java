@@ -1,7 +1,7 @@
 package com.app.libraryproject.entity;
 
 import com.app.libraryproject.dto.proposal.DecideProposalResponse;
-import com.app.libraryproject.model.EventStatus;
+import com.app.libraryproject.model.PlanStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -45,7 +45,7 @@ public class EventPlan {
 
     @Column(name = "event_status")
     @Enumerated(EnumType.STRING)
-    private EventStatus eventStatus;
+    private PlanStatus planStatus;
 
     @OneToOne
     @JoinColumn(name = "user_id")

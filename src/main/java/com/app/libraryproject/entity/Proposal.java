@@ -1,7 +1,8 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.proposal.SendProposalResponse;
+import com.app.libraryproject.model.PlanStatus;
 import com.app.libraryproject.model.ProposalStatus;
+import com.app.libraryproject.dto.proposal.SendProposalResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,15 +21,25 @@ public class Proposal {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "proposal_status")
+    @Column(name = "proposal_status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private ProposalStatus proposalStatus;
+    private ProposalStatus status;
 
     @Column(nullable = false)
     private String description;
 
     @Column(name = "proposed_by")
     private String proposedBy;
+
+    public EventPlan toEventPlan(User organizer) {
+        return EventPlan.builder()
+                .name(title)
+                .description(description)
+                .proposedBy(proposedBy)
+                .organizer(organizer)
+                .planStatus(PlanStatus.PREPARING)
+                .build();
+    }
 
     public SendProposalResponse toDto() {
         return SendProposalResponse.builder()

@@ -1,7 +1,6 @@
 package com.app.libraryproject.controller;
 
-import com.app.libraryproject.dto.proposal.DecideProposalRequest;
-import com.app.libraryproject.dto.proposal.DecideProposalResponse;
+import com.app.libraryproject.dto.proposal.ModifyProposalRequest;
 import com.app.libraryproject.dto.proposal.SendProposalRequest;
 import com.app.libraryproject.dto.proposal.SendProposalResponse;
 import com.app.libraryproject.service.EventServiceImpl;
@@ -21,8 +20,23 @@ public class EventController {
         return new ResponseEntity<>(eventService.addProposal(request), HttpStatus.CREATED);
     }
 
-    @PostMapping("/proposal/decide")
-    public ResponseEntity<DecideProposalResponse> acceptProposal(@RequestBody DecideProposalRequest request) {
-        return new ResponseEntity<>(eventService.decideProposal(request), HttpStatus.OK);
+    @PostMapping("/proposal/accept")
+    public ResponseEntity<Long> acceptProposal(@RequestParam Long proposalId, @RequestParam Long organizerId) {
+        return ResponseEntity.ok(
+                eventService.acceptProposal(proposalId, organizerId)
+                        .getId()
+        );
+    }
+
+    @PostMapping("/proposal/reject")
+    public ResponseEntity<Void> rejectProposal(@RequestParam Long proposalId) {
+        eventService.rejectProposal(proposalId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/proposal/modify")
+    public ResponseEntity<Void> modifyProposal(@RequestBody ModifyProposalRequest request) {
+        eventService.modifyProposal(request);
+        return ResponseEntity.noContent().build();
     }
 }
