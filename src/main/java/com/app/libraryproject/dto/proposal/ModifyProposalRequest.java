@@ -1,6 +1,6 @@
 package com.app.libraryproject.dto.proposal;
 
-import com.app.libraryproject.exception.IllegalRequestArgumentException;
+import com.app.libraryproject.exception.InvalidRequestArgumentException;
 
 public record ModifyProposalRequest(
         Long id,
@@ -9,7 +9,7 @@ public record ModifyProposalRequest(
 ) {
     public ModifyProposalRequest {
         if (id == null || title == null || title.isEmpty()) {
-            throw new IllegalRequestArgumentException("(id, title) cannot be null or empty");
+            throw new InvalidRequestArgumentException("(id, title) cannot be null or empty");
         }
     }
 }

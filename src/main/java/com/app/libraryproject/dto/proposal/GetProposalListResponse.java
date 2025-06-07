@@ -1,6 +1,6 @@
 package com.app.libraryproject.dto.proposal;
 
-import com.app.libraryproject.exception.IllegalResponseArgumentException;
+import com.app.libraryproject.exception.InvalidResponseArgumentException;
 import lombok.Builder;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public record GetProposalListResponse(
         @Builder
         public ProposalListItem {
             if (id == null || title == null || status == null || proposedBy == null) {
-                throw new IllegalResponseArgumentException("(id, title, status, proposedBy) cannot be null)");
+                throw new InvalidResponseArgumentException("(id, title, status, proposedBy) cannot be null)");
             }
         }
     }

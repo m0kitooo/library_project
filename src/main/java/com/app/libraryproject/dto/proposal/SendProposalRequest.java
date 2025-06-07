@@ -1,6 +1,6 @@
 package com.app.libraryproject.dto.proposal;
 
-import com.app.libraryproject.exception.IllegalRequestArgumentException;
+import com.app.libraryproject.exception.InvalidRequestArgumentException;
 
 public record SendProposalRequest (
     String title,
@@ -9,7 +9,7 @@ public record SendProposalRequest (
 ) {
     public SendProposalRequest {
         if (title == null || title.isEmpty()) {
-            throw new IllegalRequestArgumentException("(title) cannot be null or empty)");
+            throw new InvalidRequestArgumentException("(title) cannot be null or empty)");
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.app.libraryproject.dto.proposal;
 
-import com.app.libraryproject.exception.IllegalRequestArgumentException;
+import com.app.libraryproject.exception.InvalidRequestArgumentException;
 
 public record GetProposalListRequest(
         Integer status,
@@ -9,7 +9,7 @@ public record GetProposalListRequest(
 ) {
     public GetProposalListRequest {
         if (page == null || limit == null) {
-            throw new IllegalRequestArgumentException("(page, limit) cannot be null");
+            throw new InvalidRequestArgumentException("(page, limit) cannot be null");
         }
     }
 }

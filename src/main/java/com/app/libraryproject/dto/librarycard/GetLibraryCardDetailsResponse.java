@@ -1,6 +1,6 @@
 package com.app.libraryproject.dto.librarycard;
 
-import com.app.libraryproject.exception.IllegalResponseArgumentException;
+import com.app.libraryproject.exception.InvalidResponseArgumentException;
 import lombok.Builder;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ public record GetLibraryCardDetailsResponse(
     @Builder
     public GetLibraryCardDetailsResponse {
         if (cardId == null || memberId == null || expiryDate == null) {
-            throw new IllegalResponseArgumentException("cardId, memberId and expiryDate are required");
+            throw new InvalidResponseArgumentException("cardId, memberId and expiryDate are required");
         }
     }
 }
