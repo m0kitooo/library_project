@@ -9,5 +9,5 @@ public record BookReservationResponse(
         Long id,
         BookResponse bookResponse,
         MemberResponse memberResponse,
-        LocalDateTime reservationTime
+        LocalDateTime reservationDate
 ) { }

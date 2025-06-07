@@ -27,9 +27,9 @@ public class BookDisposal {
     private Member member;
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime disposalTime;
+    private LocalDateTime disposalDate;
 
     public BookDisposalResponse toBookDisposalResponse() {
-        return new BookDisposalResponse(id, book.toBookResponse(), member.toMemberResponse(), disposalTime);
+        return new BookDisposalResponse(id, book.toBookResponse(), member.toMemberResponse(), disposalDate);
     }
 }

@@ -27,9 +27,9 @@ public class BookReservation {
     private Member member;
 
     @Column(name = "reservation_time", nullable = false)
-    private LocalDateTime reservationTime;
+    private LocalDateTime reservationDate;
 
     public BookReservationResponse toBookReservationResponse() {
-        return new BookReservationResponse(id, book.toBookResponse(), member.toMemberResponse(), reservationTime);
+        return new BookReservationResponse(id, book.toBookResponse(), member.toMemberResponse(), reservationDate);
     }
 }

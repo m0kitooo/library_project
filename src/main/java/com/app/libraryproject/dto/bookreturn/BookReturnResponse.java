@@ -9,5 +9,5 @@ public record BookReturnResponse(
         Long id,
         MemberResponse memberResponse,
         BookResponse bookResponse,
-        LocalDateTime loanDate
+        LocalDateTime returnDate
 ) { }
