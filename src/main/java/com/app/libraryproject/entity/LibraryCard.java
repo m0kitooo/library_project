@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
+import com.app.libraryproject.dto.librarycard.GetLibraryCardDetailsResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,10 +16,11 @@ import java.time.LocalDate;
 public class LibraryCard {
     @Id
     @GeneratedValue
-    private Long id;
+    @Column(name = "library_card_id")
+    private Long cardId;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private Member member;
 
     @Column(
@@ -38,9 +39,10 @@ public class LibraryCard {
     @Column(name = "deactivation_reason")
     private String deactivationReason;
 
-    public LibraryCardResponse toDto() {
-        return LibraryCardResponse.builder()
-                .id(id)
+    public GetLibraryCardDetailsResponse toLibraryCardDetails() {
+        return GetLibraryCardDetailsResponse.builder()
+                .cardId(cardId)
+                .memberId(member.getId())
                 .expiryDate(expiryDate)
                 .build();
     }
