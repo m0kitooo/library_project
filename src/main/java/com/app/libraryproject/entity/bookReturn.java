@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.bookreservation.BookReservationResponse;
+import com.app.libraryproject.dto.bookreturn.BookReturnResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "book_reservations")
-public class BookReservation {
+@Table(name = "book_returns")
+public class bookReturn {
     @Id
     @GeneratedValue
     private Long id;
@@ -26,10 +26,10 @@ public class BookReservation {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(name = "reservation_time", nullable = false)
-    private LocalDateTime reservationTime;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime returnDate;
 
-    public BookReservationResponse toBookReservationResponse() {
-        return new BookReservationResponse(id, book.toBookResponse(), member.toMemberResponse(), reservationTime);
+    public BookReturnResponse toBookReturnResponse() {
+        return new BookReturnResponse(id, member.toMemberResponse(), book.toBookResponse(), returnDate);
     }
 }
