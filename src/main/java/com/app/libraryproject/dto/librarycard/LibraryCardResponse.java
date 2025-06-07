@@ -4,11 +4,14 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class LibraryCardResponse {
-    private Long id;
-    private LocalDate expiryDate;
+public record LibraryCardResponse (
+    Long id,
+    LocalDate expiryDate
+) {
+    @Builder
+    public LibraryCardResponse {
+        if (id == null || expiryDate != null) {
+            throw new IllegalArgumentException("Id and expiryDate are required");
+        }
+    }
 }

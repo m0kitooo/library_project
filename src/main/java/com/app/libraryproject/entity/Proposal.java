@@ -2,7 +2,6 @@ package com.app.libraryproject.entity;
 
 import com.app.libraryproject.model.PlanStatus;
 import com.app.libraryproject.model.ProposalStatus;
-import com.app.libraryproject.dto.proposal.SendProposalResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,15 +37,6 @@ public class Proposal {
                 .proposedBy(proposedBy)
                 .organizer(organizer)
                 .planStatus(PlanStatus.PREPARING)
-                .build();
-    }
-
-    public SendProposalResponse toDto() {
-        return SendProposalResponse.builder()
-                .id(id)
-                .title(title)
-                .description(description)
-                .proposedBy(proposedBy)
                 .build();
     }
 }

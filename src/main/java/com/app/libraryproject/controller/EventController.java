@@ -2,7 +2,6 @@ package com.app.libraryproject.controller;
 
 import com.app.libraryproject.dto.proposal.ModifyProposalRequest;
 import com.app.libraryproject.dto.proposal.SendProposalRequest;
-import com.app.libraryproject.dto.proposal.SendProposalResponse;
 import com.app.libraryproject.service.EventServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,7 @@ public class EventController {
     private final EventServiceImpl eventService;
 
     @PostMapping("/proposal/send")
-    public ResponseEntity<SendProposalResponse> sendProposal(@RequestBody SendProposalRequest request) {
+    public ResponseEntity<Long> sendProposal(@RequestBody SendProposalRequest request) {
         return new ResponseEntity<>(eventService.addProposal(request), HttpStatus.CREATED);
     }
 

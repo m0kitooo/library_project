@@ -2,7 +2,6 @@ package com.app.libraryproject.service;
 
 import com.app.libraryproject.dto.proposal.ModifyProposalRequest;
 import com.app.libraryproject.dto.proposal.SendProposalRequest;
-import com.app.libraryproject.dto.proposal.SendProposalResponse;
 import com.app.libraryproject.entity.*;
 import com.app.libraryproject.model.ProposalStatus;
 import com.app.libraryproject.repository.*;
@@ -17,14 +16,14 @@ public class EventServiceImpl implements EventService {
     private final UserRepository userRepository;
 
     @Override
-    public SendProposalResponse addProposal(SendProposalRequest request) {
+    public Long addProposal(SendProposalRequest request) {
         return proposalRepository.save(
                 Proposal
                         .builder()
                         .title(request.title())
                         .description(request.description())
                         .build()
-        ).toDto();
+        ).getId();
     }
 
     @Override
@@ -63,14 +62,19 @@ public class EventServiceImpl implements EventService {
     @Override
     public void modifyProposal(ModifyProposalRequest request) {
         Proposal proposal = proposalRepository
-                .findById(request.getId())
+                .findById(request.id())
                 .orElseThrow();
 
         if(proposal.getStatus() == ProposalStatus.REJECTED)
             throw new RuntimeException();
 
-        proposal.setTitle(request.getTitle());
-        proposal.setDescription(request.getDescription());
+        proposal.setTitle(request.title());
+        proposal.setDescription(request.description());
         proposalRepository.save(proposal);
     }
+
+//    @Override
+//    public GetProposalDetailsResponse getProposalDetailsResponse(Long proposalId) {
+//        return null;
+//    }
 }
