@@ -8,37 +8,37 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/event")
+@RequestMapping("/api/event")
 public class EventController {
     private final EventServiceImpl eventService;
 
-    @PostMapping("proposal/send")
+    @PostMapping("/proposal/send")
     public ResponseEntity<Long> sendProposal(@RequestBody SendProposalRequest request) {
         return ResponseEntity.ok(
                 eventService.addProposal(request)
         );
     }
 
-    @PostMapping("proposal/accept")
+    @PostMapping("/proposal/accept")
     public ResponseEntity<Long> acceptProposal(@RequestParam Long proposalId, @RequestParam Long organizerId) {
         return ResponseEntity.ok(
                 eventService.acceptProposal(proposalId, organizerId)
         );
     }
 
-    @PostMapping("proposal/reject")
+    @PostMapping("/proposal/reject")
     public ResponseEntity<Void> rejectProposal(@RequestParam Long proposalId) {
         eventService.rejectProposal(proposalId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("proposal/modify")
+    @PostMapping("/proposal/modify")
     public ResponseEntity<Void> modifyProposal(@RequestBody ModifyProposalRequest request) {
         eventService.modifyProposal(request);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("proposal/details")
+    @PostMapping("/proposal/details")
     public ResponseEntity<GetProposalDetailsResponse> getProposalDetails(@RequestParam Long proposalId) {
         return ResponseEntity.ok(
                 eventService.getProposalDetails(proposalId)

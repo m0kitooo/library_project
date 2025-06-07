@@ -1,10 +1,9 @@
 package com.app.libraryproject.controller;
 
 import com.app.libraryproject.dto.librarycard.CreateLibraryCardRequest;
-import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
+import com.app.libraryproject.dto.librarycard.GetLibraryCardDetailsResponse;
 import com.app.libraryproject.service.LibraryCardServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +12,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/libraryCard")
 //@CrossOrigin(origins = "")
 public class LibraryCardController {
-
     private final LibraryCardServiceImpl libraryCardService;
 
     @PostMapping("/create")
-    public ResponseEntity<LibraryCardResponse> createLibraryCard(@RequestBody CreateLibraryCardRequest request) {
-        return new ResponseEntity<>(libraryCardService.register(request), HttpStatus.CREATED);
+    public ResponseEntity<Void> createLibraryCard(@RequestBody CreateLibraryCardRequest request) {
+        libraryCardService.registerLibraryCard(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/details")
+    public ResponseEntity<GetLibraryCardDetailsResponse> getLibraryCardDetails(@RequestParam Long libraryCardId) {
+        return ResponseEntity.ok(
+                libraryCardService.getLibraryCardDetails(libraryCardId)
+        );
     }
 }
