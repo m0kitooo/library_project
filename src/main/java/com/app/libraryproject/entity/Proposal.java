@@ -1,6 +1,7 @@
 package com.app.libraryproject.entity;
 
 import com.app.libraryproject.dto.proposal.GetProposalDetailsResponse;
+import com.app.libraryproject.dto.proposal.GetProposalListResponse;
 import com.app.libraryproject.model.PlanStatus;
 import com.app.libraryproject.model.ProposalStatus;
 import jakarta.persistence.*;
@@ -49,4 +50,16 @@ public class Proposal {
                 .proposedBy(proposedBy)
                 .build();
     }
+
+
+    public GetProposalListResponse.ProposalListItem toListItem() {
+        return GetProposalListResponse.ProposalListItem.builder()
+                .id(id)
+                .title(title)
+                .description(description)
+                .status(status.name())
+                .proposedBy(proposedBy)
+                .build();
+    }
+
 }

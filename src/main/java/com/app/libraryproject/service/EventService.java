@@ -1,8 +1,6 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.proposal.GetProposalDetailsResponse;
-import com.app.libraryproject.dto.proposal.ModifyProposalRequest;
-import com.app.libraryproject.dto.proposal.SendProposalRequest;
+import com.app.libraryproject.dto.proposal.*;
 
 public interface EventService {
     Long addProposal(SendProposalRequest request);
@@ -11,4 +9,5 @@ public interface EventService {
     void rejectProposal(Long proposalId);
     void modifyProposal(ModifyProposalRequest request);
     GetProposalDetailsResponse getProposalDetails(Long proposalId);
+    GetProposalListResponse getProposalList(GetProposalListRequest request);
 }

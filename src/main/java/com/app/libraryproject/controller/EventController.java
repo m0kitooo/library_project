@@ -1,11 +1,8 @@
 package com.app.libraryproject.controller;
 
-import com.app.libraryproject.dto.proposal.GetProposalDetailsResponse;
-import com.app.libraryproject.dto.proposal.ModifyProposalRequest;
-import com.app.libraryproject.dto.proposal.SendProposalRequest;
-import com.app.libraryproject.service.EventServiceImpl;
+import com.app.libraryproject.dto.proposal.*;
+import com.app.libraryproject.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +42,13 @@ public class EventController {
     public ResponseEntity<GetProposalDetailsResponse> getProposalDetails(@RequestParam Long proposalId) {
         return ResponseEntity.ok(
                 eventService.getProposalDetails(proposalId)
+        );
+    }
+
+    @PostMapping("proposal/list")
+    public ResponseEntity<GetProposalListResponse> getProposalList(@RequestBody GetProposalListRequest request) {
+        return ResponseEntity.ok(
+                eventService.getProposalList(request)
         );
     }
 }

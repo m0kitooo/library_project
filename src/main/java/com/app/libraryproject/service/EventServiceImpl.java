@@ -1,14 +1,16 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.proposal.GetProposalDetailsResponse;
-import com.app.libraryproject.dto.proposal.ModifyProposalRequest;
-import com.app.libraryproject.dto.proposal.SendProposalRequest;
+import com.app.libraryproject.dto.proposal.*;
 import com.app.libraryproject.entity.*;
 import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.model.ProposalStatus;
 import com.app.libraryproject.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -72,5 +74,18 @@ public class EventServiceImpl implements EventService {
                 .findById(proposalId)
                 .orElseThrow(() -> new RecordNotFoundException("Proposal not found with id: " + proposalId))
                 .toDetailsResponse();
+    }
+
+    @Override
+    public GetProposalListResponse getProposalList(GetProposalListRequest request) {
+        Pageable pageable = PageRequest.of(request.page(), request.limit());
+
+        List<Proposal> proposals = proposalRepository.findAll(request.status(), pageable);
+
+        return new GetProposalListResponse(
+                proposals.stream()
+                        .map(Proposal::toListItem)
+                        .toList()
+        );
     }
 }
