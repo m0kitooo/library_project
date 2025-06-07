@@ -1,8 +1,10 @@
 package com.app.libraryproject.service;
 
+import com.app.libraryproject.dto.proposal.GetProposalDetailsResponse;
 import com.app.libraryproject.dto.proposal.ModifyProposalRequest;
 import com.app.libraryproject.dto.proposal.SendProposalRequest;
 import com.app.libraryproject.entity.*;
+import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.model.ProposalStatus;
 import com.app.libraryproject.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -27,15 +29,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventPlan acceptProposal(Long proposalId, Long organizerId) {
+    public Long acceptProposal(Long proposalId, Long organizerId) {
         Proposal proposal = proposalRepository
                 .findById(proposalId)
                 .orElseThrow();
         proposal.setStatus(ProposalStatus.ACCEPTED);
         proposalRepository.save(proposal);
-
-        if(proposal.getStatus() == ProposalStatus.REJECTED)
-            throw new RuntimeException();
 
         User organizer = userRepository
                 .findById(organizerId)
@@ -43,17 +42,14 @@ public class EventServiceImpl implements EventService {
 
         EventPlan eventPlan = proposal.toEventPlan(organizer);
 
-        return eventPlanRepository.save(eventPlan);
+        return eventPlanRepository.save(eventPlan).getId();
     }
 
     @Override
     public void rejectProposal(Long proposalId) {
         Proposal proposal = proposalRepository
                 .findById(proposalId)
-                .orElseThrow();
-
-        if(proposal.getStatus() == ProposalStatus.REJECTED)
-            throw new RuntimeException();
+                .orElseThrow(() -> new RecordNotFoundException("Proposal not found with id: " + proposalId));
 
         proposal.setStatus(ProposalStatus.REJECTED);
         proposalRepository.save(proposal);
@@ -63,18 +59,18 @@ public class EventServiceImpl implements EventService {
     public void modifyProposal(ModifyProposalRequest request) {
         Proposal proposal = proposalRepository
                 .findById(request.id())
-                .orElseThrow();
-
-        if(proposal.getStatus() == ProposalStatus.REJECTED)
-            throw new RuntimeException();
+                .orElseThrow(() -> new RecordNotFoundException("Proposal not found with id: " + request.id()));
 
         proposal.setTitle(request.title());
         proposal.setDescription(request.description());
         proposalRepository.save(proposal);
     }
 
-//    @Override
-//    public GetProposalDetailsResponse getProposalDetailsResponse(Long proposalId) {
-//        return null;
-//    }
+    @Override
+    public GetProposalDetailsResponse getProposalDetails(Long proposalId) {
+        return proposalRepository
+                .findById(proposalId)
+                .orElseThrow(() -> new RecordNotFoundException("Proposal not found with id: " + proposalId))
+                .toDetailsResponse();
+    }
 }

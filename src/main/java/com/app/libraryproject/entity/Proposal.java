@@ -1,5 +1,6 @@
 package com.app.libraryproject.entity;
 
+import com.app.libraryproject.dto.proposal.GetProposalDetailsResponse;
 import com.app.libraryproject.model.PlanStatus;
 import com.app.libraryproject.model.ProposalStatus;
 import jakarta.persistence.*;
@@ -20,12 +21,12 @@ public class Proposal {
     @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
+    private String description;
+
     @Column(name = "proposal_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private ProposalStatus status;
-
-    @Column(nullable = false)
-    private String description;
 
     @Column(name = "proposed_by")
     private String proposedBy;
@@ -37,6 +38,15 @@ public class Proposal {
                 .proposedBy(proposedBy)
                 .organizer(organizer)
                 .planStatus(PlanStatus.PREPARING)
+                .build();
+    }
+
+    public GetProposalDetailsResponse toDetailsResponse() {
+        return GetProposalDetailsResponse.builder()
+                .title(title)
+                .description(description)
+                .status(status.name())
+                .proposedBy(proposedBy)
                 .build();
     }
 }
