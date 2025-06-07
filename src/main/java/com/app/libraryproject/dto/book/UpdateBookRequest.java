@@ -1,4 +1,4 @@
-package com.app.libraryproject.dto;
+package com.app.libraryproject.dto.book;
 
 public record UpdateBookRequest(
         Long id,

@@ -1,6 +1,7 @@
 package com.app.libraryproject.controller;
 
-import com.app.libraryproject.dto.*;
+import com.app.libraryproject.dto.librarycard.CreateLibraryCardRequest;
+import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import com.app.libraryproject.service.LibraryCardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

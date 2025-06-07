@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.MemberResponse;
+import com.app.libraryproject.dto.member.MemberResponse;
 import jakarta.persistence.*;
 import lombok.*;
 

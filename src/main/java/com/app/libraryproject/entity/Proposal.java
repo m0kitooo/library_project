@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.SendProposalResponse;
+import com.app.libraryproject.dto.proposal.SendProposalResponse;
 import com.app.libraryproject.model.ProposalStatus;
 import jakarta.persistence.*;
 import lombok.*;

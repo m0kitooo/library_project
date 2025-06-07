@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.DecideProposalResponse;
+import com.app.libraryproject.dto.proposal.DecideProposalResponse;
 import com.app.libraryproject.model.EventStatus;
 import jakarta.persistence.*;
 import lombok.*;

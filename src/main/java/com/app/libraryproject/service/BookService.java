@@ -1,8 +1,8 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.CreateBookRequest;
-import com.app.libraryproject.dto.BookResponse;
-import com.app.libraryproject.dto.UpdateBookRequest;
+import com.app.libraryproject.dto.book.CreateBookRequest;
+import com.app.libraryproject.dto.book.BookResponse;
+import com.app.libraryproject.dto.book.UpdateBookRequest;
 
 import java.util.List;
 

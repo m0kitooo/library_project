@@ -1,7 +1,7 @@
 package com.app.libraryproject.controller;
 
-import com.app.libraryproject.dto.BookResponse;
-import com.app.libraryproject.dto.CreateBookRequest;
+import com.app.libraryproject.dto.book.BookResponse;
+import com.app.libraryproject.dto.book.CreateBookRequest;
 import com.app.libraryproject.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,8 +16,7 @@ public class BookController {
 
     @PostMapping("/add")
     public ResponseEntity<BookResponse> addBook(@RequestBody CreateBookRequest createBookRequest) {
-        throw new ArithmeticException();
-//        return new ResponseEntity<>(bookService.registerBook(createBookRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(bookService.registerBook(createBookRequest), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete")

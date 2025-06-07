@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.BookLoanResponse;
+import com.app.libraryproject.dto.bookloan.BookLoanResponse;
 import jakarta.persistence.*;
 import lombok.*;
 

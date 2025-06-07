@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.LibraryCardResponse;
+import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import jakarta.persistence.*;
 import lombok.*;
 

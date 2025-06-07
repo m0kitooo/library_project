@@ -1,7 +1,7 @@
 package com.app.libraryproject.validate;
 
-import com.app.libraryproject.dto.CreateLibraryCardRequest;
-import com.app.libraryproject.dto.CreateMemberRequest;
+import com.app.libraryproject.dto.librarycard.CreateLibraryCardRequest;
+import com.app.libraryproject.dto.member.CreateMemberRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

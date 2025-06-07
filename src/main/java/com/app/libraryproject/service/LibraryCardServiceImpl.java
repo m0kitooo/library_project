@@ -1,7 +1,7 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.CreateLibraryCardRequest;
-import com.app.libraryproject.dto.LibraryCardResponse;
+import com.app.libraryproject.dto.librarycard.CreateLibraryCardRequest;
+import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import com.app.libraryproject.entity.LibraryCard;
 import com.app.libraryproject.repository.LibraryCardRepository;
 import com.app.libraryproject.validate.CreateLibraryCardRequestValidator;

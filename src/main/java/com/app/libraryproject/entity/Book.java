@@ -1,9 +1,11 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.BookResponse;
+import com.app.libraryproject.dto.book.BookResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Check;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,8 +23,7 @@ public class Book {
     @Column(nullable = false)
     private String title;
 
-
-//    private Author author;
+    private String author;
 
     private String description;
 
@@ -31,7 +32,10 @@ public class Book {
     @Builder.Default
     private Boolean archived = false;
 
+    @OneToMany
+    private List<BookReservation> bookReservations;
+
     public BookResponse toBookResponse() {
-        return new BookResponse(id, title, description);
+        return new BookResponse(id, title, author, description);
     }
 }

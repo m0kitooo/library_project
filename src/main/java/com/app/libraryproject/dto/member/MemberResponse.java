@@ -1,4 +1,4 @@
-package com.app.libraryproject.dto;
+package com.app.libraryproject.dto.member;
 
 import java.time.LocalDate;
 

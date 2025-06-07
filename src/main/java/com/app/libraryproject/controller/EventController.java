@@ -1,10 +1,11 @@
 package com.app.libraryproject.controller;
 
-import com.app.libraryproject.dto.*;
-import com.app.libraryproject.entity.Proposal;
+import com.app.libraryproject.dto.proposal.DecideProposalRequest;
+import com.app.libraryproject.dto.proposal.DecideProposalResponse;
+import com.app.libraryproject.dto.proposal.SendProposalRequest;
+import com.app.libraryproject.dto.proposal.SendProposalResponse;
 import com.app.libraryproject.service.EventServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,6 @@ public class EventController {
 
     @PostMapping("/proposal/decide")
     public ResponseEntity<DecideProposalResponse> acceptProposal(@RequestBody DecideProposalRequest request) {
-//        return eventService.decideProposal(request);
-        return null;
+        return new ResponseEntity<>(eventService.decideProposal(request), HttpStatus.OK);
     }
 }

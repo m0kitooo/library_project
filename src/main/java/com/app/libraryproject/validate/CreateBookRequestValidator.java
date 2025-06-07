@@ -1,6 +1,6 @@
 package com.app.libraryproject.validate;
 
-import com.app.libraryproject.dto.CreateBookRequest;
+import com.app.libraryproject.dto.book.CreateBookRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

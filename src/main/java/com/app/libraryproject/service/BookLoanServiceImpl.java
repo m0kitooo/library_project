@@ -1,13 +1,14 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.BookLoanResponse;
+import com.app.libraryproject.dto.bookloan.BookLoanResponse;
+import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.entity.BookLoan;
-import com.app.libraryproject.repository.BookLoanRepository;
-import com.app.libraryproject.repository.BookRepository;
-import com.app.libraryproject.repository.LibraryCardRepository;
-import com.app.libraryproject.repository.MemberRepository;
+import com.app.libraryproject.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -17,13 +18,19 @@ public class BookLoanServiceImpl implements BookLoanService {
     private final MemberRepository memberRepository;
     private final LibraryCardRepository libraryCardRepository;
 
+    @Transactional
     @Override
     public BookLoanResponse loanBook(Long bookId, Long memberId) {
-        if (libraryCardRepository.findActiveCardByMemberId(memberId).isEmpty()) {
-            //TODO change to more rebust exception
-            throw new RuntimeException();
-//            throw new
-        }
+        if (bookId == null || memberId == null)
+            throw new IllegalArgumentException();
+
+        Book book = bookRepository
+                .findByIdAndArchivedFalseAndQuantityGreaterThan(bookId, 0)
+                .orElseThrow(NoSuchElementException::new);
+
+        if (libraryCardRepository.findActiveCardByMemberId(memberId).isEmpty() ||
+                book.getBookReservations().size() >= book.getQuantity())
+            throw new NoSuchElementException();
 
         return bookLoanRepository.save(
                 BookLoan
@@ -32,10 +39,8 @@ public class BookLoanServiceImpl implements BookLoanService {
                                 .findById(memberId)
                                 .orElseThrow(() -> new RuntimeException("Such member doesn't exist"))
                         )
-                        .book(bookRepository
-                                .findByIdAndArchivedFalseAndQuantityGreaterThan(bookId, 0)
-                                .orElseThrow(() -> new RuntimeException("Such book doesn't exist"))
-                        ).build()
+                        .book(book)
+                        .build()
         ).toBookLoanResponse();
     }
 }
