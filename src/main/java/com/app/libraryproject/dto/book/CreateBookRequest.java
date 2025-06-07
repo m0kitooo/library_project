@@ -2,7 +2,6 @@ package com.app.libraryproject.dto.book;
 
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.exception.InvalidRequestArgumentException;
-import org.apache.commons.lang3.StringUtils;
 
 import static io.micrometer.common.util.StringUtils.isEmpty;
 
