@@ -15,13 +15,28 @@ import org.springframework.web.bind.annotation.*;
 public class EventController {
     private final EventServiceImpl eventService;
 
-    @PostMapping("/proposal/send")
+    @PostMapping("proposal/send")
     public ResponseEntity<SendProposalResponse> sendProposal(@RequestBody SendProposalRequest request) {
         return new ResponseEntity<>(eventService.addProposal(request), HttpStatus.CREATED);
     }
 
-    @PostMapping("/proposal/decide")
-    public ResponseEntity<DecideProposalResponse> acceptProposal(@RequestBody DecideProposalRequest request) {
-        return eventService.decideProposal(request);
+    @PostMapping("proposal/accept")
+    public ResponseEntity<Long> acceptProposal(@RequestParam Long proposalId, @RequestParam Long organizerId) {
+        return ResponseEntity.ok(
+                eventService.acceptProposal(proposalId, organizerId)
+                        .getId()
+        );
+    }
+
+    @PostMapping("proposal/reject")
+    public ResponseEntity<Void> rejectProposal(@RequestParam Long proposalId) {
+        eventService.rejectProposal(proposalId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("proposal/modify")
+    public ResponseEntity<Void> modifyProposal(@RequestBody ModifyProposalRequest request) {
+        eventService.modifyProposal(request);
+        return ResponseEntity.noContent().build();
     }
 }

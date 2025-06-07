@@ -1,16 +1,18 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.DecideProposalRequest;
 import com.app.libraryproject.dto.DecideProposalResponse;
+import com.app.libraryproject.model.PlanStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "event_plans")
 public class EventPlan {
@@ -27,9 +29,11 @@ public class EventPlan {
     @Column(name = "estimated_price")
     private BigDecimal estimatedPrice;
 
-    @OneToOne
-    @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
 
     @ManyToMany
     @JoinTable(
@@ -39,9 +43,9 @@ public class EventPlan {
     )
     private List<Sponsor> sponsors;
 
-    @OneToOne
-    @JoinColumn(name = "status_id")
-    private Status status;
+    @Column(name = "event_status")
+    @Enumerated(EnumType.STRING)
+    private PlanStatus planStatus;
 
     @OneToOne
     @JoinColumn(name = "user_id")
