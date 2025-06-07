@@ -17,10 +17,6 @@ public class LibraryCardServiceImpl implements LibraryCardService {
 
     @Override
     public LibraryCardResponse register(CreateLibraryCardRequest createLibraryCardRequest) {
-        if (CreateLibraryCardRequestValidator.isValid(createLibraryCardRequest)) {
-            //TODO change exception to sth more concrete later so u can catch it
-            throw new RuntimeException();
-        }
         return libraryCardRepository.save(
                 LibraryCard
                         .builder()
