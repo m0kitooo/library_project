@@ -1,6 +1,7 @@
 package com.app.libraryproject.dto.book;
 
 import com.app.libraryproject.entity.Book;
+import com.app.libraryproject.exception.InvalidRequestArgumentException;
 
 public record CreateBookRequest(
         String title,
@@ -8,6 +9,11 @@ public record CreateBookRequest(
         String description,
         Integer quantity
 ) {
+    public CreateBookRequest {
+        if (title == null)
+            throw new InvalidRequestArgumentException("Title can't be null");
+    }
+
     public Book toBook() {
         return Book
                 .builder()
