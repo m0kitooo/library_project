@@ -1,6 +1,5 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.proposal.DecideProposalResponse;
 import com.app.libraryproject.model.PlanStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -53,10 +52,4 @@ public class EventPlan {
 
     @Column(name = "proposed_by")
     private String proposedBy;
-
-    public DecideProposalResponse toDto() {
-        return DecideProposalResponse.builder()
-                .id(id)
-                .build();
-    }
 }
