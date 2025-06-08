@@ -39,8 +39,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponse registerBook(CreateBookRequest book) {
-        if (!CreateBookRequestValidator.isValid(book))
-            throw new RuntimeException("Invalid request");
         Book b = bookRepository.save(book.toBook());
         log.info("Book registered: {}", b);
         return b.toBookResponse();

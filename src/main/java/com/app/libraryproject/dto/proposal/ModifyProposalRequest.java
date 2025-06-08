@@ -1,13 +1,15 @@
 package com.app.libraryproject.dto.proposal;
 
-import lombok.*;
+import com.app.libraryproject.exception.InvalidRequestArgumentException;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Data
-public class ModifyProposalRequest {
-    private Long id;
-    private String title;
-    private String description;
+public record ModifyProposalRequest(
+        Long id,
+        String title,
+        String description
+) {
+    public ModifyProposalRequest {
+        if (id == null || title == null || title.isEmpty()) {
+            throw new InvalidRequestArgumentException("(id, title) cannot be null or empty");
+        }
+    }
 }
