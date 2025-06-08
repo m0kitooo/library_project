@@ -12,7 +12,7 @@ public record CreateBookRequest(
         Integer quantity
 ) {
     public CreateBookRequest {
-        if (isEmpty(title) && !title.equals(title.trim()))
+        if (isEmpty(title) || !title.equals(title.trim()))
             throw new InvalidRequestArgumentException("Title can't be null or empty and must be trimmed");
         if (quantity < 0)
             throw new InvalidRequestArgumentException("Quantity can't be less than 0");
