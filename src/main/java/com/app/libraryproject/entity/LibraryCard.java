@@ -16,8 +16,7 @@ import java.time.LocalDate;
 public class LibraryCard {
     @Id
     @GeneratedValue
-    @Column(name = "library_card_id")
-    private Long cardId;
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
@@ -41,7 +40,7 @@ public class LibraryCard {
 
     public GetLibraryCardDetailsResponse toLibraryCardDetails() {
         return GetLibraryCardDetailsResponse.builder()
-                .cardId(cardId)
+                .cardId(id)
                 .memberId(member.getId())
                 .expiryDate(expiryDate)
                 .build();

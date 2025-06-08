@@ -5,7 +5,8 @@ import com.app.libraryproject.exception.InvalidRequestArgumentException;
 
 import java.time.LocalDate;
 
-import static org.apache.logging.log4j.util.Strings.isBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 
 public record CreateMemberRequest(
         String name,

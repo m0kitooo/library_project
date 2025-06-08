@@ -5,7 +5,6 @@ import com.app.libraryproject.dto.book.BookResponse;
 import com.app.libraryproject.dto.book.UpdateBookRequest;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.repository.BookRepository;
-import com.app.libraryproject.validate.CreateBookRequestValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponse> findAll() {
         return bookRepository
-                .findAll()
+//                .findAll()
+                .findByArchivedFalse()
                 .stream()
                 .map(Book::toBookResponse)
                 .toList();

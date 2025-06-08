@@ -13,6 +13,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findByIdAndArchivedFalse(Long id);
     Optional<Book> findByIdAndArchivedFalseAndQuantityGreaterThan(Long id, int quantity);
     Optional<Book> findByTitle(String title);
+    List<Book> findByArchivedFalse();
     List<Book> findByTitleContainingIgnoreCase(String title);
     @Transactional
     @Modifying

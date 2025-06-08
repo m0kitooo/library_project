@@ -8,11 +8,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/book")
+@CrossOrigin
 @AllArgsConstructor
 public class BookController {
     private final BookService bookService;
+
+    @GetMapping
+    public List<BookResponse> getBooks() {
+        return bookService.findAll();
+    }
 
     @PostMapping("/add")
     public ResponseEntity<BookResponse> addBook(@RequestBody CreateBookRequest createBookRequest) {
