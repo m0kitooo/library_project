@@ -36,6 +36,6 @@ public class Book {
     private List<BookReservation> bookReservations;
 
     public BookResponse toBookResponse() {
-        return new BookResponse(id, title, author, description);
+        return new BookResponse(id, title, author, description, quantity);
     }
 }

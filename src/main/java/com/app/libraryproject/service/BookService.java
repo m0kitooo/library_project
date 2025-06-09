@@ -7,6 +7,7 @@ import com.app.libraryproject.dto.book.UpdateBookRequest;
 import java.util.List;
 
 public interface BookService {
+    BookResponse find(Long id);
     List<BookResponse> findAll();
     List<BookResponse> findBooksByTitle(String title);
     BookResponse registerBook(CreateBookRequest book);
