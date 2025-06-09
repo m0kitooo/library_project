@@ -1,6 +1,7 @@
 package com.app.libraryproject.entity;
 
 import com.app.libraryproject.dto.librarycard.GetLibraryCardDetailsResponse;
+import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,7 @@ public class LibraryCard {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private Member member;
 
@@ -42,6 +43,15 @@ public class LibraryCard {
         return GetLibraryCardDetailsResponse.builder()
                 .cardId(id)
                 .memberId(member.getId())
+                .expiryDate(expiryDate)
+                .build();
+    }
+
+    public LibraryCardResponse toLibraryCardResponse() {
+        return LibraryCardResponse
+                .builder()
+                .id(id)
+                .member(member.toMemberResponse())
                 .expiryDate(expiryDate)
                 .build();
     }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/event")
+@CrossOrigin
 public class EventController {
     private final EventServiceImpl eventService;
 
@@ -45,7 +46,7 @@ public class EventController {
         );
     }
 
-    @PostMapping("proposal/list")
+    @GetMapping("proposal/list")
     public ResponseEntity<GetProposalListResponse> getProposalList(@RequestBody GetProposalListRequest request) {
         return ResponseEntity.ok(
                 eventService.getProposalList(request)
