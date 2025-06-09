@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/book-returns")
+@RequestMapping("/api/returns")
 @RequiredArgsConstructor
 public class BookReturnController {
     private final BookReturnServiceImpl bookReturnServiceImpl;
 
-    @PostMapping
+    @PostMapping("/return")
     public ResponseEntity<BookReturnResponse> returnBook(@RequestBody CreateBookReturnRequest request) {
         return ResponseEntity.ok(bookReturnServiceImpl.returnBook(request));
     }
