@@ -9,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Pageable;
-import java.util.List;
+import org.springframework.data.domain.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +25,8 @@ public class EventServiceImpl implements EventService {
                         .builder()
                         .title(request.title())
                         .description(request.description())
+                        .proposedBy(request.proposedBy())
+                        .status(ProposalStatus.PENDING)
                         .build()
         ).getId();
     }
@@ -79,8 +80,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public GetProposalListResponse getProposalList(GetProposalListRequest request) {
         Pageable pageable = PageRequest.of(request.page(), request.limit());
-
-        List<Proposal> proposals = proposalRepository.findAll(request.status(), pageable);
+        Page<Proposal> proposals = proposalRepository.findAll(request.status(), pageable);
 
         return new GetProposalListResponse(
                 proposals.stream()

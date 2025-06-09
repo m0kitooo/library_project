@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/libraryCard")
-//@CrossOrigin(origins = "")
+@CrossOrigin(origins = "http://localhost:5173")
 public class LibraryCardController {
     private final LibraryCardServiceImpl libraryCardService;
 
