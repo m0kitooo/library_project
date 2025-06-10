@@ -17,16 +17,16 @@ import lombok.*;
 public class Proposal {
     @Id
     @GeneratedValue
+    @Column(name = "proposal_id")
     private Long id;
 
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
     private String description;
 
     @Column(name = "proposal_status", nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private ProposalStatus status;
 
     @Column(name = "proposed_by")

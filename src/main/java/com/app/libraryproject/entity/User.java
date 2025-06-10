@@ -1,5 +1,7 @@
 package com.app.libraryproject.entity;
 
+import com.app.libraryproject.dto.proposal.GetUserListRequest;
+import com.app.libraryproject.dto.user.GetUserListResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,4 +28,12 @@ public class User {
 
     @Column(nullable = false)
     private LocalDate birthday;
+
+    public GetUserListResponse.UserListItem toUserListItem() {
+        return GetUserListResponse.UserListItem.builder()
+                .id(id)
+                .name(name)
+                .surname(surname)
+                .build();
+    }
 }
