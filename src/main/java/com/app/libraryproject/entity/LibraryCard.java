@@ -19,7 +19,7 @@ public class LibraryCard {
     @GeneratedValue
     private Long id;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id", nullable = false, unique = true)
     private Member member;
 

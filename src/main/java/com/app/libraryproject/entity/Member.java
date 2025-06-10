@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,8 +24,8 @@ public class Member {
     @Column(nullable = false)
     private String surname;
 
-    @OneToOne
-    private LibraryCard libraryCard;
+    @OneToMany(mappedBy = "member")
+    private List<LibraryCard> libraryCard;
 
     @Column(name = "national_id", nullable = false, unique = true, length = 11)
     private String nationalId;
