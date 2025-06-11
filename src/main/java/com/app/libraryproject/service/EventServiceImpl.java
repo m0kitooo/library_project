@@ -2,14 +2,23 @@ package com.app.libraryproject.service;
 
 import com.app.libraryproject.dto.proposal.*;
 import com.app.libraryproject.entity.*;
+import com.app.libraryproject.exception.RecordConflictException;
 import com.app.libraryproject.exception.RecordNotFoundException;
+import com.app.libraryproject.model.PlanStatus;
 import com.app.libraryproject.model.ProposalStatus;
 import com.app.libraryproject.repository.*;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -32,18 +41,34 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public Long acceptProposal(Long proposalId, Long organizerId) {
-        Proposal proposal = proposalRepository
-                .findById(proposalId)
-                .orElseThrow();
+        Proposal proposal = proposalRepository.findById(proposalId)
+                .orElseThrow(() -> new RecordNotFoundException(
+                        "Proposal with ID " + proposalId + " not found"
+                ));
+
+//        if (proposal.getStatus() == ProposalStatus.ACCEPTED) {
+//            throw new RecordConflictException(
+//                    "Proposal with ID " + proposalId + " has already been accepted"
+//            );
+//        }
+
+        User organizer = userRepository.findById(organizerId)
+                .orElseThrow(() -> new RecordNotFoundException(
+                        "Organizer with ID " + organizerId + " not found"
+                ));
+
         proposal.setStatus(ProposalStatus.ACCEPTED);
         proposalRepository.save(proposal);
 
-        User organizer = userRepository
-                .findById(organizerId)
-                .orElseThrow();
-
-        EventPlan eventPlan = proposal.toEventPlan(organizer);
+        EventPlan eventPlan = EventPlan.builder()
+                .name(proposal.getTitle())
+                .description(proposal.getDescription())
+                .proposedBy(proposal.getProposedBy())
+                .organizer(organizer)
+                .planStatus(PlanStatus.PREPARING)
+                .build();
 
         return eventPlanRepository.save(eventPlan).getId();
     }

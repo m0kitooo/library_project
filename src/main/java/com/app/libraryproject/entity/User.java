@@ -1,7 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.proposal.GetUserListRequest;
-import com.app.libraryproject.dto.user.GetUserListResponse;
+import com.app.libraryproject.dto.user.*;
 import jakarta.persistence.*;
 import lombok.*;
 

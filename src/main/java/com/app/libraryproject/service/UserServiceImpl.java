@@ -1,7 +1,6 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.proposal.GetUserListRequest;
-import com.app.libraryproject.dto.user.GetUserListResponse;
+import com.app.libraryproject.dto.user.*;
 import com.app.libraryproject.entity.*;
 import com.app.libraryproject.repository.*;
 import lombok.RequiredArgsConstructor;

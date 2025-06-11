@@ -1,4 +1,4 @@
-package com.app.libraryproject.dto.proposal;
+package com.app.libraryproject.dto.user;
 
 import com.app.libraryproject.exception.InvalidRequestArgumentException;
 import com.app.libraryproject.model.ProposalStatus;
