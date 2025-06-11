@@ -20,7 +20,7 @@ public class LibraryCard {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "member_id", nullable = false, unique = true)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Column(

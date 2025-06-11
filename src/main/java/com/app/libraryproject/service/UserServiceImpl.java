@@ -1,6 +1,6 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.proposal.GetUserListRequest;
+import com.app.libraryproject.dto.user.GetUserListRequest;
 import com.app.libraryproject.dto.user.GetUserListResponse;
 import com.app.libraryproject.entity.*;
 import com.app.libraryproject.repository.*;
@@ -21,7 +21,8 @@ public class UserServiceImpl implements UserService {
         Page<User> users = userRepository.findAll(pageable);
 
         return new GetUserListResponse(
-                users.stream()
+                users
+                        .stream()
                         .map(User::toUserListItem)
                         .toList()
         );
