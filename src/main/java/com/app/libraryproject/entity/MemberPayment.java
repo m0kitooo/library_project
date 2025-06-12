@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.model.PaymentType;
+import com.app.libraryproject.model.MemberPaymentType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "memeber_payments")
+@Table(name = "member_payments")
 public class MemberPayment {
     @Id
     @GeneratedValue
@@ -21,7 +21,7 @@ public class MemberPayment {
 
     @Column(name = "payment_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private PaymentType paymentType;
+    private MemberPaymentType memberPaymentType;
 
     @Column(nullable = false)
     private BigDecimal amount;

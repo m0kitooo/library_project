@@ -1,6 +1,5 @@
 package com.app.libraryproject;
 
-import com.app.libraryproject.dto.book.UpdateBookRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

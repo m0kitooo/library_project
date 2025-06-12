@@ -13,6 +13,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findByIdAndArchivedFalse(Long id);
     Optional<Book> findByIdAndArchivedFalseAndQuantityGreaterThan(Long id, int quantity);
     Optional<Book> findByTitle(String title);
+    List<Book> findByArchivedFalse();
     List<Book> findByTitleContainingIgnoreCase(String title);
     @Transactional
     @Modifying
@@ -21,4 +22,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                     "WHERE b.id = :id AND b.archived = false AND b.quantity > 0"
     )
     int archiveAndDecrementQuantity(Long id);
+    @Transactional
+    @Modifying
+    @Query(
+            "UPDATE Book b SET b.archived = true " +
+            "WHERE b.id = :id AND b.archived = false"
+    )
+    int archive(Long id);
 }

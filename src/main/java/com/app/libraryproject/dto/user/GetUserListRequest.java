@@ -3,18 +3,13 @@ package com.app.libraryproject.dto.proposal;
 import com.app.libraryproject.exception.InvalidRequestArgumentException;
 import com.app.libraryproject.model.ProposalStatus;
 
-public record GetProposalListRequest(
-        ProposalStatus status,
+public record GetUserListRequest(
         Integer page,
         Integer limit
 ) {
-    public GetProposalListRequest {
+    public GetUserListRequest {
         if (page == null || limit == null) {
             throw new InvalidRequestArgumentException("(page, limit) cannot be null");
-        }
-
-        if (status == null) {
-            status = ProposalStatus.PENDING;
         }
     }
 }

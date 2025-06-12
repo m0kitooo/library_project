@@ -4,8 +4,8 @@ import com.app.libraryproject.dto.book.CreateBookRequest;
 import com.app.libraryproject.dto.book.BookResponse;
 import com.app.libraryproject.dto.book.UpdateBookRequest;
 import com.app.libraryproject.entity.Book;
+import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.repository.BookRepository;
-import com.app.libraryproject.validate.CreateBookRequestValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,9 +20,17 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
 
     @Override
+    public BookResponse find(Long id) {
+        return bookRepository
+                .findByIdAndArchivedFalse(id)
+                .orElseThrow(() -> new RecordNotFoundException("There is no book with such id"))
+                .toBookResponse();
+    }
+
+    @Override
     public List<BookResponse> findAll() {
         return bookRepository
-                .findAll()
+                .findByArchivedFalse()
                 .stream()
                 .map(Book::toBookResponse)
                 .toList();
@@ -47,7 +55,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookResponse deleteBook(Long id) {
-        if (bookRepository.archiveAndDecrementQuantity(id) == 0) {
+        if (bookRepository.archive(id) == 0) {
             throw new RuntimeException("Couldn't set the book as deleted");
         }
 
@@ -61,9 +69,10 @@ public class BookServiceImpl implements BookService {
     public BookResponse updateBook(UpdateBookRequest updateBookRequest) {
         Book book = bookRepository
                 .findById(updateBookRequest.id())
-                .orElseThrow(() -> new RuntimeException("Book not found with id: " + updateBookRequest.id()));
+                .orElseThrow(() -> new RecordNotFoundException("Book not found with id: " + updateBookRequest.id()));
 
         book.setTitle(updateBookRequest.title());
+        book.setAuthor(updateBookRequest.author());
         book.setDescription(updateBookRequest.description());
         book.setQuantity(updateBookRequest.quantity());
 
