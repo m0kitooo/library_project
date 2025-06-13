@@ -26,4 +26,9 @@ public class BookLoanController {
     public ResponseEntity<BookLoanResponse> makeBookLoan(@RequestBody CreateBookLoanRequest request) {
         return new ResponseEntity<>(bookLoanService.loanBook(request.bookId(), request.memberId()), HttpStatus.CREATED);
     }
+
+    @GetMapping("/member/{memberId}")
+    public List<BookLoanResponse> getBookLoansByMember(@PathVariable Long memberId) {
+        return bookLoanService.findLoansByMemberId(memberId);
+    }
 }

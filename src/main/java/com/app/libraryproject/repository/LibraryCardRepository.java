@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface LibraryCardRepository extends JpaRepository<LibraryCard, Long> {
     @Query(
             "SELECT l FROM LibraryCard l " +
-            "WHERE l.member.id =: memberId " +
+            "WHERE l.member.id = :memberId " +
             "AND l.deactivationDate IS NULL " +
             "AND l.expiryDate > CURRENT_DATE "
     )

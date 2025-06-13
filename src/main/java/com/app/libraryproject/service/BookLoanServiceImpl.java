@@ -50,7 +50,19 @@ public class BookLoanServiceImpl implements BookLoanService {
                                 .orElseThrow(() -> new RuntimeException("Such member doesn't exist"))
                         )
                         .book(book)
+                        .loanDate(java.time.LocalDate.now())
                         .build()
         ).toBookLoanResponse();
+    }
+
+    @Override
+    public List<BookLoanResponse> findLoansByMemberId(Long memberId) {
+        if (memberId == null) {
+            throw new IllegalArgumentException("Member ID cannot be null.");
+        }
+        return bookLoanRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(BookLoanResponse::from)
+                .toList();
     }
 }
