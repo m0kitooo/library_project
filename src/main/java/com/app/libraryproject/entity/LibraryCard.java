@@ -51,7 +51,7 @@ public class LibraryCard {
         return LibraryCardResponse
                 .builder()
                 .id(id)
-                .member(member.toMemberResponse())
+                .memberResponse(member.toMemberResponse())
                 .expiryDate(expiryDate)
                 .build();
     }

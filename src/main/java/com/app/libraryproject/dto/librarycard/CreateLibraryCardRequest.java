@@ -2,11 +2,12 @@ package com.app.libraryproject.dto.librarycard;
 
 import com.app.libraryproject.dto.member.CreateMemberRequest;
 import com.app.libraryproject.exception.InvalidRequestArgumentException;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 
 public record CreateLibraryCardRequest(
-        CreateMemberRequest createMemberRequest,
+        @JsonProperty("member") CreateMemberRequest createMemberRequest,
         LocalDate expiryDate
 ) {
     public CreateLibraryCardRequest {
