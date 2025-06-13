@@ -1,21 +1,11 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.librarycard.GetLibraryCardDetailsResponse;
 import com.app.libraryproject.dto.member.CreateMemberRequest;
 import com.app.libraryproject.dto.member.MemberResponse;
-import com.app.libraryproject.dto.librarycard.GetLibraryCardDetailsResponse;
-import com.app.libraryproject.dto.user.*;
-import com.app.libraryproject.entity.LibraryCard;
-import com.app.libraryproject.dto.user.GetPersonListRequest;
-import com.app.libraryproject.dto.user.GetPersonListResponse;
-import com.app.libraryproject.entity.LibraryCard;
 import com.app.libraryproject.entity.Member;
-import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.*;
 
 import java.util.List;
 

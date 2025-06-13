@@ -1,6 +1,5 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.user.GetPersonListResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -26,12 +25,4 @@ public abstract class AbstractPerson {
 
     @Column(nullable = false)
     protected LocalDate birthday;
-
-    public GetPersonListResponse.PersonResponse toUserListItem() {
-        return GetPersonListResponse.PersonResponse.builder()
-                .id(id)
-                .name(name)
-                .surname(surname)
-                .build();
-    }
 }
