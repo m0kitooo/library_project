@@ -1,4 +1,3 @@
-// src/main/java/com/app/libraryproject/dto/bookreturn/BookReturnResponse.java
 package com.app.libraryproject.dto.bookreturn;
 
 public record BookReturnResponse(
