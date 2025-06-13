@@ -5,16 +5,16 @@ import lombok.Builder;
 
 import java.util.List;
 
-public record GetUserListResponse (
-    List<UserListItem> userList
+public record GetPersonListResponse(
+    List<PersonResponse> userList
 ) {
-    public record UserListItem (
+    public record PersonResponse (
             Long id,
             String name,
             String surname
     ) {
         @Builder
-        public UserListItem {
+        public PersonResponse {
             if (id == null || name == null || name.isEmpty() || surname == null || surname.isEmpty()) {
                 throw new InvalidResponseArgumentException("(id, name, surname) cannot be null or empty)");
             }

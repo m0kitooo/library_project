@@ -1,21 +1,22 @@
 package com.app.libraryproject.controller;
 
-import com.app.libraryproject.dto.user.GetUserListRequest;
-import com.app.libraryproject.dto.user.GetUserListResponse;
+import com.app.libraryproject.dto.user.*;
 import com.app.libraryproject.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
     private final UserServiceImpl userService;
 
-    @PostMapping("/list")
-    public ResponseEntity<GetUserListResponse> createLibraryCard(@RequestBody GetUserListRequest request) {
-        return ResponseEntity.ok(userService.getUserList(request));
+    @GetMapping
+    public List<PersonResponse> getUserList(@RequestBody GetPersonListRequest request) {
+        return userService.getUserList(request);
     }
 }

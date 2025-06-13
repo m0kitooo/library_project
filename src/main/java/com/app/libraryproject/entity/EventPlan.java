@@ -45,8 +45,8 @@ public class EventPlan {
     @Enumerated(EnumType.STRING)
     private PlanStatus planStatus;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id", unique = false)
     private User organizer;
 
     @Column(name = "proposed_by")
