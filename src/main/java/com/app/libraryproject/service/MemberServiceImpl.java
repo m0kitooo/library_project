@@ -27,4 +27,27 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse register(CreateMemberRequest request) {
         return memberRepository.save(request.toMember()).toMemberResponse();
     }
+
+//    @Override
+//    public GetLibraryCardDetailsResponse getPersonDetails(Long libraryCardId) {
+//        LibraryCard libraryCard = libraryCardRepository
+//                .findById(libraryCardId)
+//                .orElseThrow(
+//                        () -> new RecordNotFoundException("Record not found with id: " + libraryCardId)
+//                );
+//
+//        return libraryCard.toLibraryCardDetails();
+//    }
+//
+//    @Override
+//    public GetPersonListResponse getUserList(GetPersonListRequest request) {
+//        Pageable pageable = PageRequest.of(request.page(), request.limit());
+//        Page<Member> members = memberRepository.searchMembersByFullname(request.filterFullname(), pageable);
+//
+//        return new GetPersonListResponse(
+//                members.stream()
+//                        .map(Member::toUserListItem)
+//                        .toList()
+//        );
+//    }
 }

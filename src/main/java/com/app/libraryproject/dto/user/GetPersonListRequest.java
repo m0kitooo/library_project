@@ -1,13 +1,14 @@
-package com.app.libraryproject.dto.proposal;
+package com.app.libraryproject.dto.user;
 
 import com.app.libraryproject.exception.InvalidRequestArgumentException;
-import com.app.libraryproject.model.ProposalStatus;
 
-public record GetUserListRequest(
+public record GetPersonListRequest(
         Integer page,
-        Integer limit
+        Integer limit,
+        String filterFullname
+        //można tutaj w przyszłości dodać opcje filtrowania i je zaimplementować
 ) {
-    public GetUserListRequest {
+    public GetPersonListRequest {
         if (page == null || limit == null) {
             throw new InvalidRequestArgumentException("(page, limit) cannot be null");
         }

@@ -1,39 +1,14 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.proposal.GetUserListRequest;
-import com.app.libraryproject.dto.user.GetUserListResponse;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Getter
-@Setter
 @Entity
 @Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String surname;
-
-    @Column(nullable = false)
-    private LocalDate birthday;
-
-    public GetUserListResponse.UserListItem toUserListItem() {
-        return GetUserListResponse.UserListItem.builder()
-                .id(id)
-                .name(name)
-                .surname(surname)
-                .build();
-    }
+@Getter
+@Setter
+@AllArgsConstructor
+@SuperBuilder
+public class User extends AbstractPerson {
 }

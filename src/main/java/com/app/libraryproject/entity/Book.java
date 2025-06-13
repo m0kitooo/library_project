@@ -32,7 +32,7 @@ public class Book {
     @Builder.Default
     private Boolean archived = false;
 
-    @OneToMany
+    @OneToMany(mappedBy = "book")
     private List<BookReservation> bookReservations;
 
     public BookResponse toBookResponse() {

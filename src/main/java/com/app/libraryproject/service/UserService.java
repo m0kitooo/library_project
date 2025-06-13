@@ -1,8 +1,9 @@
 package com.app.libraryproject.service;
 
-import com.app.libraryproject.dto.proposal.GetUserListRequest;
-import com.app.libraryproject.dto.user.GetUserListResponse;
+import com.app.libraryproject.dto.user.*;
+
+import java.util.List;
 
 public interface UserService {
-    GetUserListResponse getUserList(GetUserListRequest request);
+    List<PersonResponse> getUserList(GetPersonListRequest request);
 }
