@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "members")
-public class Member extends AbstractPerson {
+public class Member extends Person {
 
     @OneToMany(mappedBy = "member")
     private List<LibraryCard> libraryCard;

@@ -1,5 +1,6 @@
 package com.app.libraryproject.service;
 
+import com.app.libraryproject.dto.librarypayment.CreateLibraryPaymentRequest;
 import com.app.libraryproject.dto.librarypayment.LibraryPaymentResponse;
 import com.app.libraryproject.entity.LibraryPayment;
 import com.app.libraryproject.repository.LibraryPaymentRepository;
@@ -12,6 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LibraryPaymentServiceImpl implements LibraryPaymentService {
     private final LibraryPaymentRepository libraryPaymentRepository;
+
+    @Override
+    public LibraryPaymentResponse register(CreateLibraryPaymentRequest request) {
+        return LibraryPaymentResponse.from(libraryPaymentRepository.save(request.toLibraryPayment()));
+    }
 
     @Override
     public List<LibraryPaymentResponse> findAll() {

@@ -10,5 +10,5 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @AllArgsConstructor
 @SuperBuilder
-public class User extends AbstractPerson {
+public class User extends Person {
 }

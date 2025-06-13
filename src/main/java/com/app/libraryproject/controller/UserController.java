@@ -3,7 +3,6 @@ package com.app.libraryproject.controller;
 import com.app.libraryproject.dto.user.*;
 import com.app.libraryproject.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

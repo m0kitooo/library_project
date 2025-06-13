@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public abstract class AbstractPerson {
+public abstract class Person {
     @Id
     @GeneratedValue
     protected Long id;
