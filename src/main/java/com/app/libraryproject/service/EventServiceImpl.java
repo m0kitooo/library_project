@@ -48,11 +48,11 @@ public class EventServiceImpl implements EventService {
                         "Proposal with ID " + proposalId + " not found"
                 ));
 
-//        if (proposal.getStatus() == ProposalStatus.ACCEPTED) {
-//            throw new RecordConflictException(
-//                    "Proposal with ID " + proposalId + " has already been accepted"
-//            );
-//        }
+        if (proposal.getStatus() == ProposalStatus.ACCEPTED) {
+            throw new RecordConflictException(
+                    "Proposal with ID " + proposalId + " has already been accepted"
+            );
+        }
 
         User organizer = userRepository.findById(organizerId)
                 .orElseThrow(() -> new RecordNotFoundException(
