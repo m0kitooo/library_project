@@ -38,8 +38,7 @@ public class BookLoanServiceImpl implements BookLoanService {
                 .findByIdAndArchivedFalseAndQuantityGreaterThan(bookId, 0)
                 .orElseThrow(NoSuchElementException::new);
 
-        if (libraryCardRepository.findActiveCardByMemberId(memberId).isEmpty() ||
-                book.getBookReservations().size() >= book.getQuantity())
+        if (libraryCardRepository.findActiveCardByMemberId(memberId).isEmpty())
             throw new NoSuchElementException();
 
         return bookLoanRepository.save(

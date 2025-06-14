@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Check;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -31,9 +29,6 @@ public class Book {
 
     @Builder.Default
     private Boolean archived = false;
-
-    @OneToMany(mappedBy = "book")
-    private List<BookReservation> bookReservations;
 
     public BookResponse toBookResponse() {
         return new BookResponse(id, title, author, description, quantity);
