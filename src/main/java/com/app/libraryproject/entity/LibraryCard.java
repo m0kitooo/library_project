@@ -1,7 +1,5 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.librarycard.GetLibraryCardDetailsResponse;
-import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +15,7 @@ import java.time.LocalDate;
 public class LibraryCard {
     @Id
     @GeneratedValue
+    @Column(name = "library_card_id")
     private Long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -39,20 +38,20 @@ public class LibraryCard {
     @Column(name = "deactivation_reason")
     private String deactivationReason;
 
-    public GetLibraryCardDetailsResponse toLibraryCardDetails() {
-        return GetLibraryCardDetailsResponse.builder()
-                .cardId(id)
-                .memberId(member.getId())
-                .expiryDate(expiryDate)
-                .build();
-    }
-
-    public LibraryCardResponse toLibraryCardResponse() {
-        return LibraryCardResponse
-                .builder()
-                .id(id)
-                .memberResponse(member.toMemberResponse())
-                .expiryDate(expiryDate)
-                .build();
-    }
+//    public GetLibraryCardDetailsResponse toLibraryCardDetails() {
+//        return GetLibraryCardDetailsResponse.builder()
+//                .cardId(id)
+//                .memberId(member.getId())
+//                .expiryDate(expiryDate)
+//                .build();
+//    }
+//
+//    public LibraryCardResponse toLibraryCardResponse() {
+//        return LibraryCardResponse
+//                .builder()
+//                .id(id)
+//                //.memberResponse(member.toMemberResponse())
+//                .expiryDate(expiryDate)
+//                .build();
+//    }
 }

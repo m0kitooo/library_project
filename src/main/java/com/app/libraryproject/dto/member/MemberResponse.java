@@ -1,9 +1,12 @@
 package com.app.libraryproject.dto.member;
 
+import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
+import com.app.libraryproject.entity.LibraryCard;
 import com.app.libraryproject.entity.Member;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 public record MemberResponse(
@@ -11,7 +14,8 @@ public record MemberResponse(
         String name,
         String surname,
         String nationalId,
-        LocalDate birthday
+        LocalDate birthday,
+        LibraryCardResponse libraryCard
 ) {
     public static MemberResponse from(Member member) {
         return MemberResponse
@@ -21,6 +25,9 @@ public record MemberResponse(
                 .surname(member.getSurname())
                 .nationalId(member.getNationalId())
                 .birthday(member.getBirthday())
+                .libraryCard(LibraryCardResponse.from(member.getLibraryCard()))
                 .build();
     }
+
+
 }

@@ -1,7 +1,6 @@
 package com.app.libraryproject.controller;
 
 import com.app.libraryproject.dto.librarycard.CreateLibraryCardRequest;
-import com.app.libraryproject.dto.librarycard.GetLibraryCardDetailsResponse;
 import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import com.app.libraryproject.service.LibraryCardServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +16,12 @@ public class LibraryCardController {
     private final LibraryCardServiceImpl libraryCardService;
 
     @GetMapping("/{id}")
-    public GetLibraryCardDetailsResponse getLibraryCardDetails(@PathVariable Long id) {
+    public LibraryCardResponse getLibraryCardDetails(@PathVariable Long id) {
         return libraryCardService.getLibraryCardDetails(id);
     }
 
     @PostMapping
-    public ResponseEntity<LibraryCardResponse> createLibraryCard(@RequestBody CreateLibraryCardRequest request) {
+    public ResponseEntity<Long> createLibraryCard(@RequestBody CreateLibraryCardRequest request) {
         return new ResponseEntity<>(libraryCardService.registerLibraryCard(request), HttpStatus.CREATED);
     }
 }

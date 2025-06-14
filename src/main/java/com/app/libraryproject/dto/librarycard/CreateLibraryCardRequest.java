@@ -7,12 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 
 public record CreateLibraryCardRequest(
-        @JsonProperty("member") CreateMemberRequest createMemberRequest,
+        Long memberId,
         LocalDate expiryDate
 ) {
     public CreateLibraryCardRequest {
-        if (createMemberRequest == null || expiryDate == null) {
-            throw new InvalidRequestArgumentException("createMemberRequest and expiryDate are required");
+        if (memberId == null || expiryDate == null) {
+            throw new InvalidRequestArgumentException("(memberId, expiryDate) cannot be null");
         }
     }
+
+
 }
