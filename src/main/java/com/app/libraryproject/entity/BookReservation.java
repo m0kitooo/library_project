@@ -36,6 +36,5 @@ public class BookReservation {
     @Column(name = "status", nullable = false)
     private ReservationStatus status;
 
-    @Column(name = "pickup_by_date")
-    private LocalDate pickupByDate;
+    private LocalDate pickupDeadline;
 }

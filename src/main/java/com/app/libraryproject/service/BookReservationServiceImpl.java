@@ -102,7 +102,7 @@ public class BookReservationServiceImpl implements BookReservationService {
         if (nextReservationOpt.isPresent()) {
             BookReservation nextReservation = nextReservationOpt.get();
             nextReservation.setStatus(ReservationStatus.WAITING_FOR_PICKUP);
-            nextReservation.setPickupByDate(LocalDate.now().plusDays(PICKUP_DAYS));
+            nextReservation.setPickupDeadline(LocalDate.now().plusDays(PICKUP_DAYS));
             reservationRepository.save(nextReservation);
         } else {
             book.setQuantity(book.getQuantity() + 1);

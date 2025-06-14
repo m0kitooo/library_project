@@ -15,7 +15,7 @@ public record ReservationResponse(
         MemberResponse member,
         LocalDate reservationDate,
         ReservationStatus status,
-        LocalDate pickupByDate
+        LocalDate pickupDeadline
 ) {
     public static ReservationResponse from(BookReservation reservation) {
         return ReservationResponse.builder()
@@ -24,7 +24,7 @@ public record ReservationResponse(
                 .member(MemberResponse.from(reservation.getMember()))
                 .reservationDate(reservation.getReservationDate())
                 .status(reservation.getStatus())
-                .pickupByDate(reservation.getPickupByDate())
+                .pickupDeadline(reservation.getPickupDeadline())
                 .build();
     }
 }

@@ -30,7 +30,7 @@ public class ReservationScheduler {
         log.info("Starting scheduled task: Handling expired reservations...");
 
         List<BookReservation> expiredReservations = reservationRepository
-                .findAllByStatusAndPickupByDateBefore(ReservationStatus.WAITING_FOR_PICKUP, LocalDate.now());
+                .findAllByStatusAndPickupDeadlineBefore(ReservationStatus.WAITING_FOR_PICKUP, LocalDate.now());
 
         if (expiredReservations.isEmpty()) {
             log.info("No expired reservations found. Task finished.");

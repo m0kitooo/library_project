@@ -18,5 +18,5 @@ public interface BookReservationRepository extends JpaRepository<BookReservation
 
     Optional<BookReservation> findByBookIdAndMemberIdAndStatus(Long bookId, Long memberId, ReservationStatus status);
 
-    List<BookReservation> findAllByStatusAndPickupByDateBefore(ReservationStatus status, LocalDate date);
+    List<BookReservation> findAllByStatusAndPickupDeadlineBefore(ReservationStatus status, LocalDate date);
 }
