@@ -4,25 +4,19 @@ import com.app.libraryproject.dto.proposal.*;
 import com.app.libraryproject.entity.*;
 import com.app.libraryproject.exception.RecordConflictException;
 import com.app.libraryproject.exception.RecordNotFoundException;
-import com.app.libraryproject.model.PlanStatus;
+import com.app.libraryproject.model.EventPlanStatus;
 import com.app.libraryproject.model.ProposalStatus;
 import com.app.libraryproject.repository.*;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class EventServiceImpl implements EventService {
+public class ProposalServiceImpl implements ProposalService {
     private final ProposalRepository proposalRepository;
     private final EventPlanRepository eventPlanRepository;
     private final UserRepository userRepository;
@@ -67,7 +61,7 @@ public class EventServiceImpl implements EventService {
                 .description(proposal.getDescription())
                 .proposedBy(proposal.getProposedBy())
                 .organizer(organizer)
-                .planStatus(PlanStatus.PREPARING)
+                .status(EventPlanStatus.PREPARING)
                 .build();
 
         return eventPlanRepository.save(eventPlan).getId();
@@ -95,7 +89,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public GetProposalDetailsResponse getProposalDetails(Long proposalId) {
+    public ProposalResponse find(Long proposalId) {
         return proposalRepository
                 .findById(proposalId)
                 .orElseThrow(() -> new RecordNotFoundException("Proposal not found with id: " + proposalId))
@@ -103,9 +97,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public GetProposalListResponse getProposalList(GetProposalListRequest request) {
-        Pageable pageable = PageRequest.of(request.page(), request.limit());
-        Page<Proposal> proposals = proposalRepository.findAll(request.status(), pageable);
+    public GetProposalListResponse getProposals(
+            ProposalStatus status,
+            Integer page,
+            Integer limit
+    ) {
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<Proposal> proposals = proposalRepository.findAll(status, pageable);
 
         return new GetProposalListResponse(
                 proposals.stream()

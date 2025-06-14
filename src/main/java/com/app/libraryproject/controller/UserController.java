@@ -16,7 +16,11 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @GetMapping
-    public List<PersonResponse> getUserList(@RequestBody GetPersonListRequest request) {
-        return userService.getUserList(request);
+    public List<PersonResponse> getUsers(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "20") Integer limit,
+            @RequestParam(defaultValue = "") String filterFullName
+            ) {
+        return userService.getUsers(page, limit, filterFullName);
     }
 }

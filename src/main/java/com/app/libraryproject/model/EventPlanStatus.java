@@ -1,6 +1,6 @@
 package com.app.libraryproject.model;
 
-public enum PlanStatus {
+public enum EventPlanStatus {
     PREPARING,
     SUSPENDED,
     REJECTED

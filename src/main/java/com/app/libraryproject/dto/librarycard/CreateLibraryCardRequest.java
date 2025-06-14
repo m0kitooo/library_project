@@ -15,6 +15,4 @@ public record CreateLibraryCardRequest(
             throw new InvalidRequestArgumentException("(memberId, expiryDate) cannot be null");
         }
     }
-
-
 }

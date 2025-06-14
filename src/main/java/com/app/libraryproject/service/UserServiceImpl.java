@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -18,8 +19,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public List<PersonResponse> getUserList(GetPersonListRequest request) {
-        Pageable pageable = PageRequest.of(request.page(), request.limit());
+    public List<PersonResponse> getUsers(
+            Integer page,
+            Integer limit,
+            String filterFullName
+    ) {
+        Pageable pageable = PageRequest.of(page, limit);
         Page<User> users = userRepository.findAll(pageable);
 
         return users

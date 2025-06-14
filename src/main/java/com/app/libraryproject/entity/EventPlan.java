@@ -1,6 +1,6 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.model.PlanStatus;
+import com.app.libraryproject.model.EventPlanStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -41,9 +41,9 @@ public class EventPlan {
     )
     private List<Sponsor> sponsors;
 
-    @Column(name = "event_status")
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private PlanStatus planStatus;
+    private EventPlanStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id", unique = false)

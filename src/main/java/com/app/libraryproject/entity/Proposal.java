@@ -1,8 +1,7 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.proposal.GetProposalDetailsResponse;
+import com.app.libraryproject.dto.proposal.ProposalResponse;
 import com.app.libraryproject.dto.proposal.GetProposalListResponse;
-import com.app.libraryproject.model.PlanStatus;
 import com.app.libraryproject.model.ProposalStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,18 +31,8 @@ public class Proposal {
     @Column(name = "proposed_by")
     private String proposedBy;
 
-    public EventPlan toEventPlan(User organizer) {
-        return EventPlan.builder()
-                .name(title)
-                .description(description)
-                .proposedBy(proposedBy)
-                .organizer(organizer)
-                .planStatus(PlanStatus.PREPARING)
-                .build();
-    }
-
-    public GetProposalDetailsResponse toDetailsResponse() {
-        return GetProposalDetailsResponse.builder()
+    public ProposalResponse toDetailsResponse() {
+        return ProposalResponse.builder()
                 .title(title)
                 .description(description)
                 .status(status.name())
@@ -61,5 +50,4 @@ public class Proposal {
                 .proposedBy(proposedBy)
                 .build();
     }
-
 }
