@@ -29,6 +29,8 @@ public class Member {
     @Column(name = "national_id", nullable = false, unique = true, length = 11)
     private String nationalId;
 
+    //miejsce zamieszkania?
+
     @Column(nullable = false)
     private LocalDate birthday;
 

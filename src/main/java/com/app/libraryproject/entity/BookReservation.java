@@ -4,6 +4,7 @@ import com.app.libraryproject.dto.bookreservation.BookReservationResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -28,6 +29,12 @@ public class BookReservation {
 
     @Column(name = "reservation_time", nullable = false)
     private LocalDateTime reservationTime;
+
+    @Column(name = "excepted_loan_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDate exceptedLoanDate;
+
+    @Column(name = "excepted_return_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDate exceptedReturnDate;
 
     public BookReservationResponse toBookReservationResponse() {
         return new BookReservationResponse(id, book.toBookResponse(), member.toMemberResponse(), reservationTime);

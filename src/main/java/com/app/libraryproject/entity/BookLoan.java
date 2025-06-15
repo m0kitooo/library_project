@@ -29,6 +29,11 @@ public class BookLoan {
     @Column(name = "loan_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate loanDate;
 
+    @Column(name = "return_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDate returnDate;
+
+    private boolean onSite;
+
     public BookLoanResponse toBookLoanResponse() {
         return new BookLoanResponse(id, member.toMemberResponse(), book.toBookResponse(), loanDate);
     }
