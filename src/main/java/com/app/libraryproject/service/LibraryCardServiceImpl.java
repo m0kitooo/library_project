@@ -6,6 +6,7 @@ import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import com.app.libraryproject.entity.LibraryCard;
 import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.repository.LibraryCardRepository;
+import com.app.libraryproject.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @Service
 @RequiredArgsConstructor
 public class LibraryCardServiceImpl implements LibraryCardService {
+    private final MemberRepository memberRepository;
     private final LibraryCardRepository libraryCardRepository;
 
     @Override
@@ -23,7 +25,11 @@ public class LibraryCardServiceImpl implements LibraryCardService {
         return libraryCardRepository.save(
                 LibraryCard
                         .builder()
-                        .member(request.memberResponse().toMember())
+                        .member(
+                                memberRepository
+                                        .findMemberById(request.memberId())
+                                        .orElseThrow(() -> new RecordNotFoundException("Member does not exist"))
+                        )
                         .creationDate(LocalDate.now())
                         .expiryDate(LocalDate.now().plusYears(5))
                         .build()

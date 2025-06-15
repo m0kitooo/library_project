@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/library-cards")
-@CrossOrigin
 @RequiredArgsConstructor
 public class LibraryCardController {
     private final LibraryCardServiceImpl libraryCardService;

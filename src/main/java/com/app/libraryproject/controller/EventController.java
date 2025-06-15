@@ -11,7 +11,6 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
 public class EventController {
     private final EventServiceImpl eventService;
 

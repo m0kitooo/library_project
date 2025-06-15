@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/book-loans")
-@CrossOrigin
 @RequiredArgsConstructor
 public class BookLoanController {
     private final BookLoanService bookLoanService;
@@ -22,8 +21,13 @@ public class BookLoanController {
         return bookLoanService.getAllBookLoan();
     }
 
+    @GetMapping("/books/{bookId}")
+    public BookLoanResponse getBookLoanByBookId(@PathVariable Long bookId) {
+        return bookLoanService.findByBookId(bookId);
+    }
+
     @PostMapping
     public ResponseEntity<BookLoanResponse> makeBookLoan(@RequestBody CreateBookLoanRequest request) {
-        return new ResponseEntity<>(bookLoanService.loanBook(request.bookId(), request.memberId()), HttpStatus.CREATED);
+        return new ResponseEntity<>(bookLoanService.loanBook(request), HttpStatus.CREATED);
     }
 }

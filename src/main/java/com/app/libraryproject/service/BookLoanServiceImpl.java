@@ -1,13 +1,16 @@
 package com.app.libraryproject.service;
 
 import com.app.libraryproject.dto.bookloan.BookLoanResponse;
+import com.app.libraryproject.dto.bookloan.CreateBookLoanRequest;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.entity.BookLoan;
+import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -28,17 +31,22 @@ public class BookLoanServiceImpl implements BookLoanService {
                 .toList();
     }
 
+    @Override
+    public BookLoanResponse findByBookId(Long bookId) {
+        return BookLoanResponse.from(bookLoanRepository
+                .findByBookId(bookId)
+                .orElseThrow(() -> new RecordNotFoundException("Book loan not found"))
+        );
+    }
+
     @Transactional
     @Override
-    public BookLoanResponse loanBook(Long bookId, Long memberId) {
-        if (bookId == null || memberId == null)
-            throw new IllegalArgumentException();
-
+    public BookLoanResponse loanBook(CreateBookLoanRequest request) {
         Book book = bookRepository
-                .findByIdAndArchivedFalseAndQuantityGreaterThan(bookId, 0)
-                .orElseThrow(NoSuchElementException::new);
+                .findByIdAndArchivedFalseAndQuantityGreaterThan(request.bookId(), 0)
+                .orElseThrow(() -> new RecordNotFoundException("Book not found"));
 
-        if (libraryCardRepository.findActiveCardByMemberId(memberId).isEmpty() ||
+        if (libraryCardRepository.findActiveCardByMemberId(request.memberId()).isEmpty() ||
                 book.getBookReservations().size() >= book.getQuantity())
             throw new NoSuchElementException();
 
@@ -46,10 +54,11 @@ public class BookLoanServiceImpl implements BookLoanService {
                 BookLoan
                         .builder()
                         .member(memberRepository
-                                .findById(memberId)
-                                .orElseThrow(() -> new RuntimeException("Such member doesn't exist"))
+                                .findById(request.memberId())
+                                .orElseThrow(() -> new RecordNotFoundException("Such member doesn't exist"))
                         )
                         .book(book)
+                        .loanDate(LocalDate.now())
                         .build()
         ).toBookLoanResponse();
     }
