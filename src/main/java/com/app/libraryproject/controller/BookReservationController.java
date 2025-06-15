@@ -18,6 +18,12 @@ public class BookReservationController {
 
     private final BookReservationService reservationService;
 
+    @GetMapping
+    public ResponseEntity<List<ReservationResponse>> getAllReservations() {
+        List<ReservationResponse> responses = reservationService.findAllReservations();
+        return ResponseEntity.ok(responses);
+    }
+
     @PostMapping
     public ResponseEntity<ReservationResponse> createReservation(@RequestBody CreateReservationRequest request) {
         ReservationResponse response = reservationService.createReservation(request);

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -108,5 +109,12 @@ public class BookReservationServiceImpl implements BookReservationService {
             book.setQuantity(book.getQuantity() + 1);
             bookRepository.save(book);
         }
+    }
+
+    @Override
+    public List<ReservationResponse> findAllReservations() {
+        return reservationRepository.findAll().stream()
+                .map(ReservationResponse::from)
+                .collect(Collectors.toList());
     }
 }

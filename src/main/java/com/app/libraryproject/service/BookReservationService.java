@@ -11,4 +11,5 @@ public interface BookReservationService {
     void cancelReservation(Long reservationId, Long memberId);
     List<ReservationResponse> findReservationsByMember(Long memberId);
     void processNextReservationForBook(Book book);
+    List<ReservationResponse> findAllReservations();
 }
