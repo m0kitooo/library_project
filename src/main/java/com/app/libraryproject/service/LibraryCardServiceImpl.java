@@ -23,7 +23,7 @@ public class LibraryCardServiceImpl implements LibraryCardService {
         return libraryCardRepository.save(
                 LibraryCard
                         .builder()
-                        .member(request.createMemberRequest().toMember())
+                        .member(request.memberResponse().toMember())
                         .creationDate(LocalDate.now())
                         .expiryDate(LocalDate.now().plusYears(5))
                         .build()

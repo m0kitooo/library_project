@@ -13,6 +13,17 @@ public record MemberResponse(
         String nationalId,
         LocalDate birthday
 ) {
+    public Member toMember() {
+        return Member
+                .builder()
+                .id(id)
+                .name(name)
+                .surname(surname)
+                .nationalId(nationalId)
+                .birthday(birthday)
+                .build();
+    }
+
     public static MemberResponse from(Member member) {
         return MemberResponse
                 .builder()
