@@ -21,7 +21,7 @@ public class BookLoanServiceImpl implements BookLoanService {
     private final BookRepository bookRepository;
     private final MemberRepository memberRepository;
     private final LibraryCardRepository libraryCardRepository;
-    private final BookReservationRepository reservationRepository; // WSTRZYKNIĘTE REPOZYTORIUM
+    private final BookReservationRepository reservationRepository;
 
     @Override
     public List<BookLoanResponse> getAllBookLoan() {
@@ -31,7 +31,6 @@ public class BookLoanServiceImpl implements BookLoanService {
                 .map(BookLoanResponse::from)
                 .toList();
     }
-
     @Transactional
     @Override
     public BookLoanResponse loanBook(Long bookId, Long memberId) {

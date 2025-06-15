@@ -83,8 +83,7 @@ public class BookReservationServiceImpl implements BookReservationService {
             processNextReservationForBook(reservation.getBook());
         }
 
-        reservation.setStatus(ReservationStatus.CANCELLED);
-        reservationRepository.save(reservation);
+        reservationRepository.delete(reservation);
     }
 
     @Override
