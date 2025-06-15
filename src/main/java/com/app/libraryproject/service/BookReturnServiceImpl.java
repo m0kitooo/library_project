@@ -26,7 +26,8 @@ public class BookReturnServiceImpl implements BookReturnService {
     private final BookRepository bookRepository;
     private final MemberRepository memberRepository;
     private final MemberPaymentRepository memberPaymentRepository;
-    private final BookReservationService bookReservationService; // WSTRZYKNIĘTY SERWIS
+    private final BookReservationService bookReservationService;
+    private final DisposedBookService disposedBookService; // WSTRZYKNIĘTY SERWIS
 
     private static final double LATE_FEE_PER_DAY = 0.50;
     private static final double DAMAGE_FEE_AMOUNT = 25.0;
@@ -72,8 +73,11 @@ public class BookReturnServiceImpl implements BookReturnService {
                     .build();
             memberPaymentRepository.save(damagePayment);
 
+            // Zamiast zwiększać ilość, dodajemy do utylizacji
+            disposedBookService.addDisposedBook(book);
+
         } else {
-            // ZMODYFIKOWANA LOGIKA: Sprawdzamy rezerwacje zamiast od razu zwiększać ilość
+            // Sprawdzamy rezerwacje, jeśli książka nie jest uszkodzona
             bookReservationService.processNextReservationForBook(book);
         }
 
@@ -90,7 +94,7 @@ public class BookReturnServiceImpl implements BookReturnService {
             sb.append("Naliczono opłatę za spóźnienie: ").append(String.format("%.2f", lateFee)).append(" zł. ");
         }
         if (isDamaged) {
-            sb.append("Zarejestrowano uszkodzenie książki. Naliczono opłatę: ").append(String.format("%.2f", damageFee)).append(" zł.");
+            sb.append("Zarejestrowano uszkodzenie książki i przeznaczono ją do utylizacji. Naliczono opłatę: ").append(String.format("%.2f", damageFee)).append(" zł.");
         }
         if (!isLate && !isDamaged) {
             sb.append("Zwrot przebiegł pomyślnie.");
