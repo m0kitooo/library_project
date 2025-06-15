@@ -18,8 +18,11 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping
-    public List<MemberResponse> getMembers() {
-        return memberService.findAll();
+    public ResponseEntity<List<MemberResponse>> getMembers(@RequestParam(name = "cardId", required = false) Long cardId) {
+        if (cardId != null) {
+            return ResponseEntity.ok(memberService.findByLibraryCardId(cardId));
+        }
+        return ResponseEntity.ok(memberService.findAll());
     }
 
     @PostMapping
