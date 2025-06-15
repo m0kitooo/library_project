@@ -1,5 +1,6 @@
 package com.app.libraryproject.service;
 
+import com.app.libraryproject.dto.user.CreateUserRequest;
 import com.app.libraryproject.dto.user.GetPersonListRequest;
 import com.app.libraryproject.dto.user.PersonResponse;
 import com.app.libraryproject.entity.*;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<PersonResponse> getUserList(GetPersonListRequest request) {
@@ -26,5 +29,15 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(PersonResponse::from)
                 .toList();
+    }
+
+    @Override
+    public void register(CreateUserRequest request) {
+        if (userRepository.findByUsername(request.username()).isPresent())
+            throw new RuntimeException("User already exists");
+
+        User user = request.toUser();
+        user.setPassword(passwordEncoder.encode(request.password()));
+        userRepository.save(user);
     }
 }

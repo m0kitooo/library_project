@@ -10,11 +10,12 @@ public record PersonResponse(
         String surname
 ) {
     public static PersonResponse from(User user) {
-        return PersonResponse
-                .builder()
-                .id(user.getId())
-                .name(user.getName())
-                .surname(user.getSurname())
-                .build();
+        return null;
+//        return PersonResponse
+//                .builder()
+//                .id(user.getId())
+//                .name(user.getName())
+//                .surname(user.getSurname())
+//                .build();
     }
 }

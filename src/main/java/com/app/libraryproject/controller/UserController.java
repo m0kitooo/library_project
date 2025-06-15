@@ -18,4 +18,9 @@ public class UserController {
     public List<PersonResponse> getUserList(@RequestBody GetPersonListRequest request) {
         return userService.getUserList(request);
     }
+
+    @PostMapping
+    public void register(@RequestBody CreateUserRequest request) {
+        userService.register(request);
+    }
 }
