@@ -46,7 +46,7 @@ public class EventPlan {
     private EventPlanStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", unique = false)
+    @JoinColumn(name = "user_id")
     private User organizer;
 
     @Column(name = "proposed_by")

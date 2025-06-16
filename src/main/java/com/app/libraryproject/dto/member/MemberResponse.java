@@ -25,9 +25,12 @@ public record MemberResponse(
                 .surname(member.getSurname())
                 .nationalId(member.getNationalId())
                 .birthday(member.getBirthday())
-                .libraryCard(LibraryCardResponse.from(member.getLibraryCard()))
+                .libraryCard(member.getLibraryCard() != null
+                        ? LibraryCardResponse.from(member.getLibraryCard())
+                        : null)
                 .build();
     }
+
 
 
 }
