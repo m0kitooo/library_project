@@ -1,5 +1,6 @@
 package com.app.libraryproject.model;
 
+import com.app.libraryproject.entity.User;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +15,14 @@ import java.util.Collections;
 public class UserPrincipal implements UserDetails {
     private final String username;
     private final String password;
+
+    public User toUserEntity() {
+        return User
+                .builder()
+                .username(username)
+                .password(password)
+                .build();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
