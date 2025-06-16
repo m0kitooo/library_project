@@ -1,6 +1,5 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.librarypayment.LibraryPaymentResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,14 +28,4 @@ public class LibraryPayment {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    public LibraryPaymentResponse toDto() {
-        return LibraryPaymentResponse
-                .builder()
-                .id(id)
-                .transactionName(transactionName)
-                .cost(cost)
-                .description(description)
-                .build();
-    }
 }

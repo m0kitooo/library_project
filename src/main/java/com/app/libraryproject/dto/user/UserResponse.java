@@ -1,9 +1,18 @@
 package com.app.libraryproject.dto.user;
 
 import com.app.libraryproject.entity.User;
+import lombok.Builder;
 
-public record UserResponse() {
+@Builder
+public record UserResponse(
+        Long id,
+        String username
+) {
     public static UserResponse from(User user) {
-        return new UserResponse();
+        return UserResponse
+                .builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .build();
     }
 }

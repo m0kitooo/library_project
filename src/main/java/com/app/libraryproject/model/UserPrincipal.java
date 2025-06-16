@@ -1,8 +1,8 @@
 package com.app.libraryproject.model;
 
-import com.app.libraryproject.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,18 +11,10 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Builder
-@RequiredArgsConstructor
-public class UserPrincipal implements UserDetails {
-    private final String username;
-    private final String password;
-
-    public User toUserEntity() {
-        return User
-                .builder()
-                .username(username)
-                .password(password)
-                .build();
-    }
+@AllArgsConstructor
+public class UserPrincipal implements UserDetails, CredentialsContainer {
+    private String username;
+    private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -57,5 +49,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
     }
 }

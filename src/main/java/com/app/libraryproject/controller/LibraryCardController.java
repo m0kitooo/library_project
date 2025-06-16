@@ -20,6 +20,11 @@ public class LibraryCardController {
         return libraryCardService.getLibraryCardDetails(id);
     }
 
+    @GetMapping(path = "/members/{memberId}/active-card")
+    public LibraryCardResponse getActiveCardByMemberId(@PathVariable Long memberId) {
+        return libraryCardService.getActiveLibraryCardByMemberId(memberId);
+    }
+
     @PostMapping
     public ResponseEntity<LibraryCardResponse> createLibraryCard(@RequestBody CreateLibraryCardRequest request) {
         return new ResponseEntity<>(libraryCardService.registerLibraryCard(request), HttpStatus.CREATED);

@@ -12,16 +12,13 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public record CreateLibraryPaymentRequest(
         String transactionName,
         BigDecimal cost,
-        String description,
-        Long userId
+        String description
 ) {
     public CreateLibraryPaymentRequest {
         if (isBlank(transactionName))
             throw new InvalidRequestArgumentException("transactionName cannot be null or blank");
         if (cost == null || cost.compareTo(BigDecimal.ZERO) < 0)
             throw new InvalidRequestArgumentException("cost cannot be null or negative");
-        if (userId == null)
-            throw new InvalidRequestArgumentException("userId cannot be null");
     }
 
     public static CreateLibraryPaymentRequest from(LibraryPayment libraryPayment) {
@@ -30,7 +27,6 @@ public record CreateLibraryPaymentRequest(
                 .transactionName(libraryPayment.getTransactionName())
                 .cost(libraryPayment.getCost())
                 .description(libraryPayment.getDescription())
-                .userId(libraryPayment.getUser().getId())
                 .build();
     }
 }
