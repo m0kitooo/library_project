@@ -1,4 +1,3 @@
-// src/main/java/com/app/libraryproject/dto/bookreturn/BookReturnResponse.java
 package com.app.libraryproject.dto.bookreturn;
 
 public record BookReturnResponse(
@@ -6,6 +5,6 @@ public record BookReturnResponse(
         String message,
         boolean isLate,
         double lateFee,
-        boolean isDamaged, // Nowe pole
-        double damageFee  // Nowe pole
+        boolean isDamaged,
+        double damageFee
 ) {}

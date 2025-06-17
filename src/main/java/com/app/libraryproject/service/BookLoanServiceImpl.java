@@ -1,18 +1,18 @@
 package com.app.libraryproject.service;
 
 import com.app.libraryproject.dto.bookloan.BookLoanResponse;
-import com.app.libraryproject.dto.bookloan.CreateBookLoanRequest;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.entity.BookLoan;
-import com.app.libraryproject.exception.RecordNotFoundException;
+import com.app.libraryproject.entity.BookReservation;
+import com.app.libraryproject.model.ReservationStatus;
 import com.app.libraryproject.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +21,7 @@ public class BookLoanServiceImpl implements BookLoanService {
     private final BookRepository bookRepository;
     private final MemberRepository memberRepository;
     private final LibraryCardRepository libraryCardRepository;
+    private final BookReservationRepository reservationRepository;
 
     @Override
     public List<BookLoanResponse> getAllBookLoan() {
@@ -30,36 +31,56 @@ public class BookLoanServiceImpl implements BookLoanService {
                 .map(BookLoanResponse::from)
                 .toList();
     }
-
-    @Override
-    public BookLoanResponse findByBookId(Long bookId) {
-        return BookLoanResponse.from(bookLoanRepository
-                .findByBookId(bookId)
-                .orElseThrow(() -> new RecordNotFoundException("Book loan not found"))
-        );
-    }
-
     @Transactional
     @Override
-    public BookLoanResponse loanBook(CreateBookLoanRequest request) {
-        Book book = bookRepository
-                .findByIdAndArchivedFalseAndQuantityGreaterThan(request.bookId(), 0)
-                .orElseThrow(() -> new RecordNotFoundException("Book not found"));
+    public BookLoanResponse loanBook(Long bookId, Long memberId) {
+        if (bookId == null || memberId == null) {
+            throw new IllegalArgumentException("Book ID and Member ID cannot be null.");
+        }
 
-        if (libraryCardRepository.findActiveCardByMemberId(request.memberId()).isEmpty() ||
-                book.getBookReservations().size() >= book.getQuantity())
-            throw new NoSuchElementException();
+        if (libraryCardRepository.findActiveCardByMemberId(memberId).isEmpty()) {
+            throw new NoSuchElementException("Member does not have an active library card.");
+        }
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NoSuchElementException("Book not found with id: " + bookId));
+
+        Optional<BookReservation> waitingReservationOpt = reservationRepository
+                .findByBookIdAndMemberIdAndStatus(bookId, memberId, ReservationStatus.WAITING_FOR_PICKUP);
+
+        if (waitingReservationOpt.isPresent()) {
+            BookReservation reservation = waitingReservationOpt.get();
+            reservation.setStatus(ReservationStatus.FULFILLED);
+            reservationRepository.save(reservation);
+        } else {
+            if (book.getQuantity() <= 0) {
+                throw new NoSuchElementException("Book is not available for loan.");
+            }
+            book.setQuantity(book.getQuantity() - 1);
+            bookRepository.save(book);
+        }
 
         return bookLoanRepository.save(
                 BookLoan
                         .builder()
                         .member(memberRepository
-                                .findById(request.memberId())
-                                .orElseThrow(() -> new RecordNotFoundException("Such member doesn't exist"))
+                                .findById(memberId)
+                                .orElseThrow(() -> new RuntimeException("Such member doesn't exist"))
                         )
                         .book(book)
-                        .loanDate(LocalDate.now())
+                        .loanDate(java.time.LocalDate.now())
                         .build()
         ).toBookLoanResponse();
+    }
+
+    @Override
+    public List<BookLoanResponse> findLoansByMemberId(Long memberId) {
+        if (memberId == null) {
+            throw new IllegalArgumentException("Member ID cannot be null.");
+        }
+        return bookLoanRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(BookLoanResponse::from)
+                .toList();
     }
 }

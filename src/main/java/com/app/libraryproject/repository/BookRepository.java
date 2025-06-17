@@ -4,7 +4,6 @@ import com.app.libraryproject.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -15,12 +14,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findByIdAndArchivedFalseAndQuantityGreaterThan(Long id, int quantity);
     List<Book> findByArchivedFalse();
     List<Book> findByTitleContainingIgnoreCaseAndArchivedFalse(String title);
-    List<Book> findByTitleContainingIgnoreCaseAndAuthorIgnoreCaseAndArchivedFalse(String title, String author);
     @Transactional
     @Modifying
     @Query(
             "UPDATE Book b SET b.archived = true " +
             "WHERE b.id = :id AND b.archived = false"
     )
-    int archive(@Param("id") Long id);
+    int archive(Long id);
 }

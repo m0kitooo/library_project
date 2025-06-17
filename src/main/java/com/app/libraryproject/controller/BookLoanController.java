@@ -21,13 +21,13 @@ public class BookLoanController {
         return bookLoanService.getAllBookLoan();
     }
 
-    @GetMapping("/books/{bookId}")
-    public BookLoanResponse getBookLoanByBookId(@PathVariable Long bookId) {
-        return bookLoanService.findByBookId(bookId);
-    }
-
     @PostMapping
     public ResponseEntity<BookLoanResponse> makeBookLoan(@RequestBody CreateBookLoanRequest request) {
-        return new ResponseEntity<>(bookLoanService.loanBook(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(bookLoanService.loanBook(request.bookId(), request.memberId()), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/member/{memberId}")
+    public List<BookLoanResponse> getBookLoansByMember(@PathVariable Long memberId) {
+        return bookLoanService.findLoansByMemberId(memberId);
     }
 }

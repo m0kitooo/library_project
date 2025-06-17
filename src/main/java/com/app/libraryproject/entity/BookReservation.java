@@ -1,35 +1,40 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.bookreservation.BookReservationResponse;
+import com.app.libraryproject.model.ReservationStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
 @Entity
 @Table(name = "book_reservations")
 public class BookReservation {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(name = "reservation_time", nullable = false)
-    private LocalDateTime reservationTime;
+    @Column(name = "reservation_date", nullable = false)
+    private LocalDate reservationDate;
 
-    public BookReservationResponse toBookReservationResponse() {
-        return new BookReservationResponse(id, book.toBookResponse(), member.toMemberResponse(), reservationTime);
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private ReservationStatus status;
+
+    private LocalDate pickupDeadline;
 }
