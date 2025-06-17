@@ -5,6 +5,6 @@ public record BookReturnResponse(
         String message,
         boolean isLate,
         double lateFee,
-        boolean isDamaged, // Nowe pole
-        double damageFee  // Nowe pole
+        boolean isDamaged,
+        double damageFee
 ) {}

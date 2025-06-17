@@ -27,7 +27,7 @@ public class BookReturnServiceImpl implements BookReturnService {
     private final MemberRepository memberRepository;
     private final MemberPaymentRepository memberPaymentRepository;
     private final BookReservationService bookReservationService;
-    private final DisposedBookService disposedBookService; // WSTRZYKNIĘTY SERWIS
+    private final DisposedBookService disposedBookService;
 
     private static final double LATE_FEE_PER_DAY = 0.50;
     private static final double DAMAGE_FEE_AMOUNT = 25.0;
@@ -73,11 +73,9 @@ public class BookReturnServiceImpl implements BookReturnService {
                     .build();
             memberPaymentRepository.save(damagePayment);
 
-            // Zamiast zwiększać ilość, dodajemy do utylizacji
             disposedBookService.addDisposedBook(book);
 
         } else {
-            // Sprawdzamy rezerwacje, jeśli książka nie jest uszkodzona
             bookReservationService.processNextReservationForBook(book);
         }
 
