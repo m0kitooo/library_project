@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/library-cards")
-@CrossOrigin
 @RequiredArgsConstructor
 public class LibraryCardController {
     private final LibraryCardServiceImpl libraryCardService;
@@ -19,6 +18,11 @@ public class LibraryCardController {
     @GetMapping("/{id}")
     public GetLibraryCardDetailsResponse getLibraryCardDetails(@PathVariable Long id) {
         return libraryCardService.getLibraryCardDetails(id);
+    }
+
+    @GetMapping(path = "/members/{memberId}/active-card")
+    public LibraryCardResponse getActiveCardByMemberId(@PathVariable Long memberId) {
+        return libraryCardService.getActiveLibraryCardByMemberId(memberId);
     }
 
     @PostMapping

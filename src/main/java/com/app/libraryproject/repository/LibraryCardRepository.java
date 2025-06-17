@@ -14,12 +14,5 @@ public interface LibraryCardRepository extends JpaRepository<LibraryCard, Long> 
             "AND l.deactivationDate IS NULL " +
             "AND l.expiryDate > CURRENT_DATE "
     )
-//    @Query(
-//            "SELECT l FROM LibraryCard l " +
-//            "WHERE " +
-//            "l.member.id =: memberId AND" +
-//            " l.deactivationDate = null AND" +
-//            " l.expiryDate > local date "
-//    )
     Optional<LibraryCard> findActiveCardByMemberId(@Param("memberId") Long memberId);
 }

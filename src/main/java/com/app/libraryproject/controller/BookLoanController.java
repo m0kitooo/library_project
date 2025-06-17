@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/book-loans")
-@CrossOrigin
 @RequiredArgsConstructor
 public class BookLoanController {
     private final BookLoanService bookLoanService;

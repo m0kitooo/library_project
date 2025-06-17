@@ -11,4 +11,6 @@ public record LibraryCardResponse(
         Long id,
         @JsonProperty("member") MemberResponse memberResponse,
         LocalDate expiryDate
-) { }
+) {
+
+}

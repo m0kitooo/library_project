@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.*;
 
+import java.util.Optional;
+
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findMemberById(Long id);
     @Query("""
     SELECT m FROM Member m
     WHERE LOWER(CONCAT(m.name, ' ', m.surname)) LIKE LOWER(CONCAT('%', :fullName, '%'))

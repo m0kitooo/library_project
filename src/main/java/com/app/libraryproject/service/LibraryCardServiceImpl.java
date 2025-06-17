@@ -6,15 +6,18 @@ import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import com.app.libraryproject.entity.LibraryCard;
 import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.repository.LibraryCardRepository;
+import com.app.libraryproject.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class LibraryCardServiceImpl implements LibraryCardService {
+    private final MemberRepository memberRepository;
     private final LibraryCardRepository libraryCardRepository;
 
     @Override
@@ -23,7 +26,11 @@ public class LibraryCardServiceImpl implements LibraryCardService {
         return libraryCardRepository.save(
                 LibraryCard
                         .builder()
-                        .member(request.memberResponse().toMember())
+                        .member(
+                                memberRepository
+                                        .findMemberById(request.memberId())
+                                        .orElseThrow(() -> new RecordNotFoundException("Member does not exist"))
+                        )
                         .creationDate(LocalDate.now())
                         .expiryDate(LocalDate.now().plusYears(5))
                         .build()
@@ -32,12 +39,17 @@ public class LibraryCardServiceImpl implements LibraryCardService {
 
     @Override
     public GetLibraryCardDetailsResponse getLibraryCardDetails(Long libraryCardId) {
-        LibraryCard libraryCard = libraryCardRepository
+        return libraryCardRepository
                 .findById(libraryCardId)
-                .orElseThrow(
-                        () -> new RecordNotFoundException("Record not found with id: " + libraryCardId)
-                );
+                .orElseThrow(() -> new RecordNotFoundException("Record not found with id: " + libraryCardId))
+                .toLibraryCardDetails();
+    }
 
-        return libraryCard.toLibraryCardDetails();
+    @Override
+    public LibraryCardResponse getActiveLibraryCardByMemberId(Long memberId) {
+        return libraryCardRepository
+                .findActiveCardByMemberId(memberId)
+                .orElseThrow(() -> new RecordNotFoundException("There is no library card with provided member id"))
+                .toLibraryCardResponse();
     }
 }

@@ -7,4 +7,5 @@ import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 public interface LibraryCardService {
     LibraryCardResponse registerLibraryCard(CreateLibraryCardRequest createLibraryCardRequest);
     GetLibraryCardDetailsResponse getLibraryCardDetails(Long libraryCardId);
+    LibraryCardResponse getActiveLibraryCardByMemberId(Long memberId);
 }
