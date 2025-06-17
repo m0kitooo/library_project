@@ -15,6 +15,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findByTitle(String title);
     List<Book> findByArchivedFalse();
     List<Book> findByTitleContainingIgnoreCase(String title);
+    List<Book> findBooksByAuthor(String author);
     @Transactional
     @Modifying
     @Query(

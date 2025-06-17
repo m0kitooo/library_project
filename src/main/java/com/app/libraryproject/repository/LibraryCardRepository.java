@@ -22,4 +22,6 @@ public interface LibraryCardRepository extends JpaRepository<LibraryCard, Long> 
 //            " l.expiryDate > local date "
 //    )
     Optional<LibraryCard> findActiveCardByMemberId(@Param("memberId") Long memberId);
+
+    Optional<LibraryCard> findLibraryCardById(Long id);
 }

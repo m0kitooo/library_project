@@ -46,6 +46,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> getBookByAuthor(String author) {
+        return bookRepository.findBooksByAuthor(author);
+    }
+
+    @Override
     public BookResponse registerBook(CreateBookRequest book) {
         Book b = bookRepository.save(book.toBook());
         log.info("Book registered: {}", b);

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
 @Service
@@ -40,7 +41,30 @@ public class BookLoanServiceImpl implements BookLoanService {
                                 .orElseThrow(() -> new RuntimeException("Such member doesn't exist"))
                         )
                         .book(book)
+                        .onSite(false)
+                        .returnDate(LocalDate.now().plusWeeks(2))
                         .build()
         ).toBookLoanResponse();
+    }
+
+    @Override
+    public BookLoan loanBookOnSite(Long bookId, Long memberId){
+        if (bookId == null || memberId == null)
+            throw new IllegalArgumentException();
+
+        Book book = bookRepository
+                .findByIdAndArchivedFalseAndQuantityGreaterThan(bookId, 0)
+                .orElseThrow(NoSuchElementException::new);
+
+        return bookLoanRepository.save(
+                BookLoan.builder()
+                        .member(memberRepository
+                                .findById(memberId)
+                                .orElseThrow(() -> new RuntimeException("Such member doesn't exist"))
+                        )
+                        .book(book)
+                        .onSite(true)
+                        .build()
+        );
     }
 }

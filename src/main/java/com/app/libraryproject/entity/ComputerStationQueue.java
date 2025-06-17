@@ -23,5 +23,5 @@ public class ComputerStationQueue {
     @OneToOne
     private Member member;
     private LocalDateTime exceptedStart;
-    private LocalDateTime exceptedEnd;
+    private int exceptedUsingHours;
 }

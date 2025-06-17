@@ -40,4 +40,9 @@ public class LibraryCardServiceImpl implements LibraryCardService {
 
         return libraryCard.toLibraryCardDetails();
     }
+
+    @Override
+    public LibraryCard getLibraryCardById(Long libraryCardId) {
+        return libraryCardRepository.findById(libraryCardId).orElseThrow();
+    }
 }

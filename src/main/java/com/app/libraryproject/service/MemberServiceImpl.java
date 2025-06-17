@@ -27,4 +27,9 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse register(CreateMemberRequest request) {
         return memberRepository.save(request.toMember()).toMemberResponse();
     }
+
+    @Override
+    public Member getMemberByLibraryCardId(Long libraryCardId) {
+        return memberRepository.findMemberByLibraryCardId(libraryCardId).orElseThrow();
+    }
 }
