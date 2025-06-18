@@ -1,7 +1,7 @@
 package com.app.libraryproject.repository;
 
-import com.app.libraryproject.entity.BookLoan;
+import com.app.libraryproject.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PaymentRepository extends JpaRepository<BookLoan, Long> {
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 }
