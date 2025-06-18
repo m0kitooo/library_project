@@ -23,6 +23,7 @@ public class LibraryPayment {
     @Column(nullable = false)
     private BigDecimal cost;
 
+    @Lob
     private String description;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

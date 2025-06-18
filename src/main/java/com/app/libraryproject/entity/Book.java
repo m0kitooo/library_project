@@ -26,6 +26,7 @@ public class Book {
 
     private String author;
 
+    @Lob
     private String description;
 
     private Integer quantity;

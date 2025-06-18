@@ -14,9 +14,21 @@ import java.util.List;
 public class LibraryPaymentController {
     private final LibraryPaymentService libraryPaymentService;
 
+    @GetMapping("/{id}")
+    public LibraryPaymentResponse getLibraryPayment(@PathVariable Long id) {
+        return libraryPaymentService.findById(id);
+    }
+
     @GetMapping
     public List<LibraryPaymentResponse> getAllPayments() {
         return libraryPaymentService.findAll();
+    }
+
+    @GetMapping(params = "transaction_name")
+    public List<LibraryPaymentResponse> getPaymentsByTransactionName(
+            @RequestParam("transaction_name") String transactionName
+    ) {
+        return libraryPaymentService.findByTransactionName(transactionName);
     }
 
     @PostMapping

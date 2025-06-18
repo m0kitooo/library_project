@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface LibraryPaymentService {
     LibraryPaymentResponse register(CreateLibraryPaymentRequest request);
+    LibraryPaymentResponse findById(Long id);
+    List<LibraryPaymentResponse> findByTransactionName(String transactionName);
     List<LibraryPaymentResponse> findAll();
 }

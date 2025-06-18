@@ -36,6 +36,7 @@ public class LibraryCard {
     @Column(name = "deactivated_at")
     private LocalDate deactivationDate;
 
+    @Lob
     @Column(name = "deactivation_reason")
     private String deactivationReason;
 
