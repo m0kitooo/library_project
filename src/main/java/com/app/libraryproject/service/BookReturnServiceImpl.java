@@ -40,10 +40,9 @@ public class BookReturnServiceImpl implements BookReturnService {
                 .orElseThrow(() -> new ResourceNotFoundException("Book loan not found"));
 
         LocalDate dueDate = loan.getLoanDate().plusDays(LOAN_PERIOD_DAYS);
-        boolean isLate = LocalDate.now().isAfter(dueDate);
         BigDecimal lateFee = BigDecimal.ZERO;
 
-        if (isLate) {
+        if (LocalDate.now().isAfter(dueDate)) {
             long daysLate = ChronoUnit.DAYS.between(dueDate, LocalDate.now());
             lateFee = LATE_FEE_PER_DAY.multiply(BigDecimal.valueOf(daysLate));
         }
@@ -52,6 +51,6 @@ public class BookReturnServiceImpl implements BookReturnService {
         bookRepository.save(book);
         bookLoanRepository.delete(loan);
 
-        return new BookReturnResponse(loan.getId(), isLate, lateFee);
+        return new BookReturnResponse(lateFee);
     }
 }
