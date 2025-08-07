@@ -44,6 +44,7 @@ public class BookLoanServiceImpl implements BookLoanService {
     public BookLoanResponse loanBook(CreateBookLoanRequest request) {
         Book book = bookRepository
                 .findByIdAndArchivedFalseAndQuantityGreaterThan(request.bookId(), 0)
+                
                 .orElseThrow(() -> new RecordNotFoundException("Book not found"));
 
         if (libraryCardRepository.findActiveCardByMemberId(request.memberId()).isEmpty() ||
