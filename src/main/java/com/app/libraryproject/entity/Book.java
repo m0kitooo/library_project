@@ -36,6 +36,10 @@ public class Book {
 
     @Builder.Default
     @OneToMany(mappedBy = "book")
+    private List<BookLoan> bookLoans = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "book")
     private List<BookReservation> bookReservations = new ArrayList<>();
 
     public BookResponse toBookResponse() {

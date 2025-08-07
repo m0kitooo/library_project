@@ -23,4 +23,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "WHERE b.id = :id AND b.archived = false"
     )
     int archive(@Param("id") Long id);
+    @Query(
+            "SELECT b.quantity FROM Book b " +
+            "WHERE b.id = :bookId AND b.archived = false "
+    )
+    int getBookQuantityById(@Param("bookId") Long bookId);
 }

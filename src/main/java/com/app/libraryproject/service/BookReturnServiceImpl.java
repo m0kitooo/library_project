@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -22,7 +23,7 @@ public class BookReturnServiceImpl implements BookReturnService {
     private final BookRepository bookRepository;
     private final MemberRepository memberRepository;
     
-    private static final double LATE_FEE_PER_DAY = 1.0;
+    private static final BigDecimal LATE_FEE_PER_DAY = BigDecimal.ONE;
     private static final long LOAN_PERIOD_DAYS = 14;
 
     @Transactional
@@ -40,11 +41,11 @@ public class BookReturnServiceImpl implements BookReturnService {
 
         LocalDate dueDate = loan.getLoanDate().plusDays(LOAN_PERIOD_DAYS);
         boolean isLate = LocalDate.now().isAfter(dueDate);
-        double lateFee = 0.0;
+        BigDecimal lateFee = BigDecimal.ZERO;
 
         if (isLate) {
             long daysLate = ChronoUnit.DAYS.between(dueDate, LocalDate.now());
-            lateFee = daysLate * LATE_FEE_PER_DAY;
+            lateFee = LATE_FEE_PER_DAY.multiply(BigDecimal.valueOf(daysLate));
         }
 
         book.setQuantity(book.getQuantity() + 1);
