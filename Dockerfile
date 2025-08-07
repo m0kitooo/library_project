@@ -1,0 +1,11 @@
+FROM mysql:9.3.0
+
+USER mysql
+
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=library_db
+ENV MYSQL_TCP_PORT=3307
+
+EXPOSE 3307
+
+VOLUME [ "/var/lib/mysql" ]
