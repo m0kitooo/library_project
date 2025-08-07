@@ -51,10 +51,6 @@ public class BookReturnServiceImpl implements BookReturnService {
         bookRepository.save(book);
         bookLoanRepository.delete(loan);
 
-        String message = isLate 
-            ? "Książka zwrócona po terminie. Naliczono opłatę: " + lateFee + " zł"
-            : "Książka zwrócona pomyślnie";
-
-        return new BookReturnResponse(loan.getId(), message, isLate, lateFee);
+        return new BookReturnResponse(loan.getId(), isLate, lateFee);
     }
 }
