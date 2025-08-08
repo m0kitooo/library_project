@@ -43,9 +43,8 @@ public class BookLoanServiceImpl implements BookLoanService {
     @Override
     public BookLoanResponse loanBook(CreateBookLoanRequest request) {
         Book book = bookRepository
-                .findByIdAndArchivedFalseAndQuantityGreaterThan(request.bookId(), 0)
-                
-                .orElseThrow(() -> new RecordNotFoundException("Book not found"));
+                .findAvailableBookById(request.bookId())
+                .orElseThrow(() -> new RecordNotFoundException("Book not avalible or doesn't exist"));
 
         if (libraryCardRepository.findActiveCardByMemberId(request.memberId()).isEmpty() ||
                 book.getBookReservations().size() >= book.getQuantity())
