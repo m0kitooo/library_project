@@ -7,8 +7,7 @@ import lombok.Builder;
 public record AppError(
     String code,
     String message,
-    String details,
-    int statusCode
+    String details
 ) {
     public static AppErrorResponse from(AppError error) {
         return new AppErrorResponse(
