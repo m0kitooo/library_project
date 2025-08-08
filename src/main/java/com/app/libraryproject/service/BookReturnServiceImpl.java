@@ -36,7 +36,7 @@ public class BookReturnServiceImpl implements BookReturnService {
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
 
         BookLoan loan = bookLoanRepository
-                .findByBookIdAndMemberId(request.bookId(), request.memberId())
+                .findByBookIdAndMemberIdAndArchivedFalse(request.bookId(), request.memberId())
                 .orElseThrow(() -> new ResourceNotFoundException("Book loan not found"));
 
         LocalDate dueDate = loan.getLoanDate().plusDays(LOAN_PERIOD_DAYS);
