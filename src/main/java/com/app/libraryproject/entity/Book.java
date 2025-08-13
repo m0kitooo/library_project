@@ -31,8 +31,8 @@ public class Book {
 
     private Integer quantity;
 
-    @Builder.Default
-    private Boolean archived = false;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean archived;
 
     @Builder.Default
     @OneToMany(mappedBy = "book")
