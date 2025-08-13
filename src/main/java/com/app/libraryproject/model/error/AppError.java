@@ -5,15 +5,13 @@ import lombok.Builder;
 
 @Builder
 public record AppError(
-    String code,
-    String message,
-    String details
+    ErrorCode code,
+    String message
 ) {
     public static AppErrorResponse from(AppError error) {
         return new AppErrorResponse(
             error.code(),
-            error.message(),
-            error.details()
+            error.message()
         );
     }
 }

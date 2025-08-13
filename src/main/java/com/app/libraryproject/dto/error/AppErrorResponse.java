@@ -1,7 +1,8 @@
 package com.app.libraryproject.dto.error;
 
+import com.app.libraryproject.model.error.ErrorCode;
+
 public record AppErrorResponse(
-    String code,
-    String message,
-    String details
+    ErrorCode code,
+    String message
 ) {}

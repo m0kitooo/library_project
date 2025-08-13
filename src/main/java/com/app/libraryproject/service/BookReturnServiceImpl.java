@@ -5,6 +5,7 @@ import com.app.libraryproject.dto.bookreturn.CreateBookReturnRequest;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.entity.BookLoan;
 import com.app.libraryproject.exception.ResourceNotFoundException;
+import com.app.libraryproject.model.error.AppError;
 import com.app.libraryproject.repository.BookLoanRepository;
 import com.app.libraryproject.repository.BookRepository;
 import com.app.libraryproject.repository.MemberRepository;
@@ -15,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+
+import static com.app.libraryproject.model.error.ErrorCode.BOOK_LOAN_NOT_FOUND;
+import static com.app.libraryproject.model.error.ErrorCode.BOOK_NOT_FOUND;
+import static com.app.libraryproject.model.error.ErrorCode.MEMBER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -29,28 +34,29 @@ public class BookReturnServiceImpl implements BookReturnService {
     @Transactional
     @Override
     public BookReturnResponse returnBook(CreateBookReturnRequest request) {
-        if (memberRepository.findById(request.memberId()).isEmpty())
-            throw new ResourceNotFoundException("Member not found");
+        memberRepository.findById(request.memberId())
+                .orElseThrow(() -> new ResourceNotFoundException(new AppError(MEMBER_NOT_FOUND, "Member not found")));
 
         Book book = bookRepository.findById(request.bookId())
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_NOT_FOUND, "Book not found")));
 
         BookLoan loan = bookLoanRepository
-                .findByBookIdAndMemberIdAndArchivedFalse(request.bookId(), request.memberId())
-                .orElseThrow(() -> new ResourceNotFoundException("Book loan not found"));
-
-        LocalDate dueDate = loan.getLoanDate().plusDays(LOAN_PERIOD_DAYS);
-        BigDecimal lateFee = BigDecimal.ZERO;
-
-        if (LocalDate.now().isAfter(dueDate)) {
-            long daysLate = ChronoUnit.DAYS.between(dueDate, LocalDate.now());
-            lateFee = LATE_FEE_PER_DAY.multiply(BigDecimal.valueOf(daysLate));
-        }
+                .findByBookIdAndMemberId(request.bookId(), request.memberId())
+                .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_LOAN_NOT_FOUND, "Book loan not found for the given member")));
 
         book.setQuantity(book.getQuantity() + 1);
+        loan.setArchived(true);
         bookRepository.save(book);
-        bookLoanRepository.delete(loan);
+        bookLoanRepository.save(loan);
 
-        return new BookReturnResponse(lateFee);
+        return new BookReturnResponse(calculateLateFee(loan.getLoanDate().plusDays(LOAN_PERIOD_DAYS)));
+    }
+
+    private BigDecimal calculateLateFee(LocalDate dueDate) {
+        if (LocalDate.now().isAfter(dueDate)) {
+            long daysLate = ChronoUnit.DAYS.between(dueDate, LocalDate.now());
+            return LATE_FEE_PER_DAY.multiply(BigDecimal.valueOf(daysLate));
+        }
+        return BigDecimal.ZERO;
     }
 }

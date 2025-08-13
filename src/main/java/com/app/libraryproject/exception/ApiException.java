@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import com.app.libraryproject.model.error.AppError;
 
 @Getter
-public class ApiException extends RuntimeException {
+public abstract class ApiException extends RuntimeException {
     private final AppError error;
     private final HttpStatus status;
 
