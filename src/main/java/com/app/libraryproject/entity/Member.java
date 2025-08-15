@@ -19,10 +19,10 @@ public class Member extends Person {
     @OneToMany(mappedBy = "member")
     private List<LibraryCard> libraryCard;
 
-    @Column(name = "national_id", nullable = false, unique = true, length = 11)
-    private String nationalId;
+    @Column(name = "pesel", nullable = false, unique = true, length = 11)
+    private String pesel;
 
     public MemberResponse toMemberResponse() {
-        return new MemberResponse(id, name, surname, nationalId, birthday);
+        return new MemberResponse(id, name, surname, pesel, birthday);
     }
 }

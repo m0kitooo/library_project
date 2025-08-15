@@ -10,7 +10,7 @@ public record MemberResponse(
         Long id,
         String name,
         String surname,
-        String nationalId,
+        String pesel,
         LocalDate birthday
 ) {
     public Member toMember() {
@@ -19,7 +19,7 @@ public record MemberResponse(
                 .id(id)
                 .name(name)
                 .surname(surname)
-                .nationalId(nationalId)
+                .pesel(pesel)
                 .birthday(birthday)
                 .build();
     }
@@ -30,7 +30,7 @@ public record MemberResponse(
                 .id(member.getId())
                 .name(member.getName())
                 .surname(member.getSurname())
-                .nationalId(member.getNationalId())
+                .pesel(member.getPesel())
                 .birthday(member.getBirthday())
                 .build();
     }

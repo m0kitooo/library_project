@@ -11,19 +11,19 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public record CreateMemberRequest(
         String name,
         String surname,
-        String nationalId,
+        String pesel,
         LocalDate birthday
 ) {
-    private final static String nationalIdRegex = "^[0-9]{11}$";
+    private final static String peselRegex = "^[0-9]{11}$";
 
     public CreateMemberRequest {
         if (isBlank(name))
             throw new InvalidRequestArgumentException("Name can't be null or blank");
         if (isBlank(surname))
             throw new InvalidRequestArgumentException("Surname can't be null or blank");
-        if (nationalId == null || !nationalId.matches(nationalIdRegex))
+        if (pesel == null || !pesel.matches(peselRegex))
             throw new InvalidRequestArgumentException(
-                    "NationalId can't be null and has to match regex: " + nationalIdRegex);
+                    "Pesel can't be null and has to match regex: " + peselRegex);
         if (birthday == null)
             throw new InvalidRequestArgumentException("Birthday can't be null");
     }
@@ -33,7 +33,7 @@ public record CreateMemberRequest(
                 .builder()
                 .name(name)
                 .surname(surname)
-                .nationalId(nationalId)
+                .pesel(pesel)
                 .birthday(birthday)
                 .build();
     }
