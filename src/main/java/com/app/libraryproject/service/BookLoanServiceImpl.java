@@ -32,11 +32,11 @@ public class BookLoanServiceImpl implements BookLoanService {
     }
 
     @Override
-    public BookLoanResponse findByBookId(Long bookId) {
-        return BookLoanResponse.from(bookLoanRepository
-                .findByBookId(bookId)
-                .orElseThrow(() -> new RecordNotFoundException("Book loan not found"))
-        );
+    public List<BookLoanResponse> findByBookId(Long bookId) {
+        return bookLoanRepository.findByBookId(bookId)
+                .stream()
+                .map(BookLoanResponse::from)
+                .toList();
     }
 
     @Transactional

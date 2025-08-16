@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface BookLoanService {
     List<BookLoanResponse> getAllBookLoan();
-    BookLoanResponse findByBookId(Long bookId);
+    List<BookLoanResponse> findByBookId(Long bookId);
     BookLoanResponse loanBook(CreateBookLoanRequest request);
 }
