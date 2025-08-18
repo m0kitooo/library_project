@@ -32,7 +32,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(
 			"SELECT b FROM Book b " +
 			"WHERE b.id = :bookId AND b.archived = false " +
-			"AND (b.quantity - COALESCE(SIZE(b.bookLoans), 0)) > 0"
+			"AND (b.quantity - COALESCE(SIZE(b.bookLoans) + SIZE(b.bookReservations), 0)) > 0"
 	)
 	Optional<Book> findAvailableBookById(@Param("bookId") Long bookId);
 }

@@ -41,7 +41,7 @@ public class BookReturnServiceImpl implements BookReturnService {
                 .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_NOT_FOUND, "Book not found")));
 
         BookLoan loan = bookLoanRepository
-                .findByBookIdAndMemberId(request.bookId(), request.memberId())
+                .findByBookIdAndMemberIdAndArchivedFalse(request.bookId(), request.memberId())
                 .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_LOAN_NOT_FOUND, "Book loan not found for the given member")));
 
         book.setQuantity(book.getQuantity() + 1);

@@ -45,4 +45,13 @@ public class Book {
     public BookResponse toBookResponse() {
         return new BookResponse(id, title, author, description, quantity);
     }
+
+    public boolean isAvailable() {
+        return !archived && quantity > 0 && quantity > (bookReservations.size() + bookLoans.size());
+    }
+
+    public boolean isBookLoanedByMember(Long memberId) {
+        return bookLoans.stream()
+                .anyMatch(bl -> bl.getMember().getId().equals(memberId));
+    }
 }

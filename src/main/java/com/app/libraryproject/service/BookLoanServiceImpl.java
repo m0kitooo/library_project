@@ -4,15 +4,21 @@ import com.app.libraryproject.dto.bookloan.BookLoanResponse;
 import com.app.libraryproject.dto.bookloan.CreateBookLoanRequest;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.entity.BookLoan;
-import com.app.libraryproject.exception.RecordNotFoundException;
+import com.app.libraryproject.exception.ResourceConflictException;
+import com.app.libraryproject.exception.ResourceNotFoundException;
+import com.app.libraryproject.model.error.AppError;
 import com.app.libraryproject.repository.*;
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
+import static com.app.libraryproject.model.error.ErrorCode.BOOK_NOT_FOUND;
+import static com.app.libraryproject.model.error.ErrorCode.LIBRARY_CARD_NOT_FOUND;
+import static com.app.libraryproject.model.error.ErrorCode.MEMBER_IS_CURRENTLY_LOANING_SAME_BOOK;
+import static com.app.libraryproject.model.error.ErrorCode.MEMBER_NOT_FOUND;
 
 @Service
 @AllArgsConstructor
@@ -44,18 +50,25 @@ public class BookLoanServiceImpl implements BookLoanService {
     public BookLoanResponse loanBook(CreateBookLoanRequest request) {
         Book book = bookRepository
                 .findAvailableBookById(request.bookId())
-                .orElseThrow(() -> new RecordNotFoundException("Book not avalible or doesn't exist"));
+                .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_NOT_FOUND, "Book not avalible or doesn't exist")));
 
-        if (libraryCardRepository.findActiveCardByMemberId(request.memberId()).isEmpty() ||
-                book.getBookReservations().size() >= book.getQuantity())
-            throw new NoSuchElementException();
+        // check if the member is already loaning the book
+        if (book.getBookLoans()
+                .stream()
+                .filter(bl -> bl.isArchived() == false)
+                .anyMatch(bl -> bl.getMember().getId().equals(request.memberId()))) {
+            throw new ResourceConflictException(new AppError(MEMBER_IS_CURRENTLY_LOANING_SAME_BOOK, "Book is already loaned by the member"));
+        }
+
+        libraryCardRepository.findActiveCardByMemberId(request.memberId())
+                .orElseThrow(() -> new ResourceNotFoundException(new AppError(LIBRARY_CARD_NOT_FOUND, "Member doesn't have an active library card")));
 
         return bookLoanRepository.save(
                 BookLoan
                         .builder()
                         .member(memberRepository
                                 .findById(request.memberId())
-                                .orElseThrow(() -> new RecordNotFoundException("Such member doesn't exist"))
+                                .orElseThrow(() -> new ResourceNotFoundException(new AppError(MEMBER_NOT_FOUND, "Such member doesn't exist")))
                         )
                         .book(book)
                         .loanDate(LocalDate.now())

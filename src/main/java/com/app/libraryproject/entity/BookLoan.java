@@ -6,6 +6,9 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+// it is imposible in hibernate to do such constraint but the thing to remember is that member should have only one active unique book loaned
+// what i mean by that is u can't loan 2 books wiht same id at the same time
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -17,7 +17,7 @@ import java.util.List;
 public class Member extends Person {
 
     @OneToMany(mappedBy = "member")
-    private List<LibraryCard> libraryCard;
+    private List<LibraryCard> libraryCards;
 
     @Column(name = "pesel", nullable = false, unique = true, length = 11)
     private String pesel;

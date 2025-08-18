@@ -56,4 +56,8 @@ public class LibraryCard {
                 .expiryDate(expiryDate)
                 .build();
     }
+
+    public boolean isActive() {
+        return deactivationDate == null || deactivationDate.isAfter(LocalDate.now());
+    }
 }
