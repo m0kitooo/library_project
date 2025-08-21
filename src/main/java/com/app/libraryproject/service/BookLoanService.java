@@ -6,7 +6,10 @@ import com.app.libraryproject.dto.bookloan.CreateBookLoanRequest;
 import java.util.List;
 
 public interface BookLoanService {
-    List<BookLoanResponse> getAllBookLoan();
+    List<BookLoanResponse> getBookLoans(Boolean archived);
+    List<BookLoanResponse> getBookLoansByMember(Long memberId, Boolean archived);
+    // List<BookLoanResponse> getAllBookLoan();
+    // List<BookLoanResponse> getAllNonArchivedBookLoan();
     List<BookLoanResponse> findByBookId(Long bookId);
     BookLoanResponse loanBook(CreateBookLoanRequest request);
 }

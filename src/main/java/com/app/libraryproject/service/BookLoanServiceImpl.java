@@ -28,14 +28,44 @@ public class BookLoanServiceImpl implements BookLoanService {
     private final MemberRepository memberRepository;
     private final LibraryCardRepository libraryCardRepository;
 
-    @Override
-    public List<BookLoanResponse> getAllBookLoan() {
-        return bookLoanRepository
-                .findAll()
-                .stream()
-                .map(BookLoanResponse::from)
-                .toList();
-    }
+	@Override
+	public List<BookLoanResponse> getBookLoans(Boolean archived) {
+		List<BookLoan> loans;
+		if (archived == null) {
+				loans = bookLoanRepository.findAll();
+		} else {
+				loans = bookLoanRepository.findByArchived(archived);
+		}
+		return loans.stream().map(BookLoanResponse::from).toList();
+	}
+
+	public List<BookLoanResponse> getBookLoansByMember(Long memberId, Boolean archived) {
+		List<BookLoan> loans;
+		if (archived == null) {
+			loans = bookLoanRepository.findByMemberId(memberId);
+		} else {
+			loans = bookLoanRepository.findByMemberIdAndArchived(memberId, archived);
+		}
+		return loans.stream().map(BookLoanResponse::from).toList();
+	}
+
+    // @Override
+    // public List<BookLoanResponse> getAllBookLoan() {
+    //     return bookLoanRepository
+    //             .findAll()
+    //             .stream()
+    //             .map(BookLoanResponse::from)
+    //             .toList();
+    // }
+
+    // @Override
+    // public List<BookLoanResponse> getAllNonArchivedBookLoan() {
+    //     return bookLoanRepository
+    //             .findByArchivedFalse()
+    //             .stream()
+    //             .map(BookLoanResponse::from)
+    //             .toList();
+    // }
 
     @Override
     public List<BookLoanResponse> findByBookId(Long bookId) {

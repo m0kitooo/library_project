@@ -13,7 +13,8 @@ public record BookLoanResponse(
         Long id,
         @JsonProperty("member") MemberResponse memberResponse,
         @JsonProperty("book") BookResponse bookResponse,
-        LocalDate loanDate
+        LocalDate loanDate,
+        Boolean archived
 ) {
     public static BookLoanResponse from(BookLoan bookLoan) {
         return BookLoanResponse
@@ -22,6 +23,7 @@ public record BookLoanResponse(
                 .memberResponse(MemberResponse.from(bookLoan.getMember()))
                 .bookResponse(BookResponse.from(bookLoan.getBook()))
                 .loanDate(bookLoan.getLoanDate())
+                .archived(bookLoan.isArchived())
                 .build();
     }
 }

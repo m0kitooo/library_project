@@ -16,6 +16,11 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
 
+    @GetMapping("/{memberId}")
+    public MemberResponse getMember(@PathVariable Long memberId) {
+        return memberService.findById(memberId);
+    }
+
     @GetMapping
     public List<MemberResponse> getMembers() {
         return memberService.findAll();

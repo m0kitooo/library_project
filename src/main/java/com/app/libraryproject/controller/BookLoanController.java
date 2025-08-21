@@ -11,22 +11,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/book-loans")
+// @RequestMapping("/book-loans")
 @RequiredArgsConstructor
 public class BookLoanController {
     private final BookLoanService bookLoanService;
 
-    @GetMapping
-    public List<BookLoanResponse> getAllBookLoans() {
-        return bookLoanService.getAllBookLoan();
+    // @GetMapping
+    // public List<BookLoanResponseWithArchived> getAllBookLoans() {
+    //     return bookLoanService.getAllBookLoan();
+    // }
+
+    @GetMapping("/book-loans")
+    public List<BookLoanResponse> getBookLoans(@RequestParam(required = false) Boolean archived) {
+        return bookLoanService.getBookLoans(archived);
     }
 
-    @GetMapping("/books/{bookId}")
+    @GetMapping("/members/{memberId}/book-loans")
+    public List<BookLoanResponse> getBookLoansByMember(
+            @PathVariable Long memberId,
+            @RequestParam(required = false) Boolean archived
+    ) {
+        return bookLoanService.getBookLoansByMember(memberId, archived);
+    }
+
+    @GetMapping("/books/{bookId}/book-loans")
     public List<BookLoanResponse> getBookLoanByBookId(@PathVariable Long bookId) {
         return bookLoanService.findByBookId(bookId);
     }
 
-    @PostMapping
+    @PostMapping("/book-loans")
     public ResponseEntity<BookLoanResponse> makeBookLoan(@RequestBody CreateBookLoanRequest request) {
         return new ResponseEntity<>(bookLoanService.loanBook(request), HttpStatus.CREATED);
     }

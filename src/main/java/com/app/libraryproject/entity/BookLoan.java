@@ -36,6 +36,6 @@ public class BookLoan {
     private boolean archived;
 
     public BookLoanResponse toBookLoanResponse() {
-        return new BookLoanResponse(id, member.toMemberResponse(), book.toBookResponse(), loanDate);
+        return new BookLoanResponse(id, member.toMemberResponse(), book.toBookResponse(), loanDate, archived);
     }
 }
