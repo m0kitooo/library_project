@@ -15,5 +15,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     WHERE LOWER(CONCAT(m.name, ' ', m.surname)) LIKE LOWER(CONCAT('%', :fullName, '%'))
     """)
     Page<Member> searchMembersByFullName(@Param("fullName") String fullName, Pageable pageable);
-
+    boolean existsByPesel(String pesel);
 }
