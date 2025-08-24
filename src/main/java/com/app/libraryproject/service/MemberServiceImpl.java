@@ -6,14 +6,13 @@ import com.app.libraryproject.entity.Member;
 import com.app.libraryproject.exception.ResourceConflictException;
 import com.app.libraryproject.exception.ResourceNotFoundException;
 import com.app.libraryproject.model.error.AppError;
-import com.app.libraryproject.model.error.ErrorCode;
 import com.app.libraryproject.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import static com.app.libraryproject.model.error.ErrorCode.MEMBER_NOT_FOUND;
-import static com.app.libraryproject.model.error.ErrorCode.MEMBER_PESSEL_ALREADY_EXISTS;
+import static com.app.libraryproject.model.error.ErrorCode.MEMBER_PESEL_ALREADY_EXISTS;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse register(CreateMemberRequest request) {
         if (memberRepository.existsByPesel(request.pesel()))
             throw new ResourceConflictException(
-                    new AppError(MEMBER_PESSEL_ALREADY_EXISTS,
+                    new AppError(MEMBER_PESEL_ALREADY_EXISTS,
                     "Member with pesel: " + request.pesel() + " already exists")
             );
         return memberRepository.save(request.toMember()).toMemberResponse();
