@@ -67,4 +67,9 @@ public class LibraryCardServiceImpl implements LibraryCardService {
                 .orElseThrow(() -> new RecordNotFoundException("There is no library card with provided member id"))
                 .toLibraryCardResponse();
     }
+
+    @Override
+    public LibraryCard getLibraryCardById(Long libraryCardId) {
+        return libraryCardRepository.findById(libraryCardId).orElseThrow();
+    }
 }
