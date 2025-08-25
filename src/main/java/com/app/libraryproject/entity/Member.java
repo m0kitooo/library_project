@@ -22,6 +22,9 @@ public class Member extends Person {
     @Column(name = "pesel", nullable = false, unique = true, length = 11)
     private String pesel;
 
+    @Column(nullable = false)
+    private String address;
+
     public MemberResponse toMemberResponse() {
         return new MemberResponse(id, name, surname, pesel, birthday);
     }

@@ -12,7 +12,8 @@ public record CreateMemberRequest(
         String name,
         String surname,
         String pesel,
-        LocalDate birthday
+        LocalDate birthday,
+        String address
 ) {
     private final static String peselRegex = "^[0-9]{11}$";
 
@@ -26,6 +27,10 @@ public record CreateMemberRequest(
                     "Pesel can't be null and has to match regex: " + peselRegex);
         if (birthday == null)
             throw new InvalidRequestArgumentException("Birthday can't be null");
+        if (birthday.isAfter(LocalDate.now().minusYears(13)))
+            throw new InvalidRequestArgumentException("Member must be at least 13 years old");
+        if (isBlank(address))
+            throw new InvalidRequestArgumentException("Address can't be null or blank");
     }
 
     public Member toMember() {
@@ -35,6 +40,7 @@ public record CreateMemberRequest(
                 .surname(surname)
                 .pesel(pesel)
                 .birthday(birthday)
+                .address(address)
                 .build();
     }
 }

@@ -4,6 +4,7 @@ import com.app.libraryproject.dto.book.BookResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Check;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,16 @@ public class Book {
     @GeneratedValue
     private Long id;
 
+    @Pattern(regexp = "^(\\d{10}|\\d{13})$", message = "ISBN has to be 10 or 13 digits length")
+    private String isbn;
+
     @Column(nullable = false)
     private String title;
 
     private String author;
+
+    @Column(nullable = false)
+    private Integer publicationYear;
 
     @Lob
     private String description;

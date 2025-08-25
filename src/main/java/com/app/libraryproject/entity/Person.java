@@ -3,6 +3,7 @@ package com.app.libraryproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Check;
 
 import java.time.LocalDate;
 
@@ -24,5 +25,7 @@ public abstract class Person {
     protected String surname;
 
     @Column(nullable = false)
+// this check is disabled because it doesn't work in mySQL
+//    @Check(constraints = "CURRENT_DATE - birthday >= INTERVAL '13 years'")
     protected LocalDate birthday;
 }
