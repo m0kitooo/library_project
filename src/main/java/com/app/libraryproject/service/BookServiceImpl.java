@@ -39,7 +39,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponse> findBooksByTitle(String title) {
         return bookRepository
-                .findByTitleContainingIgnoreCase(title)
+                .findByTitleContainingIgnoreCaseAndArchivedFalse(title)
                 .stream()
                 .map(Book::toBookResponse)
                 .toList();

@@ -1,6 +1,9 @@
 package com.app.libraryproject.exception;
 
-public class InvalidRequestArgumentException extends RuntimeException { //wyjątek do zakomunikowania, że zostały wprowadzone błędne dane z frontendu
+/**
+ * Throw when the incoming api request contains invalid data
+ */
+public class InvalidRequestArgumentException extends RuntimeException {
     public InvalidRequestArgumentException(String message) {
         super(message);
     }

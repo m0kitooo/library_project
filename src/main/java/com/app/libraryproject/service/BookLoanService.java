@@ -1,9 +1,15 @@
 package com.app.libraryproject.service;
 
 import com.app.libraryproject.dto.bookloan.BookLoanResponse;
-import com.app.libraryproject.entity.BookLoan;
+import com.app.libraryproject.dto.bookloan.CreateBookLoanRequest;
+
+import java.util.List;
 
 public interface BookLoanService {
-    BookLoanResponse loanBook(Long bookId, Long memberId);
-    BookLoan loanBookOnSite(Long bookId, Long memberId);
+    List<BookLoanResponse> getBookLoans(Boolean archived);
+    List<BookLoanResponse> getBookLoansByMember(Long memberId, Boolean archived);
+    // List<BookLoanResponse> getAllBookLoan();
+    // List<BookLoanResponse> getAllNonArchivedBookLoan();
+    List<BookLoanResponse> findByBookId(Long bookId);
+    BookLoanResponse loanBook(CreateBookLoanRequest request);
 }

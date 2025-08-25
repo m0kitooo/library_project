@@ -1,11 +1,7 @@
 package com.app.libraryproject.entity;
 
-import com.app.libraryproject.dto.proposal.GetUserListRequest;
-import com.app.libraryproject.dto.user.GetUserListResponse;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,25 +11,12 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String username;
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String surname;
-
-    @Column(nullable = false)
-    private LocalDate birthday;
-
-    public GetUserListResponse.UserListItem toUserListItem() {
-        return GetUserListResponse.UserListItem.builder()
-                .id(id)
-                .name(name)
-                .surname(surname)
-                .build();
-    }
+    private String password;
 }

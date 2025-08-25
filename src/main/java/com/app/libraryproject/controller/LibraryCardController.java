@@ -9,22 +9,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/libraryCard")
-@CrossOrigin
+@RequestMapping("/library-cards")
+@RequiredArgsConstructor
 public class LibraryCardController {
     private final LibraryCardServiceImpl libraryCardService;
 
-    @PostMapping("/create")
-    public ResponseEntity<LibraryCardResponse> createLibraryCard(@RequestBody CreateLibraryCardRequest request) {
-        return new ResponseEntity<>(libraryCardService.registerLibraryCard(request), HttpStatus.CREATED);
+    @GetMapping("/{id}")
+    public GetLibraryCardDetailsResponse getLibraryCardDetails(@PathVariable Long id) {
+        return libraryCardService.getLibraryCardDetails(id);
     }
 
-    @PostMapping("/details")
-    public ResponseEntity<GetLibraryCardDetailsResponse> getLibraryCardDetails(@RequestParam Long libraryCardId) {
-        return ResponseEntity.ok(
-                libraryCardService.getLibraryCardDetails(libraryCardId)
-        );
+    @GetMapping(path = "/members/{memberId}/active-card")
+    public LibraryCardResponse getActiveCardByMemberId(@PathVariable Long memberId) {
+        return libraryCardService.getActiveLibraryCardByMemberId(memberId);
+    }
+
+    @PostMapping
+    public ResponseEntity<LibraryCardResponse> createLibraryCard(@RequestBody CreateLibraryCardRequest request) {
+        return new ResponseEntity<>(libraryCardService.registerLibraryCard(request), HttpStatus.CREATED);
     }
 }

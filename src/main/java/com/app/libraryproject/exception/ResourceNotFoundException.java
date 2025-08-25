@@ -1,7 +1,11 @@
 package com.app.libraryproject.exception;
 
-public class ResourceNotFoundException extends RuntimeException {
-    public ResourceNotFoundException(String message) {
-        super(message);
+import org.springframework.http.HttpStatus;
+import com.app.libraryproject.model.error.AppError;
+
+public class ResourceNotFoundException extends ApiException {
+
+    public ResourceNotFoundException(AppError error) {
+        super(error, HttpStatus.NOT_FOUND);
     }
 }

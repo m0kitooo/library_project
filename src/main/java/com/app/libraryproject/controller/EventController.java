@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
 public class EventController {
     private final EventServiceImpl eventService;
 
@@ -21,10 +21,9 @@ public class EventController {
     }
 
     @PostMapping("/proposal/accept")
-    public ResponseEntity<Long> acceptProposal(@RequestParam Long proposalId, @RequestParam Long organizerId) {
-        return ResponseEntity.ok(
-                eventService.acceptProposal(proposalId, organizerId)
-        );
+    public ResponseEntity<Map<String, Object>> acceptProposal(@RequestParam Long proposalId, @RequestParam Long organizerId) {
+        Long eventPlanId = eventService.acceptProposal(proposalId, organizerId);
+        return ResponseEntity.ok(Map.of("eventPlanId", eventPlanId));
     }
 
     @PostMapping("/proposal/reject")

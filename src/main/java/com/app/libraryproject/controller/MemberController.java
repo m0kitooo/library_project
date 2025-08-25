@@ -1,26 +1,33 @@
 package com.app.libraryproject.controller;
 
+import com.app.libraryproject.dto.member.CreateMemberRequest;
 import com.app.libraryproject.dto.member.MemberResponse;
 import com.app.libraryproject.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/member")
-@CrossOrigin
+@RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+
+    @GetMapping("/{memberId}")
+    public MemberResponse getMember(@PathVariable Long memberId) {
+        return memberService.findById(memberId);
+    }
 
     @GetMapping
     public List<MemberResponse> getMembers() {
         return memberService.findAll();
     }
 
-
+    @PostMapping
+    public ResponseEntity<MemberResponse> save(@RequestBody CreateMemberRequest request) {
+        return new ResponseEntity<>(memberService.register(request), HttpStatus.CREATED);
+    }
 }

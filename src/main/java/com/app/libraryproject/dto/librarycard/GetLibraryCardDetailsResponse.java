@@ -5,12 +5,12 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 
+@Builder
 public record GetLibraryCardDetailsResponse(
         Long cardId,
         Long memberId,
         LocalDate expiryDate
 ) {
-    @Builder
     public GetLibraryCardDetailsResponse {
         if (cardId == null || memberId == null || expiryDate == null) {
             throw new InvalidResponseArgumentException("cardId, memberId and expiryDate are required");

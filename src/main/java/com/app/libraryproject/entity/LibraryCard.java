@@ -19,8 +19,8 @@ public class LibraryCard {
     @GeneratedValue
     private Long id;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "member_id", nullable = false, unique = true)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Column(
@@ -36,6 +36,7 @@ public class LibraryCard {
     @Column(name = "deactivated_at")
     private LocalDate deactivationDate;
 
+    @Lob
     @Column(name = "deactivation_reason")
     private String deactivationReason;
 
@@ -51,8 +52,12 @@ public class LibraryCard {
         return LibraryCardResponse
                 .builder()
                 .id(id)
-                .member(member.toMemberResponse())
+                .memberResponse(member.toMemberResponse())
                 .expiryDate(expiryDate)
                 .build();
+    }
+
+    public boolean isActive() {
+        return deactivationDate == null || deactivationDate.isAfter(LocalDate.now());
     }
 }
