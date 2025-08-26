@@ -5,6 +5,10 @@ import com.app.libraryproject.dto.book.BookResponse;
 import com.app.libraryproject.dto.book.UpdateBookRequest;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.exception.RecordNotFoundException;
+import com.app.libraryproject.exception.ResourceConflictException;
+import com.app.libraryproject.exception.ResourceNotFoundException;
+import com.app.libraryproject.model.error.AppError;
+import com.app.libraryproject.model.error.ErrorCode;
 import com.app.libraryproject.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.app.libraryproject.model.error.ErrorCode.BOOK_HAS_ACTIVE_LOANS;
+import static com.app.libraryproject.model.error.ErrorCode.BOOK_NOT_FOUND;
 
 @Slf4j
 @Service
@@ -55,14 +62,18 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookResponse deleteBook(Long id) {
-        if (bookRepository.archive(id) == 0) {
-            throw new RuntimeException("Couldn't set the book as deleted");
-        }
+        Book bookToDelete = bookRepository
+                .findByIdAndArchivedFalse(id)
+                .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_NOT_FOUND, "Book not found with id: " + id)));
 
-        return bookRepository
-                .findById(id)
-                .orElseThrow()
-                .toBookResponse();
+        if (!bookToDelete.getBookLoans().isEmpty())
+            throw new ResourceConflictException(new AppError(BOOK_HAS_ACTIVE_LOANS, "Book can't be deleted, because it has active loans"));
+
+        bookToDelete.setArchived(true);
+        bookRepository.save(bookToDelete);
+
+        log.info("Book with id {} archived", id);
+        return bookToDelete.toBookResponse();
     }
 
     @Override

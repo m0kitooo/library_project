@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ErrorCode {
     BOOK_NOT_FOUND("BOOK_001"),
+    BOOK_HAS_ACTIVE_LOANS("BOOK_002"),
 
     BOOK_LOAN_NOT_FOUND("BOOK_LOAN_001"),
     MEMBER_IS_CURRENTLY_LOANING_SAME_BOOK("BOOK_LOAN_003"),
