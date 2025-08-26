@@ -22,6 +22,7 @@ public class Book {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "ISBN")
     @Pattern(regexp = "^(\\d{10}|\\d{13})$", message = "ISBN has to be 10 or 13 digits length")
     private String isbn;
 
@@ -30,7 +31,8 @@ public class Book {
 
     private String author;
 
-    @Column(nullable = false)
+    @Column(name = "publication_year", nullable = false)
+    @Check(constraints = "publication_year >= 0")
     private Integer publicationYear;
 
     @Lob
@@ -50,7 +52,16 @@ public class Book {
     private List<BookReservation> bookReservations = new ArrayList<>();
 
     public BookResponse toBookResponse() {
-        return new BookResponse(id, title, author, description, quantity);
+        return BookResponse
+                .builder()
+                .id(id)
+                .isbn(isbn)
+                .title(title)
+                .author(author)
+                .publishedYear(publicationYear)
+                .description(description)
+                .quantity(quantity)
+                .build();
     }
 
     public boolean isAvailable() {
