@@ -1,7 +1,9 @@
 package com.app.libraryproject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.hibernate.annotations.Check;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,7 +20,7 @@ public class LibraryPayment {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "vendor", nullable = false, length = 100)
+    @Column(name = "vendor", nullable = false)
     private String vendor;
 
     @Column(name = "transaction_date", nullable = false)
@@ -31,6 +33,7 @@ public class LibraryPayment {
     private BigDecimal cost;
 
     @Column(nullable = false, length = 10)
+    @Pattern(regexp = "\\d{10}", message = "NIP must be exactly 10 digits")
     private String nip;
 
     @Column(name = "invoice_number", length = 50)
@@ -38,6 +41,10 @@ public class LibraryPayment {
 
     @Lob
     private String description;
+
+    @Column(nullable = false)
+    @Check(constraints = "quantity > 0")
+    private Integer quantity;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", nullable = false)
