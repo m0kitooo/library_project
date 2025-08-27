@@ -19,6 +19,12 @@ public class Member extends Person {
     @OneToMany(mappedBy = "member")
     private List<LibraryCard> libraryCards;
 
+    @OneToMany(mappedBy = "bookLoan")
+    private List<BookLoan> bookLoans;
+
+    @OneToMany(mappedBy = "bookReservation")
+    private List<BookReservation> bookReservations;
+
     @Column(name = "pesel", nullable = false, unique = true, length = 11)
     private String pesel;
 

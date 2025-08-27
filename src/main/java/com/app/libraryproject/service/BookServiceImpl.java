@@ -8,7 +8,6 @@ import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.exception.ResourceConflictException;
 import com.app.libraryproject.exception.ResourceNotFoundException;
 import com.app.libraryproject.model.error.AppError;
-import com.app.libraryproject.model.error.ErrorCode;
 import com.app.libraryproject.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +65,7 @@ public class BookServiceImpl implements BookService {
                 .findByIdAndArchivedFalse(id)
                 .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_NOT_FOUND, "Book not found with id: " + id)));
 
-        if (!bookToDelete.getBookLoans().isEmpty())
+        if (bookToDelete.getBookLoan() != null)
             throw new ResourceConflictException(new AppError(BOOK_HAS_ACTIVE_LOANS, "Book can't be deleted, because it has active loans"));
 
         bookToDelete.setArchived(true);
@@ -82,10 +81,12 @@ public class BookServiceImpl implements BookService {
                 .findById(updateBookRequest.id())
                 .orElseThrow(() -> new RecordNotFoundException("Book not found with id: " + updateBookRequest.id()));
 
+        book.setIsbn(updateBookRequest.isbn());
         book.setTitle(updateBookRequest.title());
         book.setAuthor(updateBookRequest.author());
-        book.setDescription(updateBookRequest.description());
-        book.setQuantity(updateBookRequest.quantity());
+        book.setPublisher(updateBookRequest.publisher());
+        book.setEdition(updateBookRequest.edition());
+        book.setPublicationYear(updateBookRequest.publicationYear());
 
         return bookRepository.save(book).toBookResponse();
     }

@@ -23,12 +23,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "WHERE b.id = :id AND b.archived = false"
     )
     int archive(@Param("id") Long id);
-    @Query(
-            "SELECT b.quantity - COALESCE(SIZE(b.bookLoans), 0) " +
-            "FROM Book b " +
-            "WHERE b.id = :bookId AND b.archived = false"
-    )
-    int getAvailableBooksQuantityById(@Param("bookId") Long bookId);
+//    @Query(
+//            "SELECT b.quantity - COALESCE(SIZE(b.bookLoans), 0) " +
+//            "FROM Book b " +
+//            "WHERE b.id = :bookId AND b.archived = false"
+//    )
+//    int getAvailableBooksQuantityById(@Param("bookId") Long bookId);
     @Query(
 			"SELECT b FROM Book b " +
 			"WHERE b.id = :bookId AND b.archived = false " +

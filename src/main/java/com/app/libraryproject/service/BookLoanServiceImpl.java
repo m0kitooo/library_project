@@ -49,24 +49,6 @@ public class BookLoanServiceImpl implements BookLoanService {
 		return loans.stream().map(BookLoanResponse::from).toList();
 	}
 
-    // @Override
-    // public List<BookLoanResponse> getAllBookLoan() {
-    //     return bookLoanRepository
-    //             .findAll()
-    //             .stream()
-    //             .map(BookLoanResponse::from)
-    //             .toList();
-    // }
-
-    // @Override
-    // public List<BookLoanResponse> getAllNonArchivedBookLoan() {
-    //     return bookLoanRepository
-    //             .findByArchivedFalse()
-    //             .stream()
-    //             .map(BookLoanResponse::from)
-    //             .toList();
-    // }
-
     @Override
     public List<BookLoanResponse> findByBookId(Long bookId) {
         return bookLoanRepository.findByBookId(bookId)

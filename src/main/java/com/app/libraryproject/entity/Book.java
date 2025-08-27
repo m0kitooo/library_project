@@ -6,9 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.Check;
 import jakarta.validation.constraints.Pattern;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -45,13 +42,11 @@ public class Book {
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean archived;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "book")
-    private List<BookLoan> bookLoans = new ArrayList<>();
+    @OneToOne(mappedBy = "book")
+    private BookLoan bookLoan;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "book")
-    private List<BookReservation> bookReservations = new ArrayList<>();
+    @OneToOne(mappedBy = "book")
+    private BookReservation bookReservation;
 
     public BookResponse toBookResponse() {
         return BookResponse
@@ -62,10 +57,5 @@ public class Book {
                 .author(author)
                 .publicationYear(publicationYear)
                 .build();
-    }
-
-    public boolean isBookLoanedByMember(Long memberId) {
-        return bookLoans.stream()
-                .anyMatch(bl -> bl.getMember().getId().equals(memberId));
     }
 }
