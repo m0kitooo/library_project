@@ -9,10 +9,10 @@ public record BookResponse(
         String isbn,
         String title,
         String author,
-        Integer publishedYear,
-        String description,
-        Integer quantity
-) {
+        String publisher,
+        String edition,
+        Integer publicationYear
+) implements BaseBookDto {
     public static BookResponse from(Book book) {
         return BookResponse
                 .builder()
@@ -20,9 +20,9 @@ public record BookResponse(
                 .isbn(book.getIsbn())
                 .title(book.getTitle())
                 .author(book.getAuthor())
-                .publishedYear(book.getPublicationYear())
-                .description(book.getDescription())
-                .quantity(book.getQuantity())
+                .publisher(book.getPublisher())
+                .edition(book.getEdition())
+                .publicationYear(book.getPublicationYear())
                 .build();
     }
 }

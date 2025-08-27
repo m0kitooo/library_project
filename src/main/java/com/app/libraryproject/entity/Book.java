@@ -29,16 +29,18 @@ public class Book {
     @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String author;
+
+    private String publisher;
+
+    // wydanie
+    @Column(nullable = false)
+    private String edition;
 
     @Column(name = "publication_year", nullable = false)
     @Check(constraints = "publication_year >= 0")
     private Integer publicationYear;
-
-    @Lob
-    private String description;
-
-    private Integer quantity;
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean archived;
@@ -58,14 +60,8 @@ public class Book {
                 .isbn(isbn)
                 .title(title)
                 .author(author)
-                .publishedYear(publicationYear)
-                .description(description)
-                .quantity(quantity)
+                .publicationYear(publicationYear)
                 .build();
-    }
-
-    public boolean isAvailable() {
-        return !archived && quantity > 0 && quantity > (bookReservations.size() + bookLoans.size());
     }
 
     public boolean isBookLoanedByMember(Long memberId) {
