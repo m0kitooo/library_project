@@ -16,13 +16,13 @@ public record UpdateBookRequest(
         String publisher,
         String edition,
         Integer publicationYear
-) implements BaseBookDto {
+) {
     public UpdateBookRequest {
-        if (id == null)
-            throw new InvalidRequestArgumentException("Id can't be null");
-        String validationErrors = BaseBookDtoValidator.validate(this);
-        if (!isEmpty(validationErrors)) {
-            throw new InvalidRequestArgumentException(validationErrors);
-        }
+//        if (id == null)
+//            throw new InvalidRequestArgumentException("Id can't be null");
+//        String validationErrors = BaseBookDtoValidator.validate(this);
+//        if (!isEmpty(validationErrors)) {
+//            throw new InvalidRequestArgumentException(validationErrors);
+//        }
     }
 }

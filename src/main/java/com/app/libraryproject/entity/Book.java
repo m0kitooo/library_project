@@ -54,6 +54,8 @@ public class Book {
                 .isbn(isbn)
                 .title(title)
                 .author(author)
+                .publisher(publisher)
+                .edition(edition)
                 .publicationYear(publicationYear)
                 .build();
     }
