@@ -13,7 +13,6 @@ import jakarta.validation.constraints.Pattern;
 @Setter
 @Entity
 @Table(name = "books")
-@Check(constraints = "quantity >= 0")
 public class Book {
     @Id
     @GeneratedValue

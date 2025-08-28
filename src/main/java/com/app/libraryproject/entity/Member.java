@@ -19,10 +19,10 @@ public class Member extends Person {
     @OneToMany(mappedBy = "member")
     private List<LibraryCard> libraryCards;
 
-    @OneToMany(mappedBy = "bookLoan")
+    @OneToMany(mappedBy = "member")
     private List<BookLoan> bookLoans;
 
-    @OneToMany(mappedBy = "bookReservation")
+    @OneToMany(mappedBy = "member")
     private List<BookReservation> bookReservations;
 
     @Column(name = "pesel", nullable = false, unique = true, length = 11)

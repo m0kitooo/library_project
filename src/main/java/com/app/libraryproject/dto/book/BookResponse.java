@@ -12,7 +12,7 @@ public record BookResponse(
         String publisher,
         String edition,
         Integer publicationYear
-) implements BaseBookDto {
+) {
     public static BookResponse from(Book book) {
         return BookResponse
                 .builder()

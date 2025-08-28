@@ -5,7 +5,6 @@ import com.app.libraryproject.exception.InvalidRequestArgumentException;
 import com.app.libraryproject.validation.BaseBookDtoValidator;
 
 import static io.micrometer.common.util.StringUtils.isEmpty;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public record CreateBookRequest(
         String isbn,
@@ -15,8 +14,6 @@ public record CreateBookRequest(
         String edition,
         Integer publicationYear
 ) implements BaseBookDto {
-    private static final String ISBN_REGEX = "^(\\d{10}|\\d{13})$";
-
     public CreateBookRequest {
         String validationErrors = BaseBookDtoValidator.validate(this);
         if (!isEmpty(validationErrors)) {
@@ -30,6 +27,8 @@ public record CreateBookRequest(
                 .isbn(isbn)
                 .title(title)
                 .author(author)
+                .publisher(publisher)
+                .edition(edition)
                 .publicationYear(publicationYear)
                 .build();
     }

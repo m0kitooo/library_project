@@ -19,7 +19,7 @@ public abstract class BaseBookDtoValidator {
             joiner.add("Title can't be null or blank");
         if (isBlank(dto.author()))
             joiner.add("Author can't be null or blank");
-        if (dto.publisher().isBlank())
+        if (dto.publisher() != null && dto.publisher().isBlank())
             joiner.add("Publisher can't be blank");
         if (isBlank(dto.edition()))
             joiner.add("Edition can't be null or blank");

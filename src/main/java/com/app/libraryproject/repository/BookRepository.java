@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findByIdAndArchivedFalse(Long id);
-    Optional<Book> findByIdAndArchivedFalseAndQuantityGreaterThan(Long id, int quantity);
+//    Optional<Book> findByIdAndArchivedFalseAndQuantityGreaterThan(Long id, int quantity);
     List<Book> findByArchivedFalse();
     List<Book> findByTitleContainingIgnoreCaseAndArchivedFalse(String title);
     List<Book> findByTitleContainingIgnoreCaseAndAuthorIgnoreCaseAndArchivedFalse(String title, String author);
@@ -29,10 +29,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 //            "WHERE b.id = :bookId AND b.archived = false"
 //    )
 //    int getAvailableBooksQuantityById(@Param("bookId") Long bookId);
+//    @Query(
+//			"SELECT b FROM Book b " +
+//			"WHERE b.id = :bookId AND b.archived = false " +
+//			"AND (b.quantity - COALESCE(SIZE(b.bookLoans) + SIZE(b.bookReservations), 0)) > 0"
+//	)
     @Query(
-			"SELECT b FROM Book b " +
-			"WHERE b.id = :bookId AND b.archived = false " +
-			"AND (b.quantity - COALESCE(SIZE(b.bookLoans) + SIZE(b.bookReservations), 0)) > 0"
-	)
+            "SELECT b FROM Book b " +
+            "WHERE b.id = :bookId AND b.archived = false AND b.bookLoan = null AND b.bookReservation = null"
+    )
 	Optional<Book> findAvailableBookById(@Param("bookId") Long bookId);
 }

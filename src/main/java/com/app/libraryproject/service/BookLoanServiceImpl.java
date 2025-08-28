@@ -65,12 +65,12 @@ public class BookLoanServiceImpl implements BookLoanService {
                 .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_NOT_FOUND, "Book not avalible or doesn't exist")));
 
         // check if the member is already loaning the book
-        if (book.getBookLoans()
-                .stream()
-                .filter(bl -> bl.isArchived() == false)
-                .anyMatch(bl -> bl.getMember().getId().equals(request.memberId()))) {
-            throw new ResourceConflictException(new AppError(MEMBER_IS_CURRENTLY_LOANING_SAME_BOOK, "Book is already loaned by the member"));
-        }
+//        if (book.getBookLoans()
+//                .stream()
+//                .filter(bl -> bl.isArchived() == false)
+//                .anyMatch(bl -> bl.getMember().getId().equals(request.memberId()))) {
+//            throw new ResourceConflictException(new AppError(MEMBER_IS_CURRENTLY_LOANING_SAME_BOOK, "Book is already loaned by the member"));
+//        }
 
         libraryCardRepository.findActiveCardByMemberId(request.memberId())
                 .orElseThrow(() -> new ResourceNotFoundException(new AppError(LIBRARY_CARD_NOT_FOUND, "Member doesn't have an active library card")));
