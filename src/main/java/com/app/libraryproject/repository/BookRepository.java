@@ -36,7 +36,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 //	)
     @Query(
             "SELECT b FROM Book b " +
-            "WHERE b.id = :bookId AND b.archived = false AND b.bookLoan = null AND b.bookReservation = null"
+            "WHERE b.id = :bookId AND b.archived = false AND b.bookLoan is NULL AND b.bookReservation is NULL"
     )
 	Optional<Book> findAvailableBookById(@Param("bookId") Long bookId);
 }

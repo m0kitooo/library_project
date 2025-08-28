@@ -17,6 +17,8 @@ public record UpdateBookRequest(
         String edition,
         Integer publicationYear
 ) {
+    private static final String ISBN_REGEX = "^(\\d{10}|\\d{13})$";
+
     public UpdateBookRequest {
 //        if (id == null)
 //            throw new InvalidRequestArgumentException("Id can't be null");
@@ -24,5 +26,21 @@ public record UpdateBookRequest(
 //        if (!isEmpty(validationErrors)) {
 //            throw new InvalidRequestArgumentException(validationErrors);
 //        }
+        if (id == null)
+            throw new InvalidRequestArgumentException("Id can't be null");
+        if (isbn != null && !isbn.matches(ISBN_REGEX))
+            throw new InvalidRequestArgumentException("ISBN has to be 10 or 13 digits length");
+        if (title == null || title.isBlank())
+            throw new InvalidRequestArgumentException("Title can't be null or blank");
+        if (author == null || author.isBlank())
+            throw new InvalidRequestArgumentException("Author can't be null or blank");
+        if (publisher != null && publisher.isBlank())
+            throw new InvalidRequestArgumentException("Publisher can't be blank");
+        if (edition == null || edition.isBlank())
+            throw new InvalidRequestArgumentException("Edition can't be null or blank");
+        if (publicationYear == null ||
+                publicationYear < 0 ||
+                publicationYear > java.time.Year.now().getValue())
+            throw new InvalidRequestArgumentException("Publication year can't be null, less than 0 or greater than current year");
     }
 }

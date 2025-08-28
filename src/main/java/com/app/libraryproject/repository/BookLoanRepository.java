@@ -12,7 +12,7 @@ public interface BookLoanRepository extends JpaRepository<BookLoan, Long> {
     List<BookLoan> findByArchived(boolean archived);
     List<BookLoan> findByMemberId(Long memberId);
     List<BookLoan> findByMemberIdAndArchived(Long memberId, boolean archived);
-    List<BookLoan> findByBookId(Long bookId);
+    BookLoan findByBookId(Long bookId);
     List<BookLoan> findByBookIdAndArchivedFalse(Long bookId);
     List<BookLoan> findByBookIdAndMemberId(Long bookId, Long memberId);
     Optional<BookLoan> findByBookIdAndMemberIdAndArchivedFalse(Long bookId, Long memberId);
