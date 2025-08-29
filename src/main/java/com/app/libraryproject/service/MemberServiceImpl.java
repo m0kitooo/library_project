@@ -38,6 +38,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<MemberResponse> findByPhrase(String phrase) {
+        return memberRepository
+                .findByPhrase(phrase)
+                .stream()
+                .map(Member::toMemberResponse)
+                .toList();
+    }
+
+    @Override
     public MemberResponse register(CreateMemberRequest request) {
         if (memberRepository.existsByPesel(request.pesel()))
             throw new ResourceConflictException(

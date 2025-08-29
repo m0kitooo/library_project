@@ -21,6 +21,11 @@ public class MemberController {
         return memberService.findById(memberId);
     }
 
+    @GetMapping(params = "phrase")
+    public List<MemberResponse> getMembersByPhrase(@RequestParam String phrase) {
+        return memberService.findByPhrase(phrase);
+    }
+
     @GetMapping
     public List<MemberResponse> getMembers() {
         return memberService.findAll();

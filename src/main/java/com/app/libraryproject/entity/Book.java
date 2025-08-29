@@ -33,6 +33,10 @@ public class Book {
     @Column(nullable = false)
     private String author;
 
+    // sygnatura
+    @Column(name = "call_number", nullable = false)
+    private String callNumber;
+
     private String publisher;
 
     // wydanie
@@ -77,6 +81,7 @@ public class Book {
                 .isbn(isbn)
                 .title(title)
                 .author(author)
+                .callNumber(callNumber)
                 .publisher(publisher)
                 .edition(edition)
                 .publicationYear(publicationYear)

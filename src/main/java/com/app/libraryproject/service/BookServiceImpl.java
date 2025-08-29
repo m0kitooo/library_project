@@ -54,6 +54,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<BookResponse> findBooksByPhrase(String phrase) {
+        return bookRepository.findByPhrase(phrase)
+                .stream()
+                .map(Book::toBookResponse)
+                .toList();
+    }
+
+    @Override
     public BookResponse registerBook(CreateBookRequest request) {
         AccessionNumberSequence accessionNumber = accessionNumberSequenceRepository.save(new AccessionNumberSequence());
         Book b = request.toBook();
@@ -91,6 +99,7 @@ public class BookServiceImpl implements BookService {
         book.setIsbn(updateBookRequest.isbn());
         book.setTitle(updateBookRequest.title());
         book.setAuthor(updateBookRequest.author());
+        book.setCallNumber(updateBookRequest.callNumber());
         book.setPublisher(updateBookRequest.publisher());
         book.setEdition(updateBookRequest.edition());
         book.setPublicationYear(updateBookRequest.publicationYear());

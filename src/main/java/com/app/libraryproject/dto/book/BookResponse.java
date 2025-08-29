@@ -11,6 +11,7 @@ public record BookResponse(
         String isbn,
         String title,
         String author,
+        String callNumber,
         String publisher,
         String edition,
         Integer publicationYear,
@@ -43,6 +44,7 @@ public record BookResponse(
                 .isbn(book.getIsbn())
                 .title(book.getTitle())
                 .author(book.getAuthor())
+                .callNumber(book.getCallNumber())
                 .publisher(book.getPublisher())
                 .edition(book.getEdition())
                 .publicationYear(book.getPublicationYear())

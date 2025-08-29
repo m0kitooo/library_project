@@ -16,6 +16,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByArchivedFalse();
     List<Book> findByTitleContainingIgnoreCaseAndArchivedFalse(String title);
     List<Book> findByTitleContainingIgnoreCaseAndAuthorIgnoreCaseAndArchivedFalse(String title, String author);
+    @Query("SELECT b FROM Book b WHERE " +
+           "(LOWER(b.title) LIKE LOWER(CONCAT('%', :phrase, '%')) OR " +
+           "LOWER(b.author) LIKE LOWER(CONCAT('%', :phrase, '%'))) AND b.archived = false")
+    List<Book> findByPhrase(@Param("phrase") String phrase);
     @Transactional
     @Modifying
     @Query(

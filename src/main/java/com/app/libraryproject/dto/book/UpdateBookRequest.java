@@ -12,6 +12,7 @@ public record UpdateBookRequest(
         String isbn,
         String title,
         String author,
+        String callNumber,
         String publisher,
         String edition,
         Integer publicationYear
@@ -33,6 +34,8 @@ public record UpdateBookRequest(
             throw new InvalidRequestArgumentException("Title can't be null or blank");
         if (author == null || author.isBlank())
             throw new InvalidRequestArgumentException("Author can't be null or blank");
+        if (callNumber == null || callNumber.isBlank())
+            throw new InvalidRequestArgumentException("Call number can't be null or blank");
         if (publisher != null && publisher.isBlank())
             throw new InvalidRequestArgumentException("Publisher can't be blank");
         if (edition == null || edition.isBlank())
