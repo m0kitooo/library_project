@@ -11,7 +11,8 @@ public record MemberResponse(
         String name,
         String surname,
         String pesel,
-        LocalDate birthday
+        LocalDate birthday,
+        String address
 ) {
     public Member toMember() {
         return Member
@@ -21,6 +22,7 @@ public record MemberResponse(
                 .surname(surname)
                 .pesel(pesel)
                 .birthday(birthday)
+                .address(address)
                 .build();
     }
 
@@ -32,6 +34,7 @@ public record MemberResponse(
                 .surname(member.getSurname())
                 .pesel(member.getPesel())
                 .birthday(member.getBirthday())
+                .address(member.getAddress())
                 .build();
     }
 }

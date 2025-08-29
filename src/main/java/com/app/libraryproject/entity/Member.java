@@ -32,6 +32,6 @@ public class Member extends Person {
     private String address;
 
     public MemberResponse toMemberResponse() {
-        return new MemberResponse(id, name, surname, pesel, birthday);
+        return new MemberResponse(id, name, surname, pesel, birthday, address);
     }
 }
