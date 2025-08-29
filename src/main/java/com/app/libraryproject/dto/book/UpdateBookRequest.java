@@ -1,7 +1,6 @@
 package com.app.libraryproject.dto.book;
 
 import com.app.libraryproject.exception.InvalidRequestArgumentException;
-import com.app.libraryproject.validation.BaseBookDtoValidator;
 import lombok.Builder;
 
 import static io.micrometer.common.util.StringUtils.isBlank;

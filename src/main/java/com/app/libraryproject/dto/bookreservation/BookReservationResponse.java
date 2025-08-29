@@ -15,7 +15,7 @@ public record BookReservationResponse(
     public static BookReservationResponse from(BookReservation bookReservation) {
         return new BookReservationResponse(
                 bookReservation.getId(),
-                BookResponse.simpleFrom(bookReservation.getBook()),
+                BookResponse.from(bookReservation.getBook()),
                 MemberResponse.from(bookReservation.getMember()),
                 bookReservation.getReservationTime()
         );

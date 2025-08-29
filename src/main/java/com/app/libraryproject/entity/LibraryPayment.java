@@ -30,14 +30,14 @@ public class LibraryPayment {
     @Column(nullable = false)
     private BigDecimal cost;
 
+    @Column(nullable = false, length = 3)
+    private String currency;
+
     @Column(nullable = false, length = 10)
     private String nip;
 
     @Column(name = "invoice_number", length = 50)
     private String invoiceNumber;
-
-    @Lob
-    private String description;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", nullable = false)

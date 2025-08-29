@@ -1,8 +1,6 @@
 package com.app.libraryproject.entity;
 
 import com.app.libraryproject.dto.book.BookResponse;
-import com.app.libraryproject.dto.bookloan.BookLoanResponse;
-import com.app.libraryproject.dto.bookreservation.BookReservationResponse;
 import com.app.libraryproject.model.BookStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,8 +19,9 @@ public class Book {
     @GeneratedValue
     private Long id;
 
-//    @Column(name = "accession_number", nullable = false , unique = true)
-//    private Long accessionNumber;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "accession_number_id", referencedColumnName = "id", unique = true)
+    private AccessionNumberSequence accessionNumberSequence;
 
     @Column(name = "ISBN")
     @Pattern(regexp = "^(\\d{10}|\\d{13})$", message = "ISBN has to be 10 or 13 digits length")
@@ -53,23 +52,19 @@ public class Book {
     @OneToOne(mappedBy = "book")
     private BookReservation bookReservation;
 
-    @OneToOne
-    @JoinColumn(name = "accession_number_seq_id", referencedColumnName = "id", unique = true)
-    private AccessionNumberSequence accessionNumberSequence;
-
     public BookResponse toBookResponse() {
-        BookLoanResponse loanResponse = getBookLoan() != null
-                ? BookLoanResponse.from(getBookLoan())
+        Long bookLoanId = getBookLoan() != null
+                ? getBookLoan().getId()
                 : null;
 
-        BookReservationResponse reservationResponse = getBookReservation() != null
-                ? BookReservationResponse.from(getBookReservation())
+        Long bookReservationId = getBookReservation() != null
+                ? getBookReservation().getId()
                 : null;
 
         BookStatus status;
-        if (loanResponse != null) {
+        if (bookLoanId != null) {
             status = BookStatus.LOANED;
-        } else if (reservationResponse != null) {
+        } else if (bookReservationId != null) {
             status = BookStatus.RESERVED;
         } else {
             status = BookStatus.AVAILABLE;
@@ -78,6 +73,7 @@ public class Book {
         return BookResponse
                 .builder()
                 .id(id)
+                .accessionNumber(getAccessionNumberSequence().getId())
                 .isbn(isbn)
                 .title(title)
                 .author(author)
@@ -85,8 +81,8 @@ public class Book {
                 .edition(edition)
                 .publicationYear(publicationYear)
                 .status(status)
-                .bookLoanResponse(loanResponse)
-                .bookReservationResponse(reservationResponse)
+                .bookLoanId(bookLoanId)
+                .bookReservationId(bookReservationId)
                 .build();
     }
 }

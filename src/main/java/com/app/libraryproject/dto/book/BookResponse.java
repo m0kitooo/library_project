@@ -1,15 +1,13 @@
 package com.app.libraryproject.dto.book;
 
-import com.app.libraryproject.dto.bookloan.BookLoanResponse;
-import com.app.libraryproject.dto.bookreservation.BookReservationResponse;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.model.BookStatus;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 @Builder
 public record BookResponse(
         Long id,
+        Long accessionNumber,
         String isbn,
         String title,
         String author,
@@ -17,22 +15,22 @@ public record BookResponse(
         String edition,
         Integer publicationYear,
         BookStatus status,
-        @JsonProperty("bookLoan") BookLoanResponse bookLoanResponse,
-        @JsonProperty("bookReservation")BookReservationResponse bookReservationResponse
+        Long bookLoanId,
+        Long bookReservationId
         ) {
     public static BookResponse from(Book book) {
-        BookLoanResponse loanResponse = book.getBookLoan() != null
-                ? BookLoanResponse.from(book.getBookLoan())
+        Long bookLoanId = book.getBookLoan() != null
+                ? book.getBookLoan().getId()
                 : null;
 
-        BookReservationResponse reservationResponse = book.getBookReservation() != null
-                ? BookReservationResponse.from(book.getBookReservation())
+        Long bookReservationId = book.getBookReservation() != null
+                ? book.getBookReservation().getId()
                 : null;
 
         BookStatus status;
-        if (loanResponse != null) {
+        if (bookLoanId != null) {
             status = BookStatus.LOANED;
-        } else if (reservationResponse != null) {
+        } else if (bookReservationId != null) {
             status = BookStatus.RESERVED;
         } else {
             status = BookStatus.AVAILABLE;
@@ -41,6 +39,7 @@ public record BookResponse(
         return BookResponse
                 .builder()
                 .id(book.getId())
+                .accessionNumber(book.getAccessionNumberSequence().getId())
                 .isbn(book.getIsbn())
                 .title(book.getTitle())
                 .author(book.getAuthor())
@@ -48,7 +47,8 @@ public record BookResponse(
                 .edition(book.getEdition())
                 .publicationYear(book.getPublicationYear())
                 .status(status)
-                .bookLoanResponse(loanResponse)
-                .bookReservationResponse(reservationResponse).build();
+                .bookLoanId(bookLoanId)
+                .bookReservationId(bookReservationId)
+                .build();
     }
 }

@@ -3,11 +3,13 @@ package com.app.libraryproject.service;
 import com.app.libraryproject.dto.book.CreateBookRequest;
 import com.app.libraryproject.dto.book.BookResponse;
 import com.app.libraryproject.dto.book.UpdateBookRequest;
+import com.app.libraryproject.entity.AccessionNumberSequence;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.exception.ResourceConflictException;
 import com.app.libraryproject.exception.ResourceNotFoundException;
 import com.app.libraryproject.model.error.AppError;
+import com.app.libraryproject.repository.AccessionNumberSequenceRepository;
 import com.app.libraryproject.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,14 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.app.libraryproject.model.error.ErrorCode.BOOK_HAS_ACTIVE_LOANS;
-import static com.app.libraryproject.model.error.ErrorCode.BOOK_NOT_FOUND;
+import static com.app.libraryproject.model.error.ErrorCode.*;
 
 @Slf4j
 @Service
 @AllArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final AccessionNumberSequenceRepository accessionNumberSequenceRepository;
 
     @Override
     public BookResponse find(Long id) {
@@ -52,8 +54,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponse registerBook(CreateBookRequest book) {
-        Book b = bookRepository.save(book.toBook());
+    public BookResponse registerBook(CreateBookRequest request) {
+        AccessionNumberSequence accessionNumber = accessionNumberSequenceRepository.save(new AccessionNumberSequence());
+        Book b = request.toBook();
+        b.setAccessionNumberSequence(accessionNumber);
+        bookRepository.save(b);
+
         log.info("Book registered: {}", b);
         return b.toBookResponse();
     }
@@ -79,7 +85,8 @@ public class BookServiceImpl implements BookService {
     public BookResponse updateBook(UpdateBookRequest updateBookRequest) {
         Book book = bookRepository
                 .findById(updateBookRequest.id())
-                .orElseThrow(() -> new RecordNotFoundException("Book not found with id: " + updateBookRequest.id()));
+                .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_NOT_FOUND,
+                        "Book not found with id: " + updateBookRequest.id())));
 
         book.setIsbn(updateBookRequest.isbn());
         book.setTitle(updateBookRequest.title());
