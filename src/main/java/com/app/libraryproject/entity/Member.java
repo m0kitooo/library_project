@@ -47,6 +47,7 @@ public class Member extends Person {
                 surname,
                 pesel,
                 birthday,
+                address,
                 latestCard != null ? latestCard.toLibraryCardResponse() : null
         );
     }
