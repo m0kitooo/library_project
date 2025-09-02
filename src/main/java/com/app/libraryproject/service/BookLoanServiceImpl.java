@@ -4,6 +4,7 @@ import com.app.libraryproject.dto.bookloan.BookLoanResponse;
 import com.app.libraryproject.dto.bookloan.CreateBookLoanRequest;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.entity.BookLoan;
+import com.app.libraryproject.entity.Member;
 import com.app.libraryproject.exception.ResourceConflictException;
 import com.app.libraryproject.exception.ResourceNotFoundException;
 import com.app.libraryproject.model.error.AppError;
@@ -19,6 +20,7 @@ import static com.app.libraryproject.model.error.ErrorCode.BOOK_NOT_FOUND;
 import static com.app.libraryproject.model.error.ErrorCode.LIBRARY_CARD_NOT_FOUND;
 import static com.app.libraryproject.model.error.ErrorCode.MEMBER_IS_CURRENTLY_LOANING_SAME_BOOK;
 import static com.app.libraryproject.model.error.ErrorCode.MEMBER_NOT_FOUND;
+import static com.app.libraryproject.model.error.ErrorCode.MEMBER_HAS_MAX_ACTIVE_LOANS_QUANTITY;
 
 @Service
 @AllArgsConstructor
@@ -28,13 +30,15 @@ public class BookLoanServiceImpl implements BookLoanService {
     private final MemberRepository memberRepository;
     private final LibraryCardRepository libraryCardRepository;
 
+    private final static Integer LOAN_LIMIT = 5;
+
 	@Override
 	public List<BookLoanResponse> getBookLoans(Boolean archived) {
 		List<BookLoan> loans;
 		if (archived == null) {
-				loans = bookLoanRepository.findAll();
+			loans = bookLoanRepository.findAll();
 		} else {
-				loans = bookLoanRepository.findByArchived(archived);
+			loans = bookLoanRepository.findByArchived(archived);
 		}
 		return loans.stream().map(BookLoanResponse::from).toList();
 	}
@@ -72,13 +76,18 @@ public class BookLoanServiceImpl implements BookLoanService {
         libraryCardRepository.findActiveCardByMemberId(request.memberId())
                 .orElseThrow(() -> new ResourceNotFoundException(new AppError(LIBRARY_CARD_NOT_FOUND, "Member doesn't have an active library card")));
 
+		Member member = memberRepository
+				.findById(request.memberId())
+				.orElseThrow(() -> new ResourceNotFoundException(new AppError(MEMBER_NOT_FOUND, "Such member doesn't exist")));
+
+		if (member.getBookLoans().size() >= LOAN_LIMIT) {
+			throw new ResourceConflictException(new AppError(MEMBER_HAS_MAX_ACTIVE_LOANS_QUANTITY, "Member has reached the maximum number of active loans"));
+		}
+
         return bookLoanRepository.save(
                 BookLoan
                         .builder()
-                        .member(memberRepository
-                                .findById(request.memberId())
-                                .orElseThrow(() -> new ResourceNotFoundException(new AppError(MEMBER_NOT_FOUND, "Such member doesn't exist")))
-                        )
+                        .member(member)
                         .book(book)
                         .loanDate(LocalDate.now())
                         .build()
