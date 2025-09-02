@@ -3,6 +3,7 @@ package com.app.libraryproject.service;
 import com.app.libraryproject.dto.user.CreateUserRequest;
 import com.app.libraryproject.dto.user.GetPersonListRequest;
 import com.app.libraryproject.dto.user.PersonResponse;
+import com.app.libraryproject.dto.user.UserResponse;
 import com.app.libraryproject.entity.*;
 import com.app.libraryproject.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<PersonResponse> getUserList(GetPersonListRequest request) {
+    public List<UserResponse> getUserList(GetPersonListRequest request) {
         Pageable pageable = PageRequest.of(request.page(), request.limit());
         Page<User> users = userRepository.findAll(pageable);
 
         return users
                 .stream()
-                .map(PersonResponse::from)
+                .map(UserResponse::from)
                 .toList();
     }
 

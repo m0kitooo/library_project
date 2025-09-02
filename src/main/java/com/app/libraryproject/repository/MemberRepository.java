@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.*;
 
-import java.util.Optional;
+import java.util.*;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findMemberById(Long id);
@@ -16,4 +16,13 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     """)
     Page<Member> searchMembersByFullName(@Param("fullName") String fullName, Pageable pageable);
 
+    @Query("""
+           SELECT m FROM Member m
+           WHERE (:name IS NULL OR LOWER(m.name) LIKE LOWER(CONCAT('%', :name, '%')))
+             AND (:surname IS NULL OR LOWER(m.surname) LIKE LOWER(CONCAT('%', :surname, '%')))
+             AND (:pesel IS NULL OR m.pesel LIKE CONCAT(:pesel, '%'))
+           """)
+    List<Member> findByFilters(@Param("name") String name,
+                               @Param("surname") String surname,
+                               @Param("pesel") String pesel);
 }

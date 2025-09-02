@@ -1,37 +1,30 @@
 package com.app.libraryproject.dto.member;
 
-import com.app.libraryproject.entity.Member;
-import lombok.Builder;
-
+import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import java.time.LocalDate;
 
-@Builder
 public record MemberResponse(
         Long id,
         String name,
         String surname,
         String pesel,
-        LocalDate birthday
+        LocalDate birthday,
+        LibraryCardResponse latestLibraryCard
 ) {
-    public Member toMember() {
-        return Member
-                .builder()
-                .id(id)
-                .name(name)
-                .surname(surname)
-                .pesel(pesel)
-                .birthday(birthday)
-                .build();
-    }
-
-    public static MemberResponse from(Member member) {
-        return MemberResponse
-                .builder()
-                .id(member.getId())
-                .name(member.getName())
-                .surname(member.getSurname())
-                .pesel(member.getPesel())
-                .birthday(member.getBirthday())
-                .build();
+    public static MemberResponse from(com.app.libraryproject.entity.Member member) {
+        return new MemberResponse(
+                member.getId(),
+                member.getName(),
+                member.getSurname(),
+                member.getPesel(),
+                member.getBirthday(),
+                member.getLibraryCards() != null && !member.getLibraryCards().isEmpty()
+                        ? LibraryCardResponse.from(
+                                member.getLibraryCards()
+                                        .stream()
+                                        .max((card1, card2) -> card1.getExpiryDate().compareTo(card2.getExpiryDate()))
+                                        .orElseThrow())
+                        : null
+        );
     }
 }

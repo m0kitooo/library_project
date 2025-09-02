@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.Comparator;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,6 +24,21 @@ public class Member extends Person {
     private String pesel;
 
     public MemberResponse toMemberResponse() {
-        return new MemberResponse(id, name, surname, pesel, birthday);
+        LibraryCard latestCard = null;
+        if (libraryCards != null && !libraryCards.isEmpty()) {
+            latestCard = libraryCards.stream()
+                    .filter(c -> c.getId() != null)
+                    .max(Comparator.comparing(LibraryCard::getId))
+                    .orElse(null);
+        }
+
+        return new MemberResponse(
+                id,
+                name,
+                surname,
+                pesel,
+                birthday,
+                latestCard != null ? latestCard.toLibraryCardResponse() : null
+        );
     }
 }

@@ -9,13 +9,4 @@ public record PersonResponse(
         String name,
         String surname
 ) {
-    public static PersonResponse from(User user) {
-        return null;
-//        return PersonResponse
-//                .builder()
-//                .id(user.getId())
-//                .name(user.getName())
-//                .surname(user.getSurname())
-//                .build();
-    }
 }

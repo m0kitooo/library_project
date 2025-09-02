@@ -1,7 +1,11 @@
 package com.app.libraryproject.model;
 
 public enum PlanStatus {
-    PREPARING,
+    CREATED,
+    SENT_FOR_APPROVAL,
+    APPROVED,
+    REJECTED,
     SUSPENDED,
-    REJECTED
+    ACTIVE,
+    PREPARING
 }

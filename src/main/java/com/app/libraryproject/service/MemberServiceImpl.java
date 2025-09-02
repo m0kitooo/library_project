@@ -36,6 +36,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<MemberResponse> searchMembers(String name, String surname, String pesel) {
+        return memberRepository
+                .findByFilters(name, surname, pesel)
+                .stream()
+                .map(Member::toMemberResponse)
+                .toList();
+    }
+
+
+    @Override
     public MemberResponse register(CreateMemberRequest request) {
         return memberRepository.save(request.toMember()).toMemberResponse();
     }

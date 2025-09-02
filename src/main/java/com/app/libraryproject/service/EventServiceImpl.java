@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.*;
@@ -19,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -112,5 +114,13 @@ public class EventServiceImpl implements EventService {
                         .map(Proposal::toListItem)
                         .toList()
         );
+    }
+
+    private Proposal getProposalOrThrow(Long id) {
+        Optional<Proposal> proposalOpt = proposalRepository.findById(id);
+        if (proposalOpt.isEmpty()) {
+            throw new IllegalArgumentException("Proposal with id " + id + " not found");
+        }
+        return proposalOpt.get();
     }
 }

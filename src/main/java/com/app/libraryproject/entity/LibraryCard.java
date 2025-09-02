@@ -52,7 +52,7 @@ public class LibraryCard {
         return LibraryCardResponse
                 .builder()
                 .id(id)
-                .memberResponse(member.toMemberResponse())
+                .memberId(member != null ? member.getId() : null)
                 .expiryDate(expiryDate)
                 .build();
     }
