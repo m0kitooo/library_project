@@ -29,6 +29,9 @@ public class Proposal {
     @Enumerated(EnumType.ORDINAL)
     private ProposalStatus status;
 
+    @Column(length = 2000)
+    private String comments;
+
     @Column(name = "proposed_by")
     private String proposedBy;
 
@@ -44,6 +47,7 @@ public class Proposal {
 
     public GetProposalDetailsResponse toDetailsResponse() {
         return GetProposalDetailsResponse.builder()
+                .id(id)
                 .title(title)
                 .description(description)
                 .status(status.name())

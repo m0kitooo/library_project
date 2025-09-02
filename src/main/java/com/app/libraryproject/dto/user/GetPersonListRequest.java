@@ -6,7 +6,6 @@ public record GetPersonListRequest(
         Integer page,
         Integer limit,
         String filterFullname
-        //można tutaj w przyszłości dodać opcje filtrowania i je zaimplementować
 ) {
     public GetPersonListRequest {
         if (page == null || limit == null) {

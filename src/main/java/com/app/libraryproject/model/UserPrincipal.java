@@ -15,6 +15,7 @@ import java.util.Collections;
 public class UserPrincipal implements UserDetails, CredentialsContainer {
     private String username;
     private String password;
+    private WorkerRole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -29,6 +30,10 @@ public class UserPrincipal implements UserDetails, CredentialsContainer {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public WorkerRole getRole() {
+        return role;
     }
 
     @Override

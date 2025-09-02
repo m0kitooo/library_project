@@ -9,6 +9,7 @@ public interface MemberService {
     MemberResponse findById(Long id);
     List<MemberResponse> findByPhrase(String phrase);
     List<MemberResponse> findAll();
+    List<MemberResponse> searchMembers(String name, String surname, String pesel);
     MemberResponse register(CreateMemberRequest request);
 //    GetLibraryCardDetailsResponse getPersonDetails(Long libraryCardId);
 //    GetPersonListResponse getUserList(GetPersonListRequest request);

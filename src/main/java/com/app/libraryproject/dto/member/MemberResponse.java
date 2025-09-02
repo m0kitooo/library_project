@@ -1,5 +1,6 @@
 package com.app.libraryproject.dto.member;
 
+import com.app.libraryproject.dto.librarycard.LibraryCardResponse;
 import com.app.libraryproject.entity.Member;
 import lombok.Builder;
 
@@ -12,7 +13,8 @@ public record MemberResponse(
         String surname,
         String pesel,
         LocalDate birthday,
-        String address
+        String address,
+        LibraryCardResponse latestLibraryCard
 ) {
     public Member toMember() {
         return Member
@@ -35,6 +37,14 @@ public record MemberResponse(
                 .pesel(member.getPesel())
                 .birthday(member.getBirthday())
                 .address(member.getAddress())
-                .build();
+                .latestLibraryCard(
+                        member.getLibraryCards() != null && !member.getLibraryCards().isEmpty()
+                        ? LibraryCardResponse.from(
+                        member.getLibraryCards()
+                                .stream()
+                                .max((card1, card2) -> card1.getExpiryDate().compareTo(card2.getExpiryDate()))
+                                .orElseThrow())
+                        : null
+                ).build();
     }
 }

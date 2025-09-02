@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
+import com.app.libraryproject.model.UserPrincipal;
+
 
 @Configuration
 @EnableWebSecurity
@@ -53,7 +55,17 @@ public class SecurityConfig {
                 )
                 .formLogin(login -> login
                         .loginProcessingUrl("/login")
-                        .successHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
+                        .successHandler((req, res, auth) -> {
+                            res.setContentType("application/json");
+                            res.setStatus(HttpServletResponse.SC_OK);
+
+                            UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
+                            String username = principal.getUsername();
+                            String role = principal.getRole().toString();
+
+                            String json = String.format("{\"username\":\"%s\",\"role\":\"%s\"}", username, role);
+                            res.getWriter().write(json);
+                        })
                         .failureHandler((req, res, ex) -> res.setStatus(HttpServletResponse.SC_UNAUTHORIZED))
                         .permitAll()
                 )

@@ -1,16 +1,20 @@
 package com.app.libraryproject.dto.librarycard;
 
-import com.app.libraryproject.dto.member.MemberResponse;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-
 import java.time.LocalDate;
+import lombok.Builder;
 
 @Builder
 public record LibraryCardResponse(
         Long id,
-        @JsonProperty("member") MemberResponse memberResponse,
+        Long memberId,
         LocalDate expiryDate
 ) {
-
+    public static LibraryCardResponse from(com.app.libraryproject.entity.LibraryCard libraryCard) {
+        return LibraryCardResponse
+                .builder()
+                .id(libraryCard.getId())
+                .memberId(libraryCard.getMember().getId())
+                .expiryDate(libraryCard.getExpiryDate())
+                .build();
+    }
 }

@@ -1,6 +1,5 @@
 package com.app.libraryproject.repository;
 
-import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +22,13 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
            "LOWER(m.surname) LIKE LOWER(CONCAT('%', :phrase, '%'))) OR " +
            "LOWER(CONCAT(m.name, ' ', m.surname)) LIKE LOWER(CONCAT('%', :phrase, '%'))")
     List<Member> findByPhrase(@Param("phrase") String phrase);
+    @Query("""
+           SELECT m FROM Member m
+           WHERE (:name IS NULL OR LOWER(m.name) LIKE LOWER(CONCAT('%', :name, '%')))
+             AND (:surname IS NULL OR LOWER(m.surname) LIKE LOWER(CONCAT('%', :surname, '%')))
+             AND (:pesel IS NULL OR m.pesel LIKE CONCAT(:pesel, '%'))
+           """)
+    List<Member> findByFilters(@Param("name") String name,
+                               @Param("surname") String surname,
+                               @Param("pesel") String pesel);
 }
