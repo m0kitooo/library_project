@@ -20,6 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByPesel(String pesel);
     @Query("SELECT m FROM Member m WHERE " +
            "(LOWER(m.name) LIKE LOWER(CONCAT('%', :phrase, '%')) OR " +
-           "LOWER(m.surname) LIKE LOWER(CONCAT('%', :phrase, '%')))")
+           "LOWER(m.surname) LIKE LOWER(CONCAT('%', :phrase, '%'))) OR " +
+           "LOWER(CONCAT(m.name, ' ', m.surname)) LIKE LOWER(CONCAT('%', :phrase, '%'))")
     List<Member> findByPhrase(@Param("phrase") String phrase);
 }
