@@ -69,8 +69,10 @@ public class BookLoanServiceImpl implements BookLoanService {
 //            throw new ResourceConflictException(new AppError(MEMBER_IS_CURRENTLY_LOANING_SAME_BOOK, "Book is already loaned by the member"));
 //        }
 
-        libraryCardRepository.findActiveCardByMemberId(request.memberId())
-                .orElseThrow(() -> new ResourceNotFoundException(new AppError(LIBRARY_CARD_NOT_FOUND, "Member doesn't have an active library card")));
+        libraryCardRepository.findActiveCardByMemberId(request.memberId(), LocalDate.now())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        new AppError(LIBRARY_CARD_NOT_FOUND, "Member doesn't have an active library card")
+                ));
 
         return bookLoanRepository.save(
                 BookLoan

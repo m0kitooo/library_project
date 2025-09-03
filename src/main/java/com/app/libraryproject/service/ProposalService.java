@@ -2,7 +2,7 @@ package com.app.libraryproject.service;
 
 import com.app.libraryproject.dto.proposal.*;
 
-public interface EventService {
+public interface ProposalService {
     Long addProposal(SendProposalRequest request);
 
     Long acceptProposal(Long proposalId, Long organizerId);

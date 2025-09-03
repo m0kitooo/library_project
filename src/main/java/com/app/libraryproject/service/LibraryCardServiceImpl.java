@@ -18,6 +18,7 @@ import static com.app.libraryproject.model.error.ErrorCode.MEMBER_NOT_FOUND;
 import static com.app.libraryproject.model.error.ErrorCode.ACTIVE_LIBRARY_CARD_PER_USER_EXISTS;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -63,8 +64,17 @@ public class LibraryCardServiceImpl implements LibraryCardService {
     @Override
     public LibraryCardResponse getActiveLibraryCardByMemberId(Long memberId) {
         return libraryCardRepository
-                .findActiveCardByMemberId(memberId)
-                .orElseThrow(() -> new RecordNotFoundException("There is no library card with provided member id"))
+                .findActiveCardByMemberId(memberId, LocalDate.now())
+                .orElseThrow(() -> new RecordNotFoundException("There is no active library card for this member"))
                 .toLibraryCardResponse();
     }
+
+    @Override
+    public List<LibraryCardResponse> getInactiveLibraryCardsByMemberId(Long memberId) {
+        return libraryCardRepository.findInactiveCardsByMemberId(memberId, LocalDate.now())
+                .stream()
+                .map(LibraryCard::toLibraryCardResponse)
+                .toList();
+    }
+
 }

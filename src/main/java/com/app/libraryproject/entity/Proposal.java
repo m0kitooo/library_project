@@ -27,23 +27,13 @@ public class Proposal {
 
     @Column(name = "proposal_status", nullable = false)
     @Enumerated(EnumType.ORDINAL)
-    private ProposalStatus status;
+        private ProposalStatus status;
 
     @Column(length = 2000)
     private String comments;
 
     @Column(name = "proposed_by")
     private String proposedBy;
-
-    public EventPlan toEventPlan(User organizer) {
-        return EventPlan.builder()
-                .name(title)
-                .description(description)
-                .proposedBy(proposedBy)
-                .organizer(organizer)
-                .planStatus(PlanStatus.PREPARING)
-                .build();
-    }
 
     public GetProposalDetailsResponse toDetailsResponse() {
         return GetProposalDetailsResponse.builder()

@@ -12,7 +12,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/proposal")
 public class ProposalController {
-    private final EventServiceImpl eventService;
+    private final ProposalServiceImpl eventService;
 
     @PostMapping("/send")
     public ResponseEntity<Long> sendProposal(@RequestBody SendProposalRequest request) {

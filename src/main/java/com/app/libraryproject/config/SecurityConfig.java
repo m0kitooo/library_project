@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users").permitAll() 
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login

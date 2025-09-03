@@ -1,3 +1,4 @@
+// LibraryCardController.java
 package com.app.libraryproject.controller;
 
 import com.app.libraryproject.dto.librarycard.CreateLibraryCardRequest;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/library-cards")
@@ -23,6 +26,11 @@ public class LibraryCardController {
     @GetMapping(path = "/members/{memberId}/active-card")
     public LibraryCardResponse getActiveCardByMemberId(@PathVariable Long memberId) {
         return libraryCardService.getActiveLibraryCardByMemberId(memberId);
+    }
+
+    @GetMapping(path = "/members/{memberId}/inactive-cards")
+    public List<LibraryCardResponse> getInactiveCardsByMemberId(@PathVariable Long memberId) {
+        return libraryCardService.getInactiveLibraryCardsByMemberId(memberId);
     }
 
     @PostMapping

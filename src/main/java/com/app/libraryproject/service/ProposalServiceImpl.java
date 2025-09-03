@@ -7,24 +7,18 @@ import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.model.PlanStatus;
 import com.app.libraryproject.model.ProposalStatus;
 import com.app.libraryproject.repository.*;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class EventServiceImpl implements EventService {
+public class ProposalServiceImpl implements ProposalService {
     private final ProposalRepository proposalRepository;
     private final EventPlanRepository eventPlanRepository;
     private final UserRepository userRepository;
