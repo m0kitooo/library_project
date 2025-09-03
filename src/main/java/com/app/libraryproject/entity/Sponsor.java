@@ -20,6 +20,6 @@ public class Sponsor {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "sponsors")
-    private List<EventPlan> eventPlans;
+    /*@ManyToMany(mappedBy = "sponsors")
+    private List<EventPlan> eventPlans;*/
 }

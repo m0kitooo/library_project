@@ -32,6 +32,7 @@ public class ProposalServiceImpl implements ProposalService {
                         .description(request.description())
                         .proposedBy(request.proposedBy())
                         .status(ProposalStatus.PENDING)
+                        .type(request.type())
                         .build()
         ).getId();
     }
@@ -87,6 +88,7 @@ public class ProposalServiceImpl implements ProposalService {
 
         proposal.setTitle(request.title());
         proposal.setDescription(request.description());
+        proposal.setType(request.type());
         proposalRepository.save(proposal);
     }
 

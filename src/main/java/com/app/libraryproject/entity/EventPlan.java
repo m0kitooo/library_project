@@ -1,6 +1,7 @@
 package com.app.libraryproject.entity;
 
 import com.app.libraryproject.model.PlanStatus;
+import com.app.libraryproject.model.PlanType;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -33,13 +34,14 @@ public class EventPlan {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(
             name = "event_plan_sponsor",
             joinColumns = @JoinColumn(name = "event_plan_id"),
             inverseJoinColumns = @JoinColumn(name = "sponsor_id")
-    )
-    private List<Sponsor> sponsors;
+    )*/
+    @Column(name = "sponsors")
+    private String sponsors;
 
     @Column(name = "event_status")
     @Enumerated(EnumType.STRING)
@@ -51,4 +53,7 @@ public class EventPlan {
 
     @Column(name = "proposed_by")
     private String proposedBy;
+
+    @Enumerated(EnumType.STRING)
+    private PlanType type;
 }

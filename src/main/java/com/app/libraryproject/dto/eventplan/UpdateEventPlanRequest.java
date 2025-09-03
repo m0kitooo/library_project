@@ -1,6 +1,7 @@
 package com.app.libraryproject.dto.eventplan;
 
 import com.app.libraryproject.exception.InvalidRequestArgumentException;
+import com.app.libraryproject.model.PlanType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,7 +13,9 @@ public record UpdateEventPlanRequest(
         BigDecimal estimatedPrice,
         LocalDateTime startTime,
         LocalDateTime endTime,
-        Long organizerId
+        Long organizerId,
+        PlanType type,
+        String sponsors
 ) {
     public UpdateEventPlanRequest {
         if (id == null) {

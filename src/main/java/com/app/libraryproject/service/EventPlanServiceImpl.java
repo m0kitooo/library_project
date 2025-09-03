@@ -40,11 +40,11 @@ public class EventPlanServiceImpl implements EventPlanService {
                 .proposedBy(request.proposedBy())
                 .planStatus(PlanStatus.CREATED)
                 .organizer(organizer)
+                .type(request.type())
                 .build();
 
         eventPlanRepository.save(eventPlan);
 
-        // 🔔 Notyfikacja dla MANAGER
         notificationRepository.save(Notification.builder()
                 .content("Utworzono nowy plan wydarzenia: " + eventPlan.getName())
                 .role(WorkerRole.MANAGER)
@@ -76,6 +76,8 @@ public class EventPlanServiceImpl implements EventPlanService {
         plan.setEstimatedPrice(request.estimatedPrice());
         plan.setStartTime(request.startTime());
         plan.setEndTime(request.endTime());
+        plan.setType(request.type());
+        plan.setSponsors(request.sponsors());
         eventPlanRepository.save(plan);
 
         notificationRepository.save(Notification.builder()
@@ -99,7 +101,9 @@ public class EventPlanServiceImpl implements EventPlanService {
                 plan.getEndTime(),
                 plan.getProposedBy(),
                 plan.getPlanStatus().name(),
-                plan.getOrganizer().getUsername()
+                plan.getOrganizer().getUsername(),
+                plan.getType(),
+                plan.getSponsors()
         );
     }
 

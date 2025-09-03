@@ -6,6 +6,7 @@ import com.app.libraryproject.entity.EventPlan;
 import com.app.libraryproject.entity.User;
 import com.app.libraryproject.exception.RecordNotFoundException;
 import com.app.libraryproject.model.PlanStatus;
+import com.app.libraryproject.model.PlanType;
 import com.app.libraryproject.repository.EventPlanRepository;
 import com.app.libraryproject.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +46,7 @@ public class EventPlanServiceImplTest {
         CreateEventPlanRequest req = new CreateEventPlanRequest(
                 "Nazwa", "Opis", new BigDecimal("100.00"),
                 LocalDateTime.now(), LocalDateTime.now().plusHours(2),
-                "Adam", 10L
+                "Adam", 10L, PlanType.INNER
         );
 
         when(userRepository.findById(10L)).thenReturn(Optional.of(organizer));
@@ -70,7 +71,7 @@ public class EventPlanServiceImplTest {
         CreateEventPlanRequest req = new CreateEventPlanRequest(
                 "Nazwa", "Opis", new BigDecimal("100.00"),
                 LocalDateTime.now(), LocalDateTime.now().plusHours(2),
-                "Adam", 999L
+                "Adam", 999L, PlanType.TRAINING
         );
 
         when(userRepository.findById(999L)).thenReturn(Optional.empty());

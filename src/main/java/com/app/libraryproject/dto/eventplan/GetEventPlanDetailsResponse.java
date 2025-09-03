@@ -1,5 +1,6 @@
 package com.app.libraryproject.dto.eventplan;
 
+import com.app.libraryproject.model.PlanType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 
@@ -19,5 +20,7 @@ public record GetEventPlanDetailsResponse(
         LocalDateTime endTime,
         String proposedBy,
         String planStatus,
-        String organizerName
+        String organizerName,
+        PlanType type,
+        String sponsors
 ) {}

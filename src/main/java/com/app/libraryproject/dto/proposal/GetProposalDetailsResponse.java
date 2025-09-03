@@ -1,6 +1,7 @@
 package com.app.libraryproject.dto.proposal;
 
 import com.app.libraryproject.exception.InvalidResponseArgumentException;
+import com.app.libraryproject.model.PlanType;
 import lombok.Builder;
 
 @Builder
@@ -9,5 +10,6 @@ public record GetProposalDetailsResponse(
         String title,
         String description,
         String status,
-        String proposedBy
+        String proposedBy,
+        PlanType type
 ) {}

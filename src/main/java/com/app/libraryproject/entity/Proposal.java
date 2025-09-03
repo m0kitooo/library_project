@@ -3,6 +3,7 @@ package com.app.libraryproject.entity;
 import com.app.libraryproject.dto.proposal.GetProposalDetailsResponse;
 import com.app.libraryproject.dto.proposal.GetProposalListResponse;
 import com.app.libraryproject.model.PlanStatus;
+import com.app.libraryproject.model.PlanType;
 import com.app.libraryproject.model.ProposalStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +36,9 @@ public class Proposal {
     @Column(name = "proposed_by")
     private String proposedBy;
 
+    @Enumerated(EnumType.STRING)
+    private PlanType type;
+
     public GetProposalDetailsResponse toDetailsResponse() {
         return GetProposalDetailsResponse.builder()
                 .id(id)
@@ -42,6 +46,7 @@ public class Proposal {
                 .description(description)
                 .status(status.name())
                 .proposedBy(proposedBy)
+                .type(type)
                 .build();
     }
 
