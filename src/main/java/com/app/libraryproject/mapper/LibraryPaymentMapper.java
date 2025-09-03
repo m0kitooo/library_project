@@ -10,7 +10,14 @@ public interface LibraryPaymentMapper {
         return LibraryPayment
                 .builder()
                 .transactionName(createLibraryPaymentRequest.transactionName())
-                .cost(createLibraryPaymentRequest.cost())
+                .transactionDate(createLibraryPaymentRequest.transactionDate())
+                .vendor(createLibraryPaymentRequest.vendor())
+                .invoiceNumber(createLibraryPaymentRequest.invoiceNumber())
+                .nip(createLibraryPaymentRequest.nip())
+                .bruttoCost(createLibraryPaymentRequest.bruttoCost())
+                .vat(createLibraryPaymentRequest.vat())
+                .currency(createLibraryPaymentRequest.currency())
+                .quantity(createLibraryPaymentRequest.quantity())
                 .user(user)
                 .build();
     }

@@ -18,26 +18,32 @@ public class LibraryPayment {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "vendor", nullable = false, length = 100)
-    private String vendor;
+    @Column(name = "transaction_name", nullable = false)
+    private String transactionName;
 
     @Column(name = "transaction_date", nullable = false)
     private LocalDate transactionDate;
 
-    @Column(name = "transaction_name", nullable = false)
-    private String transactionName;
+    @Column(name = "vendor", nullable = false, length = 100)
+    private String vendor;
 
-    @Column(nullable = false)
-    private BigDecimal cost;
-
-    @Column(nullable = false, length = 3)
-    private String currency;
+    @Column(name = "invoice_number", length = 50)
+    private String invoiceNumber;
 
     @Column(nullable = false, length = 10)
     private String nip;
 
-    @Column(name = "invoice_number", length = 50)
-    private String invoiceNumber;
+    @Column(name = "brotto_cost", nullable = false)
+    private BigDecimal bruttoCost;
+
+    @Column(nullable = false)
+    private Integer vat;
+
+    @Column(nullable = false, length = 3)
+    private String currency;
+
+    @Column(nullable = false)
+    private Integer quantity;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", nullable = false)
