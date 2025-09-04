@@ -57,4 +57,11 @@ public class LibraryPaymentServiceImpl implements LibraryPaymentService {
                 .map(LibraryPaymentResponse::from)
                 .toList();
     }
+
+    @Override
+    public LibraryPaymentResponse delete(Long id) {
+        LibraryPaymentResponse payment = findById(id);
+        libraryPaymentRepository.deleteById(id);
+        return payment;
+    }
 }

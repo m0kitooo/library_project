@@ -40,4 +40,9 @@ public class LibraryPaymentController {
     public LibraryPaymentResponse save(@RequestBody CreateLibraryPaymentRequest request) {
         return libraryPaymentService.register(request);
     }
+
+    @DeleteMapping("/{id}")
+    public LibraryPaymentResponse delete(@PathVariable Long id) {
+        return libraryPaymentService.delete(id);
+    }
 }

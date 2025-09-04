@@ -22,15 +22,19 @@ public record CreateLibraryPaymentRequest(
         Integer quantity
 ) {
     private final static String CURRENCY_REGEX = "^[A-Z]{3}$";
-    private final static String NIP_REGEX = "^(\\d{10}|\\d{13})$";
+    private final static String NIP_REGEX = "^\\d{10,}$";
 
     public CreateLibraryPaymentRequest {
         if (isBlank(transactionName))
             throw new InvalidRequestArgumentException("transactionName cannot be null or blank");
+        if (transactionDate == null || transactionDate.isAfter(LocalDate.now()))
+            throw new InvalidRequestArgumentException("transactionDate cannot be null or in the future");
         if (isBlank(vendor))
             throw new InvalidRequestArgumentException("vendor cannot be null or blank");
         if (isBlank(invoiceNumber))
             throw new InvalidRequestArgumentException("invoiceNumber cannot be null or blank");
+        if (nip == null || !nip.matches(NIP_REGEX))
+            throw new InvalidRequestArgumentException("nip cannot be null and must be at least 10 digits length");
         if (bruttoCost == null || bruttoCost.compareTo(BigDecimal.ZERO) <= 0)
             throw new InvalidRequestArgumentException("bruttoCost cannot be null or less than or equal to zero");
         if (vat == null || vat < 0 || vat > 100)
