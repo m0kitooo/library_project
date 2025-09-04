@@ -31,6 +31,11 @@ public class LibraryPaymentController {
         return libraryPaymentService.findByTransactionName(transactionName);
     }
 
+    @GetMapping(params = "phrase")
+    public List<LibraryPaymentResponse> getPaymentsByPhrase(@RequestParam String phrase) {
+        return libraryPaymentService.findByPhrase(phrase);
+    }
+
     @PostMapping
     public LibraryPaymentResponse save(@RequestBody CreateLibraryPaymentRequest request) {
         return libraryPaymentService.register(request);

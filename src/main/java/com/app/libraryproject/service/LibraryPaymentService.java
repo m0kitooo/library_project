@@ -10,4 +10,5 @@ public interface LibraryPaymentService {
     LibraryPaymentResponse findById(Long id);
     List<LibraryPaymentResponse> findByTransactionName(String transactionName);
     List<LibraryPaymentResponse> findAll();
+    List<LibraryPaymentResponse> findByPhrase(String phrase);
 }

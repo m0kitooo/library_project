@@ -48,4 +48,13 @@ public class LibraryPaymentServiceImpl implements LibraryPaymentService {
                 .map(LibraryPaymentResponse::from)
                 .toList();
     }
+
+    @Override
+    public List<LibraryPaymentResponse> findByPhrase(String phrase) {
+        return libraryPaymentRepository
+                .findByPhrase(phrase)
+                .stream()
+                .map(LibraryPaymentResponse::from)
+                .toList();
+    }
 }
