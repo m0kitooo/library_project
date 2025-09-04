@@ -1,5 +1,6 @@
 package com.app.libraryproject.entity;
 
+import com.app.libraryproject.model.WorkerRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,4 +20,8 @@ public class User {
     private String username;
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private WorkerRole role;
 }

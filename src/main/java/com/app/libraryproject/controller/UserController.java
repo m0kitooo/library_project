@@ -7,6 +7,7 @@ import com.app.libraryproject.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.OutputStream;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,8 +22,8 @@ public class UserController {
         return authenticationService.getCurrentUser();
     }
 
-    @GetMapping
-    public List<PersonResponse> getUserList(@RequestBody GetPersonListRequest request) {
+    @PostMapping("/list")
+    public List<UserResponse> getUserList(@RequestBody GetPersonListRequest request) {
         return userService.getUserList(request);
     }
 

@@ -11,6 +11,7 @@ public interface BookService {
     BookResponse find(Long id);
     List<BookResponse> findAll();
     List<BookResponse> findBooksByTitle(String title);
+    List<BookResponse> findBooksByPhrase(String phrase);
     BookResponse registerBook(CreateBookRequest book);
     BookResponse deleteBook(Long id);
     BookResponse updateBook(UpdateBookRequest book);

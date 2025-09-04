@@ -13,4 +13,3 @@ public class TrimmingStringDeserializer extends JsonDeserializer<String> {
         return value != null ? value.trim() : null;
     }
 }
-

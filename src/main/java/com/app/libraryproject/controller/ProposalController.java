@@ -10,42 +10,41 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-public class EventController {
+@RequestMapping("/proposal")
+public class ProposalController {
     private final EventServiceImpl eventService;
 
-    @PostMapping("/proposal/send")
+    @PostMapping("/send")
     public ResponseEntity<Long> sendProposal(@RequestBody SendProposalRequest request) {
-        return ResponseEntity.ok(
-                eventService.addProposal(request)
-        );
+        return ResponseEntity.ok(eventService.addProposal(request));
     }
 
-    @PostMapping("/proposal/accept")
+    @PostMapping("/accept")
     public ResponseEntity<Map<String, Object>> acceptProposal(@RequestParam Long proposalId, @RequestParam Long organizerId) {
         Long eventPlanId = eventService.acceptProposal(proposalId, organizerId);
         return ResponseEntity.ok(Map.of("eventPlanId", eventPlanId));
     }
 
-    @PostMapping("/proposal/reject")
+    @PostMapping("/reject")
     public ResponseEntity<Void> rejectProposal(@RequestParam Long proposalId) {
         eventService.rejectProposal(proposalId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/proposal/modify")
+    @PostMapping("/modify")
     public ResponseEntity<Void> modifyProposal(@RequestBody ModifyProposalRequest request) {
         eventService.modifyProposal(request);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/proposal/details")
+    @PostMapping("/details")
     public ResponseEntity<GetProposalDetailsResponse> getProposalDetails(@RequestParam Long proposalId) {
         return ResponseEntity.ok(
                 eventService.getProposalDetails(proposalId)
         );
     }
 
-    @GetMapping("proposal/list")
+    @PostMapping("/list")
     public ResponseEntity<GetProposalListResponse> getProposalList(@RequestBody GetProposalListRequest request) {
         return ResponseEntity.ok(
                 eventService.getProposalList(request)

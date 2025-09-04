@@ -25,7 +25,7 @@ public class BookLoan {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 

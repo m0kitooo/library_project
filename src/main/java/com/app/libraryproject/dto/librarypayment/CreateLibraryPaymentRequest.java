@@ -11,8 +11,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @Builder
 public record CreateLibraryPaymentRequest(
         String transactionName,
-        BigDecimal cost,
-        String description
+        BigDecimal cost
 ) {
     public CreateLibraryPaymentRequest {
         if (isBlank(transactionName))
@@ -26,7 +25,6 @@ public record CreateLibraryPaymentRequest(
                 .builder()
                 .transactionName(libraryPayment.getTransactionName())
                 .cost(libraryPayment.getCost())
-                .description(libraryPayment.getDescription())
                 .build();
     }
 }

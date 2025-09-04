@@ -16,9 +16,23 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
 
+    @GetMapping("/search")
+    public List<MemberResponse> searchMembers(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String surname,
+            @RequestParam(required = false) String pesel
+    ) {
+        return memberService.searchMembers(name, surname, pesel);
+    }
+
     @GetMapping("/{memberId}")
     public MemberResponse getMember(@PathVariable Long memberId) {
         return memberService.findById(memberId);
+    }
+
+    @GetMapping(params = "phrase")
+    public List<MemberResponse> getMembersByPhrase(@RequestParam String phrase) {
+        return memberService.findByPhrase(phrase);
     }
 
     @GetMapping

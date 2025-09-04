@@ -19,7 +19,7 @@ public class BookReservation {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 

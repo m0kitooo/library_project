@@ -35,7 +35,7 @@ public class BookLoanController {
     }
 
     @GetMapping("/books/{bookId}/book-loans")
-    public List<BookLoanResponse> getBookLoanByBookId(@PathVariable Long bookId) {
+    public BookLoanResponse getBookLoanByBookId(@PathVariable Long bookId) {
         return bookLoanService.findByBookId(bookId);
     }
 

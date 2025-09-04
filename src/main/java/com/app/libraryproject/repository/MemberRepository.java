@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.*;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -15,5 +16,19 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     WHERE LOWER(CONCAT(m.name, ' ', m.surname)) LIKE LOWER(CONCAT('%', :fullName, '%'))
     """)
     Page<Member> searchMembersByFullName(@Param("fullName") String fullName, Pageable pageable);
-
+    boolean existsByPesel(String pesel);
+    @Query("SELECT m FROM Member m WHERE " +
+           "(LOWER(m.name) LIKE LOWER(CONCAT('%', :phrase, '%')) OR " +
+           "LOWER(m.surname) LIKE LOWER(CONCAT('%', :phrase, '%'))) OR " +
+           "LOWER(CONCAT(m.name, ' ', m.surname)) LIKE LOWER(CONCAT('%', :phrase, '%'))")
+    List<Member> findByPhrase(@Param("phrase") String phrase);
+    @Query("""
+           SELECT m FROM Member m
+           WHERE (:name IS NULL OR LOWER(m.name) LIKE LOWER(CONCAT('%', :name, '%')))
+             AND (:surname IS NULL OR LOWER(m.surname) LIKE LOWER(CONCAT('%', :surname, '%')))
+             AND (:pesel IS NULL OR m.pesel LIKE CONCAT(:pesel, '%'))
+           """)
+    List<Member> findByFilters(@Param("name") String name,
+                               @Param("surname") String surname,
+                               @Param("pesel") String pesel);
 }

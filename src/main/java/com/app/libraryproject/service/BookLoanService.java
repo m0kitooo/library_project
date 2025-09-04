@@ -10,6 +10,6 @@ public interface BookLoanService {
     List<BookLoanResponse> getBookLoansByMember(Long memberId, Boolean archived);
     // List<BookLoanResponse> getAllBookLoan();
     // List<BookLoanResponse> getAllNonArchivedBookLoan();
-    List<BookLoanResponse> findByBookId(Long bookId);
+    BookLoanResponse findByBookId(Long bookId);
     BookLoanResponse loanBook(CreateBookLoanRequest request);
 }

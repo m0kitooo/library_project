@@ -3,8 +3,13 @@ package com.app.libraryproject.service;
 import com.app.libraryproject.dto.book.CreateBookRequest;
 import com.app.libraryproject.dto.book.BookResponse;
 import com.app.libraryproject.dto.book.UpdateBookRequest;
+import com.app.libraryproject.entity.AccessionNumberSequence;
 import com.app.libraryproject.entity.Book;
 import com.app.libraryproject.exception.RecordNotFoundException;
+import com.app.libraryproject.exception.ResourceConflictException;
+import com.app.libraryproject.exception.ResourceNotFoundException;
+import com.app.libraryproject.model.error.AppError;
+import com.app.libraryproject.repository.AccessionNumberSequenceRepository;
 import com.app.libraryproject.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.app.libraryproject.model.error.ErrorCode.*;
+
 @Slf4j
 @Service
 @AllArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final AccessionNumberSequenceRepository accessionNumberSequenceRepository;
 
     @Override
     public BookResponse find(Long id) {
@@ -51,8 +59,20 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponse registerBook(CreateBookRequest book) {
-        Book b = bookRepository.save(book.toBook());
+    public List<BookResponse> findBooksByPhrase(String phrase) {
+        return bookRepository.findByPhrase(phrase)
+                .stream()
+                .map(Book::toBookResponse)
+                .toList();
+    }
+
+    @Override
+    public BookResponse registerBook(CreateBookRequest request) {
+        AccessionNumberSequence accessionNumber = accessionNumberSequenceRepository.save(new AccessionNumberSequence());
+        Book b = request.toBook();
+        b.setAccessionNumberSequence(accessionNumber);
+        bookRepository.save(b);
+
         log.info("Book registered: {}", b);
         return b.toBookResponse();
     }
@@ -60,26 +80,34 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookResponse deleteBook(Long id) {
-        if (bookRepository.archive(id) == 0) {
-            throw new RuntimeException("Couldn't set the book as deleted");
-        }
+        Book bookToDelete = bookRepository
+                .findByIdAndArchivedFalse(id)
+                .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_NOT_FOUND, "Book not found with id: " + id)));
 
-        return bookRepository
-                .findById(id)
-                .orElseThrow()
-                .toBookResponse();
+        if (bookToDelete.getBookLoan() != null)
+            throw new ResourceConflictException(new AppError(BOOK_HAS_ACTIVE_LOANS, "Book can't be deleted, because it has active loans"));
+
+        bookToDelete.setArchived(true);
+        bookRepository.save(bookToDelete);
+
+        log.info("Book with id {} archived", id);
+        return bookToDelete.toBookResponse();
     }
 
     @Override
     public BookResponse updateBook(UpdateBookRequest updateBookRequest) {
         Book book = bookRepository
                 .findById(updateBookRequest.id())
-                .orElseThrow(() -> new RecordNotFoundException("Book not found with id: " + updateBookRequest.id()));
+                .orElseThrow(() -> new ResourceNotFoundException(new AppError(BOOK_NOT_FOUND,
+                        "Book not found with id: " + updateBookRequest.id())));
 
+        book.setIsbn(updateBookRequest.isbn());
         book.setTitle(updateBookRequest.title());
         book.setAuthor(updateBookRequest.author());
-        book.setDescription(updateBookRequest.description());
-        book.setQuantity(updateBookRequest.quantity());
+        book.setCallNumber(updateBookRequest.callNumber());
+        book.setPublisher(updateBookRequest.publisher());
+        book.setEdition(updateBookRequest.edition());
+        book.setPublicationYear(updateBookRequest.publicationYear());
 
         return bookRepository.save(book).toBookResponse();
     }

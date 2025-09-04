@@ -12,10 +12,14 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findByIdAndArchivedFalse(Long id);
-    Optional<Book> findByIdAndArchivedFalseAndQuantityGreaterThan(Long id, int quantity);
+//    Optional<Book> findByIdAndArchivedFalseAndQuantityGreaterThan(Long id, int quantity);
     List<Book> findByArchivedFalse();
     List<Book> findByTitleContainingIgnoreCaseAndArchivedFalse(String title);
     List<Book> findByTitleContainingIgnoreCaseAndAuthorIgnoreCaseAndArchivedFalse(String title, String author);
+    @Query("SELECT b FROM Book b WHERE " +
+           "(LOWER(b.title) LIKE LOWER(CONCAT('%', :phrase, '%')) OR " +
+           "LOWER(b.author) LIKE LOWER(CONCAT('%', :phrase, '%'))) AND b.archived = false")
+    List<Book> findByPhrase(@Param("phrase") String phrase);
     @Transactional
     @Modifying
     @Query(
@@ -23,17 +27,21 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "WHERE b.id = :id AND b.archived = false"
     )
     int archive(@Param("id") Long id);
+//    @Query(
+//            "SELECT b.quantity - COALESCE(SIZE(b.bookLoans), 0) " +
+//            "FROM Book b " +
+//            "WHERE b.id = :bookId AND b.archived = false"
+//    )
+//    int getAvailableBooksQuantityById(@Param("bookId") Long bookId);
+//    @Query(
+//			"SELECT b FROM Book b " +
+//			"WHERE b.id = :bookId AND b.archived = false " +
+//			"AND (b.quantity - COALESCE(SIZE(b.bookLoans) + SIZE(b.bookReservations), 0)) > 0"
+//	)
     @Query(
-            "SELECT b.quantity - COALESCE(SIZE(b.bookLoans), 0) " +
-            "FROM Book b " +
-            "WHERE b.id = :bookId AND b.archived = false"
+            "SELECT b FROM Book b " +
+            "WHERE b.id = :bookId AND b.archived = false AND b.bookLoan is NULL AND b.bookReservation is NULL"
     )
-    int getAvailableBooksQuantityById(@Param("bookId") Long bookId);
-    @Query(
-			"SELECT b FROM Book b " +
-			"WHERE b.id = :bookId AND b.archived = false " +
-			"AND (b.quantity - COALESCE(SIZE(b.bookLoans) + SIZE(b.bookReservations), 0)) > 0"
-	)
 	Optional<Book> findAvailableBookById(@Param("bookId") Long bookId);
 
     List<Book> findBooksByAuthor(String author);

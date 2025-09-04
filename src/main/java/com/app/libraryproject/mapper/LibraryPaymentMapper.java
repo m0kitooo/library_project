@@ -11,7 +11,6 @@ public interface LibraryPaymentMapper {
                 .builder()
                 .transactionName(createLibraryPaymentRequest.transactionName())
                 .cost(createLibraryPaymentRequest.cost())
-                .description(createLibraryPaymentRequest.description())
                 .user(user)
                 .build();
     }
