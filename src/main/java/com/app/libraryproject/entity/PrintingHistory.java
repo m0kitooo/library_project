@@ -1,10 +1,7 @@
 package com.app.libraryproject.entity;
 
 import com.app.libraryproject.model.PrintingColor;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,11 +15,18 @@ import java.time.LocalDateTime;
 @Table(name = "printing_history")
 public class PrintingHistory {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDateTime printingTime;
+
     private int numberOfPages;
+
     private int numberOfCopies;
+
+    @Enumerated(EnumType.STRING)
     private PrintingColor printingColor;
-    @OneToOne
-    private Payment payment;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private XeroPayment payment;
 }

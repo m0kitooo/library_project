@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ComputerStationQueueRepository extends JpaRepository<ComputerStationQueue, Long> {
-    List<ComputerStationQueue> getComputerStationQueueByComputerStationIdOrderByExceptedEndDesc(Long computerStationId);
+    List<ComputerStationQueue> getComputerStationQueueByComputerStationIdOrderByExceptedStartDesc(Long computerStationId);
     Optional<ComputerStationQueue> getComputerStationQueueByMemberId(Long memberId);
 }

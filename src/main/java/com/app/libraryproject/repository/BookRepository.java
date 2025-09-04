@@ -35,4 +35,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 			"AND (b.quantity - COALESCE(SIZE(b.bookLoans) + SIZE(b.bookReservations), 0)) > 0"
 	)
 	Optional<Book> findAvailableBookById(@Param("bookId") Long bookId);
+
+    List<Book> findBooksByAuthor(String author);
 }

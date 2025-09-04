@@ -39,6 +39,6 @@ public class ComputerStationQueueServiceImpl implements ComputerStationQueueServ
 
     @Override
     public List<ComputerStationQueue> getComputerStationQueue(Long computerStationId) {
-        return computerStationQueueRepository.getComputerStationQueueByComputerStationIdOrderByExceptedEndDesc(computerStationId);
+        return computerStationQueueRepository.getComputerStationQueueByComputerStationIdOrderByExceptedStartDesc(computerStationId);
     }
 }
