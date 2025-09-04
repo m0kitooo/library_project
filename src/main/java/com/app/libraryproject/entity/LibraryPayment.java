@@ -36,7 +36,7 @@ public class LibraryPayment {
     @Pattern(regexp = "^\\d{10,}$", message = "NIP has to be at least 10 digits length")
     private String nip;
 
-    @Column(name = "brotto_cost", nullable = false)
+    @Column(name = "brutto_cost", nullable = false)
     private BigDecimal bruttoCost;
 
     @Column(nullable = false)
