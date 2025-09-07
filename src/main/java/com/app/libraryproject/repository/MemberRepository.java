@@ -31,4 +31,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findByFilters(@Param("name") String name,
                                @Param("surname") String surname,
                                @Param("pesel") String pesel);
+
+    Optional<Member> findByLibraryCards_Id(Long cardId);
 }

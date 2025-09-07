@@ -1,7 +1,7 @@
 package com.app.libraryproject.service;
 
 import com.app.libraryproject.entity.ComputerStation;
-import com.app.libraryproject.repository.ComputerStationRepositiry;
+import com.app.libraryproject.repository.ComputerStationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ComputerStationServiceImpl implements ComputerStationService{
-    private final ComputerStationRepositiry computerStationRepositiry;
+    private final ComputerStationRepository computerStationRepositiry;
 
     @Override
     public List<ComputerStation> getComputerStations() {

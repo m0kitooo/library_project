@@ -1,8 +1,8 @@
 package com.app.libraryproject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.app.libraryproject.dto.computerUsage.ComputerStationResponse;
+import com.app.libraryproject.model.StationStatus;
+import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
@@ -14,7 +14,19 @@ import lombok.*;
 @Table(name = "computer_station")
 public class ComputerStation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Builder.Default
-    private boolean decommissioned = false;
+
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    private StationStatus status;
+
+    public ComputerStationResponse toComputerStationResponse() {
+        return ComputerStationResponse.builder()
+                .id(id)
+                .name(name)
+                .status(status)
+                .build();
+    }
 }
