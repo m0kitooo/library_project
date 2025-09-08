@@ -5,9 +5,7 @@ import com.app.libraryproject.model.StationStatus;
 import lombok.Builder;
 
 @Builder
-public record CreateComputerStationRequest(
-        String name
-) {
+public record CreateComputerStationRequest(String name) {
     public ComputerStation toEntity() {
         return ComputerStation
                 .builder()
