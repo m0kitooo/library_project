@@ -3,6 +3,7 @@ package com.app.libraryproject.dto.printingHistory;
 import com.app.libraryproject.dto.payment.XeroPaymentResponse;
 import com.app.libraryproject.entity.PrintingHistory;
 import com.app.libraryproject.model.PrintingColor;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 public record PrintingHistoryResponse(
         Long id,
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime printingTime,
         int numberOfPages,
         int numberOfCopies,
