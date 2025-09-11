@@ -43,4 +43,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "WHERE b.id = :bookId AND b.archived = false AND b.bookLoan is NULL AND b.bookReservation is NULL"
     )
 	Optional<Book> findAvailableBookById(@Param("bookId") Long bookId);
+
+    List<Book> findBooksByAuthor(String author);
 }

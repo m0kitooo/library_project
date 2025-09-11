@@ -54,6 +54,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> getBookByAuthor(String author) {
+        return bookRepository.findBooksByAuthor(author);
+    }
+
+    @Override
     public List<BookResponse> findBooksByPhrase(String phrase) {
         return bookRepository.findByPhrase(phrase)
                 .stream()

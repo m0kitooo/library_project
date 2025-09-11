@@ -28,4 +28,6 @@ public class MemberPayment {
 
     @Column(name = "payment_data", nullable = false)
     private LocalDate paymentDate;
+
+    // change to memberId, paumentId
 }
